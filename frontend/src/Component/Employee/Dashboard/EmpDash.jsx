@@ -1,0 +1,53 @@
+import React from "react";
+import "./EmpDash.css";
+import EmpTaskChart from "./EmpChart.jsx/EmpTaskChart";
+import WelcomeBoard from "../../../Pages/WelcomeBoard/WelcomeBoard";
+import MyTodaysLoginData from "../WelcomeBoard/MyTodaysLoginData/MyTodaysLoginData";
+import TittleHeader from "../../../Pages/TittleHeader/TittleHeader";
+import AttendanceDetails from "../attendance/AttendanceDetails";
+import AttendanceCard from "../../../Utils/AttendanceCard/AttendanceCard";
+import EmployeeLeaveDash from "../../../Utils/EmployeeLeaveDash/EmployeeLeaveDash";
+import AdminNews from "../../../Utils/AdminNews/AdminNews";
+import TaskDash from "../../../Utils/TaskDash/TaskDash";
+import UpcomingBirthdays from "./CountData/UpcomingBirthdays";
+
+const HRDash = () => {
+  return (
+    <div className="container-fluid py-2 ">
+      {/* <TittleHeader
+        title={"Dashboard"}
+        message={"View a comprehensive analysis of your data here."}
+      /> */}
+
+      <div className="row justif-content-between row-gap-2 align-items-center">
+        <div className="col-12 col-md-6 col-lg-4">
+          <MyTodaysLoginData />
+        </div>
+        {/* <div className="col-12 col-lg-6">
+          <WelcomeBoard height={"15rem"} />
+        </div> */}
+        <div className="col-12 col-lg-4">
+          <EmployeeLeaveDash />
+        </div>
+        <div className="col-12 col-lg-4">
+          <AdminNews />
+        </div>
+        <div className="col-12 col-lg-4">
+          <AttendanceCard />
+        </div>
+        <div className="col-12 col-lg-4">
+          {/* <AttendanceDetails /> */}
+          <UpcomingBirthdays />
+
+          {/* <TaskDash /> */}
+        </div>
+        <div className="col-12 col-lg-4"></div>
+      </div>
+      <div className="row justif-content-between row-gap-4 mt-3 align-items-center">
+        <div className="col-12">{/* <EmpTaskChart /> */}</div>
+      </div>
+    </div>
+  );
+};
+
+export default HRDash;
