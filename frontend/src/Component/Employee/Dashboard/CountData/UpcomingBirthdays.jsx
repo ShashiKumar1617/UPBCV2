@@ -3,14 +3,12 @@ import React, { useState, useEffect } from "react";
 import { GiPartyPopper } from "react-icons/gi";
 import HappyBirthday from "./HappyBirthday.svg";
 import BASE_URL from "../../../../Pages/config/config";
+import { LuPartyPopper } from "react-icons/lu";
 
 const UpcomingBirthdays = () => {
   const [employeeData, setEmployeeData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [rowData, setRowData] = useState([]);
-  const [searchInput, setSearchInput] = useState("");
-  const [isIdFilterActive, setIsIdFilterActive] = useState(false);
-  const [isIdSortAscending, setIsIdSortAscending] = useState(true);
   const [upcomingBirthdays, setUpcomingBirthdays] = useState([]);
 
   const loadEmployeeData = () => {
@@ -113,7 +111,10 @@ const UpcomingBirthdays = () => {
       className="px-3 shadow-sm rounded-2 d-flex flex-column gap-2 justify-content-between pb-3 pt-2"
     >
       <div className="d-flex align-items-center justify-content-between">
-        <h5 className="my-0 fw-normal">B' day</h5>
+        <h5 className="my-0 fw-normal d-flex align-items-center gap-2">
+          <LuPartyPopper />
+          Birthday
+        </h5>
         <span
           className="d-flex align-items-center justify-content-center"
           style={{

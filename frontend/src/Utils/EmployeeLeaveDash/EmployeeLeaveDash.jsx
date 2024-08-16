@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useTheme } from "../../Context/TheamContext/ThemeContext";
 import axios from "axios";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import { IoAirplaneOutline } from "react-icons/io5";
 
 const EmployeeLeaveDash = () => {
   const [leaveBalance, setLeaveBalance] = useState([]);
@@ -38,7 +39,9 @@ const EmployeeLeaveDash = () => {
       }}
       className="p-2 px-3 shadow-sm rounded-2 d-flex flex-column gap-2"
     >
-      <h5 className="my-0 fw-normal">Leave</h5>
+      <h5 className="my-0 fw-normal  d-flex align-items-center gap-2">
+        <IoAirplaneOutline className="fs-4" /> Leave
+      </h5>
       <div
         style={{ height: "calc(100% - 5rem)", overflow: "auto " }}
         className="px-3"

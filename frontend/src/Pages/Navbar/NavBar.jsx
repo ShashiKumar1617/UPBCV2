@@ -557,7 +557,7 @@ const NavBar = (props, data) => {
                     {props.loginInfo["Email"]}
                   </p>
                 </span>
-                <DarkModeToggle />
+
                 <Link
                   className="text-decoration-none text-black"
                   to={

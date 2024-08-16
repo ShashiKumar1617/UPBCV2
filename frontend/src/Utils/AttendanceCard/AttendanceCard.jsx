@@ -1,7 +1,6 @@
-import React, { useState } from "react";
-import { FiSun } from "react-icons/fi"; // Import the sun icon from React Icons
+import React, { useState, useEffect } from "react";
+import { IoSunnyOutline, IoMoonOutline } from "react-icons/io5"; // Import moon icon
 import "./AttendanceCard.css";
-import { useEffect } from "react";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 const AttendanceCard = () => {
@@ -39,6 +38,9 @@ const AttendanceCard = () => {
   // Split the time string into time and AM/PM parts
   const [time, period] = currentTime.split(" ");
 
+  // Determine whether it's evening (6 PM or later)
+  const isEvening = new Date().getHours() >= 18;
+
   return (
     <div
       className="p-2 rounded-2 background justify-content-between d-flex flex-column"
@@ -46,8 +48,11 @@ const AttendanceCard = () => {
     >
       <div className="d-flex  align-items-center justify-content-between px-2">
         <div className="d-flex flex-column gap-3 p-2">
-          {" "}
-          <FiSun style={{ fontSize: "5rem" }} />
+          {isEvening ? (
+            <IoMoonOutline className="rotate" style={{ fontSize: "5rem" }} />
+          ) : (
+            <IoSunnyOutline className="rotate" style={{ fontSize: "5rem" }} />
+          )}
           <span>{currentDate}</span>
         </div>
         <div className="d-flex align-items-center  gap-2">

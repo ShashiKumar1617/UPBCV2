@@ -36,7 +36,7 @@ const Login = (props) => {
               zIndex: "1",
             }}
             onSubmit={props.onSubmit}
-            className="form my-auto p-md-3 p py-5 rounded text-black fw-bold d-flex flex-column justify-content-center"
+            className="form my-auto bg-white    p py-5  px-4 p-md-3 rounded text-black fw-bold d-flex flex-column justify-content-center"
           >
             <h4
               style={{
@@ -84,20 +84,13 @@ const Login = (props) => {
                     setSeepass(seePass ? false : true);
                   }}
                 >
-                  {!seePass ? <RxEyeOpen /> : <GoEyeClosed />}
+                  {/* {password.length > 0 ? ({!seePass ? <RxEyeOpen /> : <GoEyeClosed />}) : ""} */}
                 </span>
               </div>
               {error ? (
                 <p
-                  style={{
-                    position: "absolute",
-                    fontWeight: "normal",
-                    bottom: "-80%",
-                    left: "50%",
-                    transform: "translate(-50%)",
-                    whiteSpace: "pre",
-                  }}
-                  className="alert   text-danger"
+                  style={{}}
+                  className="alert m-0 fw-normal text-center  text-danger"
                 >
                   {error}
                 </p>
@@ -157,6 +150,8 @@ const Login = (props) => {
             zIndex: "0",
             // position: "relative",
             backgroundImage: `url(${LoginImage})`,
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
           }}
           className="imagePossition col-12 col-md-8 p-5 d-flex flex-column justify-content-center gap-4 "
         >

@@ -71,7 +71,7 @@ const MyTodaysLoginData = (props) => {
       icon: <IoLogInOutline className="text-success fs-5" />,
       iconBG: "#abf9a728",
       title: "Today's login time",
-      data: attendanceData.loginTime,
+      data: attendanceData.loginTime ? attendanceData.loginTime : "--",
     },
     {
       icon: <IoLogOutOutline className="text-danger fs-5" />,

@@ -24,7 +24,7 @@ const taskSchema = new mongoose.Schema({
       empTaskComment: String
     }
   ]
-});
+}, {timestamps:true});
 
 // autoIncrement.initialize(connection);
 

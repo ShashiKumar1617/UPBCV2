@@ -1,3 +1,17 @@
 .background {
-    background: linear-gradient(#dcf0ff, rgba(255, 255, 255, 0.489));
+    background: linear-gradient(#6b96e6, rgb(255, 255, 255));
 }
+
+@keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .rotate {
+    animation: rotate 10s linear infinite;
+  }
+  

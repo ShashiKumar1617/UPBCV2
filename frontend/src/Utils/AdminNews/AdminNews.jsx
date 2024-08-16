@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useTheme } from "../../Context/TheamContext/ThemeContext";
 import axios from "axios";
 import CustomModal from "../CustomModal/CustomModal";
+import { IoNewspaperOutline } from "react-icons/io5";
 
 const AdminNews = () => {
   const [leaveBalance, setLeaveBalance] = useState([]);
@@ -65,7 +66,9 @@ const AdminNews = () => {
         className="p-2 px-3 shadow-sm rounded-2 d-flex flex-column gap-2"
       >
         <div className="d-flex align-items-center justify-content-between">
-          <h5 className="my-0 fw-normal">News</h5>{" "}
+          <h5 className="my-0 fw-normal  d-flex align-items-center gap-2">
+            <IoNewspaperOutline /> News
+          </h5>{" "}
           <span
             className="d-flex align-items-center justify-content-center"
             style={{
@@ -112,7 +115,7 @@ const AdminNews = () => {
               </div>
             </div>
             <button
-              className="btn btn-light rounded-5 px-3"
+              className="btn btn-light bg-white rounded-5 px-3"
               onClick={handleViewClick}
             >
               View

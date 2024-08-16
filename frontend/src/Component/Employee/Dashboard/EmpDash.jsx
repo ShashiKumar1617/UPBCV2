@@ -10,6 +10,8 @@ import EmployeeLeaveDash from "../../../Utils/EmployeeLeaveDash/EmployeeLeaveDas
 import AdminNews from "../../../Utils/AdminNews/AdminNews";
 import TaskDash from "../../../Utils/TaskDash/TaskDash";
 import UpcomingBirthdays from "./CountData/UpcomingBirthdays";
+import HolidayDash from "../../../Utils/HolidayDash/HolidayDash";
+import TeamManager from "../../../Utils/Teams/TeamManager/TeamManager";
 
 const HRDash = () => {
   return (
@@ -35,13 +37,23 @@ const HRDash = () => {
         <div className="col-12 col-lg-4">
           <AttendanceCard />
         </div>
-        <div className="col-12 col-lg-4">
+        <div className="col-12 col-lg-8">
           {/* <AttendanceDetails /> */}
-          <UpcomingBirthdays />
 
-          {/* <TaskDash /> */}
+          <TaskDash />
         </div>
-        <div className="col-12 col-lg-4"></div>
+        <div className="col-12 col-lg-4">
+          {" "}
+          <UpcomingBirthdays />
+        </div>
+        <div className="col-12 col-lg-4">
+          {" "}
+          <HolidayDash />
+        </div>
+        <div className="col-12 col-lg-4">
+          {" "}
+          <TeamManager />
+        </div>
       </div>
       <div className="row justif-content-between row-gap-4 mt-3 align-items-center">
         <div className="col-12">{/* <EmpTaskChart /> */}</div>

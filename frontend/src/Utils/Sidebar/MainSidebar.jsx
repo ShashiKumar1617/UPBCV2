@@ -27,6 +27,7 @@ import { TbBeach, TbUserCheck } from "react-icons/tb";
 import { PiUsersThree } from "react-icons/pi";
 import { BsBuildings, BsFolderCheck } from "react-icons/bs";
 import { FaRegUserCircle } from "react-icons/fa";
+import DarkModeToggle from "../../Pages/TheamChanger/DarkModeToggle";
 
 const MainSidebar = () => {
   const [activeCategory, setActiveCategory] = useState(null);
@@ -641,6 +642,12 @@ const MainSidebar = () => {
               )}
             </div>
           ))}
+      </div>
+      <div
+        style={{ height: "10vh" }}
+        className="d-flex align-items-center justify-content-start mx-2"
+      >
+        <DarkModeToggle />
       </div>
     </div>
   );
