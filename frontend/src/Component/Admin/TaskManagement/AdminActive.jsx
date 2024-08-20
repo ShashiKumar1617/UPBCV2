@@ -18,7 +18,7 @@ import TittleHeader from "../../../Pages/TittleHeader/TittleHeader";
 
 import { getFormattedDate } from "../../../Utils/GetDayFormatted";
 import { useTheme } from "../../../Context/TheamContext/ThemeContext";
-import AvatarGroup from "../../../Pages/AvatarGroup/AvatarGroup";
+import AvatarGroup from "../../../Utils/AvatarGroup/AvatarGroup";
 import { AttendanceContext } from "../../../Context/AttendanceContext/AttendanceContext";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 

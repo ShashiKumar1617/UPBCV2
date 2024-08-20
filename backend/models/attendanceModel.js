@@ -4,6 +4,8 @@ const mongoose = require("mongoose");
 const attendanceSchema = new mongoose.Schema(
   {
     employeeObjID: { type: mongoose.Schema.Types.ObjectId, ref: "Employee" },
+    position: { type: mongoose.Schema.Types.ObjectId, ref: 'Position' },
+    department: { type: mongoose.Schema.Types.ObjectId, ref: 'Department' },
     years: [
       {
         year: Number,
@@ -14,7 +16,6 @@ const attendanceSchema = new mongoose.Schema(
               {
                 date: Number,
                 day: Number,
-                // loginTime: { type: Array, default: formatTime },
                 loginTime: [],
                 logoutTime: [],
                 loginTimeMs: [],

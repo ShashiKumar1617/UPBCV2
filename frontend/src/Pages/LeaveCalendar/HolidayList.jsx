@@ -95,16 +95,16 @@ function HolidayList({ title, newFolderLink, holidayIcons }) {
         </h6>
 
         <div className="row mx-auto shadow-sm p-0 pb-1">
-            <div className="col-11 mx-auto p-0">
-              <input
-                type="text"
-                className="form-control rounded-0"
-                placeholder="Search holiday..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
+          <div className="col-11 mx-auto p-0">
+            <input
+              type="text"
+              className="form-control rounded-0"
+              placeholder="Search holiday..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
           </div>
+        </div>
 
         <div style={{ maxHeight: "350px", overflow: "auto" }}>
           {filteredHolidays.length > 0 ? (

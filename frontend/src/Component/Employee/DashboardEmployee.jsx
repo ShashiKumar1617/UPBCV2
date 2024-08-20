@@ -65,7 +65,6 @@ const DashboardEmployee = (props) => {
             />
           </div>
           <div className="sidebar-grid">
-            {/* <Sidebar data={props.data} /> */}
             <MainSidebar />
           </div>
           <div className="mainbar-grid py-5 py-md-3">

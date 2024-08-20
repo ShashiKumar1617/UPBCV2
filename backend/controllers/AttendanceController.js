@@ -428,9 +428,9 @@ const todaysAttendance = async (req, res) => {
     const currentDay = currentDate.getDate();
 
     // Find all users and populate their attendance data for today
-    const usersWithAttendance = await Employee.find().populate(
-      "attendanceObjID"
-    );
+    const usersWithAttendance = await Employee.find() .populate('attendanceObjID')
+    .populate('position') 
+    .populate('department'); 
 
     // Extract relevant attendance data and send it in the response
     const attendanceData = usersWithAttendance.map((user) => {
@@ -469,6 +469,9 @@ const todaysAttendance = async (req, res) => {
         FirstName: user.FirstName,
         LastName: user.LastName,
         empID: user.empID,
+        reportManager: user.reportManager,
+        position: user.position ? user.position.name : null, 
+        department: user.department ? user.department.name : null, 
         attendance: attendance,
         profile: user.profile,
       };

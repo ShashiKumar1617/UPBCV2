@@ -116,13 +116,12 @@ const UpcomingBirthdays = () => {
           Birthday
         </h5>
         <span
-          className="d-flex align-items-center justify-content-center"
           style={{
-            height: "25px",
-            width: "25px",
+            minHeight: "1.6rem",
+            minWidth: "1.6rem",
             borderRadius: "50%",
-            background: "white",
           }}
+          className="bg-white  d-flex align-items-center justify-content-center"
         >
           {upcomingBirthdays.length}
         </span>

@@ -16,18 +16,10 @@ import TeamManager from "../../../Utils/Teams/TeamManager/TeamManager";
 const HRDash = () => {
   return (
     <div className="container-fluid py-2 ">
-      {/* <TittleHeader
-        title={"Dashboard"}
-        message={"View a comprehensive analysis of your data here."}
-      /> */}
-
       <div className="row justif-content-between row-gap-2 align-items-center">
         <div className="col-12 col-md-6 col-lg-4">
           <MyTodaysLoginData />
         </div>
-        {/* <div className="col-12 col-lg-6">
-          <WelcomeBoard height={"15rem"} />
-        </div> */}
         <div className="col-12 col-lg-4">
           <EmployeeLeaveDash />
         </div>

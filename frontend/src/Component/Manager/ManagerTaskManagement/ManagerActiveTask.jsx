@@ -31,7 +31,7 @@ import { IoIosSend, IoMdDoneAll } from "react-icons/io";
 import { RiArrowDropDownLine, RiAttachmentLine } from "react-icons/ri";
 import { PiInfoLight } from "react-icons/pi";
 import { getFormattedDate } from "../../../Utils/GetDayFormatted";
-import AvatarGroup from "../../../Pages/AvatarGroup/AvatarGroup";
+import AvatarGroup from "../../../Utils/AvatarGroup/AvatarGroup";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import OverLayToolTip from "../../../Utils/OverLayToolTip";
 import { AiFillFilePpt, AiFillFileWord } from "react-icons/ai";

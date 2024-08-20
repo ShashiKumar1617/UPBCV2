@@ -1,7 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { GiPartyFlags } from "react-icons/gi";
+import { fetchHolidays } from "../../Redux/Slices/holidaysSlice";
 
 const HolidayDash = () => {
+  const dispatch = useDispatch();
+  const holidaysData = useSelector((state) => state.holidays.holidaysData);
+  const status = useSelector((state) => state.holidays.status);
+
+  useEffect(() => {
+    if (status === "idle") {
+      dispatch(fetchHolidays());
+    }
+  }, [status, dispatch]);
+
+  console.log(holidaysData);
+
   return (
     <div
       style={{
@@ -25,182 +39,30 @@ const HolidayDash = () => {
             background: "white",
           }}
         >
-          {2}
+          {holidaysData.length}
         </span>
       </div>
-      <span className="btn bg-secondary text-white">August, 2024</span>
+      <span>August, 2024</span>
       <div
         style={{ height: "10rem", overflow: "auto" }}
         className="bg-white rounded-3 p-2 py-3"
       >
-        <div className="row mx-auto my-3 align-items-center">
-          <span className="col-1 d-flex align-items-center">
-            <div
-              style={{ height: ".5rem", width: ".5rem", borderRadius: "50%" }}
-              className="bg-primary"
-            ></div>
-          </span>
-          <span className="col-10 d-flex align-items-center">
-            independence Day
-          </span>{" "}
-          <span className="col-1 d-flex align-items-center">15</span>
-        </div>
-        <div className="row mx-auto my-3 align-items-center">
-          <span className="col-1 d-flex align-items-center">
-            <div
-              style={{ height: ".5rem", width: ".5rem", borderRadius: "50%" }}
-              className="bg-primary"
-            ></div>
-          </span>
-          <span className="col-10 d-flex align-items-center">
-            independence Day
-          </span>{" "}
-          <span className="col-1 d-flex align-items-center">15</span>
-        </div>
-        <div className="row mx-auto my-3 align-items-center">
-          <span className="col-1 d-flex align-items-center">
-            <div
-              style={{ height: ".5rem", width: ".5rem", borderRadius: "50%" }}
-              className="bg-primary"
-            ></div>
-          </span>
-          <span className="col-10 d-flex align-items-center">
-            independence Day
-          </span>{" "}
-          <span className="col-1 d-flex align-items-center">15</span>
-        </div>
-        <div className="row mx-auto my-3 align-items-center">
-          <span className="col-1 d-flex align-items-center">
-            <div
-              style={{ height: ".5rem", width: ".5rem", borderRadius: "50%" }}
-              className="bg-primary"
-            ></div>
-          </span>
-          <span className="col-10 d-flex align-items-center">
-            independence Day
-          </span>{" "}
-          <span className="col-1 d-flex align-items-center">15</span>
-        </div>
-        <div className="row mx-auto my-3 align-items-center">
-          <span className="col-1 d-flex align-items-center">
-            <div
-              style={{ height: ".5rem", width: ".5rem", borderRadius: "50%" }}
-              className="bg-primary"
-            ></div>
-          </span>
-          <span className="col-10 d-flex align-items-center">
-            independence Day
-          </span>{" "}
-          <span className="col-1 d-flex align-items-center">15</span>
-        </div>
-        <div className="row mx-auto my-3 align-items-center">
-          <span className="col-1 d-flex align-items-center">
-            <div
-              style={{ height: ".5rem", width: ".5rem", borderRadius: "50%" }}
-              className="bg-primary"
-            ></div>
-          </span>
-          <span className="col-10 d-flex align-items-center">
-            independence Day
-          </span>{" "}
-          <span className="col-1 d-flex align-items-center">15</span>
-        </div>
-        <div className="row mx-auto my-3 align-items-center">
-          <span className="col-1 d-flex align-items-center">
-            <div
-              style={{ height: ".5rem", width: ".5rem", borderRadius: "50%" }}
-              className="bg-primary"
-            ></div>
-          </span>
-          <span className="col-10 d-flex align-items-center">
-            independence Day
-          </span>{" "}
-          <span className="col-1 d-flex align-items-center">15</span>
-        </div>
-        <div className="row mx-auto my-3 align-items-center">
-          <span className="col-1 d-flex align-items-center">
-            <div
-              style={{ height: ".5rem", width: ".5rem", borderRadius: "50%" }}
-              className="bg-primary"
-            ></div>
-          </span>
-          <span className="col-10 d-flex align-items-center">
-            independence Day
-          </span>{" "}
-          <span className="col-1 d-flex align-items-center">15</span>
-        </div>
-        <div className="row mx-auto my-3 align-items-center">
-          <span className="col-1 d-flex align-items-center">
-            <div
-              style={{ height: ".5rem", width: ".5rem", borderRadius: "50%" }}
-              className="bg-primary"
-            ></div>
-          </span>
-          <span className="col-10 d-flex align-items-center">
-            independence Day
-          </span>{" "}
-          <span className="col-1 d-flex align-items-center">15</span>
-        </div>
-        <div className="row mx-auto my-3 align-items-center">
-          <span className="col-1 d-flex align-items-center">
-            <div
-              style={{ height: ".5rem", width: ".5rem", borderRadius: "50%" }}
-              className="bg-primary"
-            ></div>
-          </span>
-          <span className="col-10 d-flex align-items-center">
-            independence Day
-          </span>{" "}
-          <span className="col-1 d-flex align-items-center">15</span>
-        </div>
-        <div className="row mx-auto my-3 align-items-center">
-          <span className="col-1 d-flex align-items-center">
-            <div
-              style={{ height: ".5rem", width: ".5rem", borderRadius: "50%" }}
-              className="bg-primary"
-            ></div>
-          </span>
-          <span className="col-10 d-flex align-items-center">
-            independence Day
-          </span>{" "}
-          <span className="col-1 d-flex align-items-center">15</span>
-        </div>
-        <div className="row mx-auto my-3 align-items-center">
-          <span className="col-1 d-flex align-items-center">
-            <div
-              style={{ height: ".5rem", width: ".5rem", borderRadius: "50%" }}
-              className="bg-primary"
-            ></div>
-          </span>
-          <span className="col-10 d-flex align-items-center">
-            independence Day
-          </span>{" "}
-          <span className="col-1 d-flex align-items-center">15</span>
-        </div>
-        <div className="row mx-auto my-3 align-items-center">
-          <span className="col-1 d-flex align-items-center">
-            <div
-              style={{ height: ".5rem", width: ".5rem", borderRadius: "50%" }}
-              className="bg-primary"
-            ></div>
-          </span>
-          <span className="col-10 d-flex align-items-center">
-            independence Day
-          </span>{" "}
-          <span className="col-1 d-flex align-items-center">15</span>
-        </div>
-        <div className="row mx-auto my-3 align-items-center">
-          <span className="col-1 d-flex align-items-center">
-            <div
-              style={{ height: ".5rem", width: ".5rem", borderRadius: "50%" }}
-              className="bg-primary"
-            ></div>
-          </span>
-          <span className="col-10 d-flex align-items-center">
-            independence Day
-          </span>{" "}
-          <span className="col-1 d-flex align-items-center">15</span>
-        </div>
+        {holidaysData.map((holiday, index) => (
+          <div key={index} className="row mx-auto my-3 align-items-center">
+            <span className="col-1 d-flex align-items-center">
+              <div
+                style={{ height: ".5rem", width: ".5rem", borderRadius: "50%" }}
+                className="bg-primary"
+              ></div>
+            </span>
+            <span className="col-10 d-flex align-items-center">
+              {holiday.name}
+            </span>
+            <span className="col-1 d-flex align-items-center">
+              {new Date(holiday.date).getDate()}
+            </span>
+          </div>
+        ))}
       </div>
     </div>
   );

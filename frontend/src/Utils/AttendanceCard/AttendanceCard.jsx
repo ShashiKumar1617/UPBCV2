@@ -49,7 +49,7 @@ const AttendanceCard = () => {
       <div className="d-flex  align-items-center justify-content-between px-2">
         <div className="d-flex flex-column gap-3 p-2">
           {isEvening ? (
-            <IoMoonOutline className="rotate" style={{ fontSize: "5rem" }} />
+            <IoMoonOutline style={{ fontSize: "5rem" }} />
           ) : (
             <IoSunnyOutline className="rotate" style={{ fontSize: "5rem" }} />
           )}
@@ -74,7 +74,10 @@ const AttendanceCard = () => {
         </div>
       </div>
 
-      <Link to="/employee/MyAttendance" className="btn bg-primary text-white">
+      <Link
+        to="/employee/MyAttendance"
+        className="btn mx-2 bg-primary text-white"
+      >
         View attendance
       </Link>
     </div>
