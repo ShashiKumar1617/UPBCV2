@@ -9,7 +9,6 @@ import { useHistory } from "react-router-dom";
 import addNotification from "react-push-notification";
 import { useLocation } from "react-router-dom/cjs/react-router-dom";
 import DarkModeToggle from "../TheamChanger/DarkModeToggle";
-import { FaBell } from "react-icons/fa6";
 import { LuMenu } from "react-icons/lu";
 import { useSidebar } from "../../Context/AttendanceContext/smallSidebarcontext";
 import profile from "../../img/profile.jpg";
@@ -18,13 +17,13 @@ import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import BASE_URL from "../config/config";
 import { useTheme } from "../../Context/TheamContext/ThemeContext";
 import SearchComponent from "../../Utils/SearchComponent/SearchComponent ";
+import { TbBell } from "react-icons/tb";
 
 const NavBar = (props, data) => {
   const [activeProfile, setActiveProfile] = useState(null);
   const history = useHistory();
   const { darkMode } = useTheme();
   const location = useLocation().pathname.split("/")[1];
-  console.log(location);
   const [notification, setNotification] = useState([]);
   const [employeeData, setEmployeeData] = useState("");
   const [notiToggle, setNotiToggle] = useState(false);
@@ -343,250 +342,262 @@ const NavBar = (props, data) => {
     return message;
   }
 
-  return (
-    <div
-      className="px-2 py-3 py-md-2"
-      style={{
-        height: "fit-content",
-        background: darkMode
-          ? "var(--secondaryDashMenuColor)"
-          : "var(--secondaryDashColorDark)",
-      }}
-    >
-      <nav
-        style={{ height: "3rem" }}
-        className="d-flex align-items-center justify-content-between"
-      >
-        <button
-          onClick={handleClick}
-          style={{
-            color: darkMode
-              ? "var(--primaryDashColorDark)"
-              : "var(--primaryDashMenuColor)",
-            fontSize: "2.2rem",
-          }}
-          className="my-auto btn p-1 mx-0 d-flex d-sm-none align-iems-center"
-        >
-          <LuMenu />
-        </button>
+  const UserType = (Account) => {
+    switch (Account) {
+      case 1:
+        return "Admin";
+      case 2:
+        return "Hr";
+      case 4:
+        return "Manager";
 
-        <div className="ml-auto my-auto d-flex align-items-center gap-3">
-          <SearchComponent />
-          <div
-            className="position-relative"
-            onMouseEnter={() => setNotiToggle("name")}
-            onMouseLeave={() => setNotiToggle(false)}
-          >
-            {notification.length > 0 && (
+      default:
+        return "Employee";
+    }
+  };
+  const ShortedText = (text) => {
+    if (text.length > 20) {
+      return text.toString().slice(0, 20) + "...";
+    } else {
+      return text;
+    }
+  };
+
+  return (
+    <nav
+      style={{ height: "100%" }}
+      className="d-flex align-items-center justify-content-between"
+    >
+      <button
+        onClick={handleClick}
+        style={{
+          color: darkMode
+            ? "var(--primaryDashColorDark)"
+            : "var(--primaryDashMenuColor)",
+          fontSize: "2.2rem",
+        }}
+        className="btn d-flex d-sm-none align-iems-center"
+      >
+        <LuMenu />
+      </button>
+
+      <div className="ms-auto gap-2 d-flex align-items-center ">
+        <SearchComponent />
+        <DarkModeToggle />
+        <div
+          className="position-relative"
+          onMouseEnter={() => setNotiToggle("name")}
+          onMouseLeave={() => setNotiToggle(false)}
+        >
+          {notification.length > 0 && (
+            <div
+              className="notilenghth text-muted"
+              style={{
+                display: uniqueNotification.length <= 0 ? "none" : "flex",
+                height: "fit-content",
+                width: "fit-content",
+                minWidth: "18px",
+                minHeight: "18px",
+                position: "absolute",
+                top: "-30%",
+                right: "-35%",
+                borderRadius: "50% 50% 50% 0",
+                objectFit: "cover",
+                fontSize: ".8rem",
+                padding: "0 .1rem",
+                background: "#e2cd12f1",
+              }}
+            >
+              <span className="m-auto">{uniqueNotification.length}</span>
+            </div>
+          )}
+          <TbBell style={{ fontSize: "22px" }} className="" />{" "}
+          {notification.length > 0 && (
+            <div className="position-relative">
               <div
-                className="notilenghth bg-warning text-muted fw-bold"
                 style={{
-                  display: uniqueNotification.length <= 0 ? "none" : "flex",
-                  height: "fit-content",
-                  width: "fit-content",
-                  minWidth: "18px",
-                  minHeight: "18px",
                   position: "absolute",
-                  top: "-30%",
-                  right: "-35%",
-                  borderRadius: "50% 50% 50% 0",
-                  objectFit: "cover",
-                  fontSize: ".8rem",
-                  padding: "0 .1rem",
+                  zIndex: "2001",
+                  right: ".5rem",
+                  top: "100%",
+                  minWidth: "230px",
+                  maxWidth: "250px",
+                  borderRadius: "20px 0 20px 20px",
+                  display: notiToggle == "name" ? "flex" : "none",
                 }}
+                className="border border-muted border-1 flex-column gap-1 w-100 bg-white align-items-center gap-2 justify-content-between  p-2  shadow"
               >
-                <span className="m-auto">{uniqueNotification.length}</span>
-              </div>
-            )}
-            <FaBell style={{ fontSize: "22px" }} className="text-primary" />
-            {notification.length > 0 && (
-              <div className="position-relative">
-                <div
-                  style={{
-                    position: "absolute",
-                    zIndex: "2001",
-                    right: ".5rem",
-                    top: "100%",
-                    minWidth: "230px",
-                    maxWidth: "250px",
-                    borderRadius: "20px 0 20px 20px",
-                    display: notiToggle == "name" ? "flex" : "none",
-                  }}
-                  className="border border-muted border-1 flex-column gap-1 w-100 bg-white align-items-center gap-2 justify-content-between  p-2  shadow"
-                >
-                  {notiToggle &&
-                    notification.length > 0 &&
-                    notification
-                      .filter(
-                        (val, i, ar) =>
-                          ar.findIndex((item) => item.taskId === val.taskId) ===
-                          i
-                      )
-                      .slice(0, 10)
-                      .map((val, i) => {
-                        return (
+                {notiToggle &&
+                  notification.length > 0 &&
+                  notification
+                    .filter(
+                      (val, i, ar) =>
+                        ar.findIndex((item) => item.taskId === val.taskId) === i
+                    )
+                    .slice(0, 10)
+                    .map((val, i) => {
+                      return (
+                        <div
+                          className={
+                            val.status === "unseen"
+                              ? "d-flex align-items-center justify-content-between w-100 back"
+                              : "d-flex align-items-center justify-content-between w-100"
+                          }
+                        >
                           <div
-                            className={
+                            className="d-flex align-items-center gap-2 cursor-pointer "
+                            onClick={
                               val.status === "unseen"
-                                ? "d-flex align-items-center justify-content-between w-100 back"
-                                : "d-flex align-items-center justify-content-between w-100"
+                                ? () =>
+                                    notificationHandler(val.taskId, val.path)
+                                : () => history.push(`/${location}/${val.path}`)
                             }
                           >
                             <div
-                              className="d-flex align-items-center gap-2 cursor-pointer "
-                              onClick={
-                                val.status === "unseen"
-                                  ? () =>
-                                      notificationHandler(val.taskId, val.path)
-                                  : () =>
-                                      history.push(`/${location}/${val.path}`)
-                              }
+                              style={{
+                                height: "25px",
+                                width: "25px",
+                                overflow: "hidden",
+                              }}
                             >
-                              <div
+                              <img
                                 style={{
-                                  height: "25px",
-                                  width: "25px",
+                                  height: "100%",
+                                  width: "100%",
+                                  objectFit: "cover",
                                   overflow: "hidden",
-                                }}
-                              >
-                                <img
-                                  style={{
-                                    height: "100%",
-                                    width: "100%",
-                                    objectFit: "cover",
-                                    overflow: "hidden",
-                                    borderRadius: "50%",
-                                  }}
-                                  src={val.profile ? val.profile : profile}
-                                  alt=""
-                                />
-                              </div>
-                              <div>
-                                <p
-                                  style={{ fontSize: ".75rem" }}
-                                  className="p-0 m-0 w-100 text-muted fw-bold"
-                                >
-                                  {truncateMessage(val.message)}
-                                </p>
-                                <p
-                                  style={{ fontSize: ".80rem" }}
-                                  className="p-0 m-0 w-100"
-                                >
-                                  {val.messageBy}
-                                </p>
-                              </div>
-                            </div>
-                            <div className="d-flex align-items-center gap-1">
-                              <span
-                                style={{
-                                  fontSize: ".80rem",
-                                  height: "1.2rem",
-                                  width: "1.2rem",
                                   borderRadius: "50%",
                                 }}
-                                className="d-flex align-items-center text-white  bg-danger justify-content-center"
-                                onClick={(e) => (
-                                  notificationDeleteHandler(val.taskId),
-                                  e.stopPropagation()
-                                )}
+                                src={val.profile ? val.profile : profile}
+                                alt=""
+                              />
+                            </div>
+                            <div>
+                              <p
+                                style={{ fontSize: ".75rem" }}
+                                className="p-0 m-0 w-100 text-muted"
                               >
-                                x
-                              </span>
+                                {truncateMessage(val.message)}
+                              </p>
+                              <p
+                                style={{ fontSize: ".80rem" }}
+                                className="p-0 m-0 w-100"
+                              >
+                                {val.messageBy}
+                              </p>
                             </div>
                           </div>
-                        );
-                      })}
-                </div>
-              </div>
-            )}
-            {/* profile section */}
-          </div>
-          <span className="navbar-right-content my-auto d-flex  fw-bold">
-            <div
-              onMouseEnter={() => setActiveProfile("name")}
-              onMouseLeave={() => setActiveProfile(null)}
-              style={{
-                height: "28px",
-                width: "28px",
-                border: "1px solid blue",
-                borderRadius: "50%",
-                position: "relative",
-              }}
-            >
-              <img
-                style={{
-                  height: "100%",
-                  width: "100%",
-                  objectFit: "cover",
-                  border: "1px solid red",
-                  borderRadius: "50%",
-                }}
-                src={
-                  employeeData.profile
-                    ? employeeData.profile.image_url
-                    : profile
-                }
-                alt=""
-              />
-
-              <div
-                className="bg-white shadow pb-3 pt-1 px-3 flex-column gap-3"
-                style={{
-                  position: "absolute",
-                  zIndex: "1000",
-                  width: "fit-content",
-                  right: "0",
-                  top: "90%",
-
-                  display: activeProfile === "name" ? "flex" : "none",
-                }}
-              >
-                <span>
-                  <p
-                    style={{ width: "fit-content", fontSize: ".8rem" }}
-                    className="m-0 my-1 border-danger border rounded-5 text-muted p-0 px-2"
-                  >
-                    {props.loginInfo["empID"]}
-                  </p>
-                  <p className="m-0 p-0">
-                    <span className="text-capitalize m-0 p-0">
-                      {props.loginInfo["Name"]}
-                    </span>{" "}
-                  </p>
-                  <p className="m-0 text-muted p-0">
-                    {props.loginInfo["Email"]}
-                  </p>
-                </span>
-
-                <Link
-                  className="text-decoration-none text-black"
-                  to={
-                    location === "employee"
-                      ? `/employee/${id}/personal-info`
-                      : `/${location}/personal-info`
-                  }
-                >
-                  <span> My Profile</span>
-                </Link>
-
-                <button
-                  onClick={props.onLogout}
-                  style={{ cursor: "pointer" }}
-                  className="btn btn-danger d-flex align-items-center justify-content-between"
-                >
-                  Logout
-                  <FontAwesomeIcon
-                    className="my-auto fs-6"
-                    icon={faSignOutAlt}
-                  />
-                </button>
+                          <div className="d-flex align-items-center gap-1">
+                            <span
+                              style={{
+                                fontSize: ".80rem",
+                                height: "1.2rem",
+                                width: "1.2rem",
+                                borderRadius: "50%",
+                              }}
+                              className="d-flex align-items-center text-white  bg-danger justify-content-center"
+                              onClick={(e) => (
+                                notificationDeleteHandler(val.taskId),
+                                e.stopPropagation()
+                              )}
+                            >
+                              x
+                            </span>
+                          </div>
+                        </div>
+                      );
+                    })}
               </div>
             </div>
-            <span className="text-muted"></span>
-          </span>
+          )}
+          {/* profile section */}
         </div>
-      </nav>
-    </div>
+
+        <span className="navbar-right-content my-auto d-flex">
+          <div
+            onMouseEnter={() => setActiveProfile("name")}
+            onMouseLeave={() => setActiveProfile(null)}
+            style={{
+              height: "30px",
+              width: "30px",
+              // outline: "3px solid blue",
+              borderRadius: "50%",
+              position: "relative",
+              // animation: "glowing 1.5s infinite",
+            }}
+          >
+            <img
+              style={{
+                height: "100%",
+                width: "100%",
+                objectFit: "cover",
+                border: "1px solid red",
+                borderRadius: "50%",
+              }}
+              src={
+                employeeData.profile ? employeeData.profile.image_url : profile
+              }
+              alt=""
+            />
+
+            <div
+              className="bg-white shadow pb-3 pt-1 px-3 flex-column gap-3"
+              style={{
+                position: "absolute",
+                zIndex: "1000",
+                width: "fit-content",
+                right: "0",
+                top: "90%",
+
+                display: activeProfile === "name" ? "flex" : "none",
+              }}
+            >
+              <span>
+                <p
+                  style={{ width: "fit-content", fontSize: ".8rem" }}
+                  className="m-0"
+                >
+                  {UserType(props.loginInfo["Account"])}
+                </p>
+                <hr className="m-0 my-1" />
+                <p className="m-0 p-0">
+                  <span className="text-capitalize m-0 p-0">
+                    {props.loginInfo["Name"]}
+                  </span>{" "}
+                </p>
+                <p
+                  title={props.loginInfo["Email"]}
+                  className="m-0 text-muted p-0"
+                >
+                  {ShortedText(props.loginInfo["Email"])}
+                </p>
+              </span>
+
+              <Link
+                className="text-decoration-none text-black"
+                to={
+                  location === "employee"
+                    ? `/employee/${id}/personal-info`
+                    : `/${location}/personal-info`
+                }
+              >
+                <span> My Profile</span>
+              </Link>
+
+              <button
+                onClick={props.onLogout}
+                style={{ cursor: "pointer" }}
+                className="btn btn-danger d-flex align-items-center justify-content-between"
+              >
+                Logout
+                <FontAwesomeIcon className="my-auto fs-6" icon={faSignOutAlt} />
+              </button>
+            </div>
+          </div>
+          <span className="text-muted"></span>
+        </span>
+      </div>
+    </nav>
   );
 };
 

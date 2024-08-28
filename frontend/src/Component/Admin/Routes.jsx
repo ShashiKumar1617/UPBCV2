@@ -37,12 +37,20 @@ import AllEmpLeave from "./leave/AllEmpLeave.jsx";
 import LeaveAssign from "./leave/LeaveAssign.jsx";
 import UpdateTask from "../../Pages/UpdateTask.jsx";
 import SelfAttendance from "../HrManager/attendance/SelfAttendance.jsx";
+import NoticeBoard from "../../Utils/NoticeBoard/NoticeBoard.jsx";
 
 // import AdminViewTask from "./TaskManagement/AdminViewTask.jsx";
 
 const AdminRoutes = () => {
   return (
-    <div style={{ maxHeight: "85vh", minHeightL: "85vh", overflow: "auto" }}>
+    <div
+      style={{
+        height: "85vh",
+        maxHeight: "85vh",
+        minHeightL: "85vh",
+        overflow: "auto",
+      }}
+    >
       <Switch>
         <Route path="/admin/dashboard" exact component={AdminDasd} />
         <Route path="/admin/role" exact component={Role} />
@@ -112,6 +120,7 @@ const AdminRoutes = () => {
           exact
           component={NoticeManagement}
         />
+        <Route path="/admin/NoticeBoard" exact component={NoticeBoard} />
         {/* <Route path="/admin/viewtask" exact component={AdminViewTask} /> */}
         {/* <Route path="/admin/viewtask/:id" exact component={AdminViewTask} /> */}
 

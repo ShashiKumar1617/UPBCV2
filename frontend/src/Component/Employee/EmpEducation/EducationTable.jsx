@@ -10,6 +10,8 @@ import SearchLight from "../../../img/Attendance/SearchLight.svg";
 import BASE_URL from "../../../Pages/config/config";
 import TittleHeader from "../../../Pages/TittleHeader/TittleHeader";
 import OverLayToolTip from "../../../Utils/OverLayToolTip";
+import { GoPencil } from "react-icons/go";
+import { MdOutlineAdd } from "react-icons/md";
 
 const override = css`
   display: block;
@@ -139,21 +141,21 @@ const EducationTable = (props) => {
   return (
     <div className="container-fluid py-2">
       <div className="d-flex justify-content-between my-2">
-        <TittleHeader
-          title={" Educational Details"}
-          numbers={rowData.length}
-          message={"You can view education details here."}
-        />
-
-        <div className="py-1">
-          <button
-            className="btn btn-primary d-flex align-items-center justify-content-center gap-2"
-            onClick={props.onAddEducation}
-          >
-            <FaPlus />
-            <span className="d-none d-md-flex">Add Details</span>
-          </button>
-        </div>
+        <h5>Educational ({rowData.length})</h5>
+        <span
+          onClick={props.onAddEducation}
+          className="d-flex align-items-center justify-content-center"
+          style={{
+            height: "2.1rem",
+            width: "2.1rem",
+            borderRadius: "50%",
+            background: darkMode ? "#6fa5e486" : "#6aa9f090",
+            color: darkMode ? "#1a41c4" : "#ffffff",
+            cursor: "pointer",
+          }}
+        >
+          <MdOutlineAdd />
+        </span>
       </div>
 
       <div id="clear-both" />

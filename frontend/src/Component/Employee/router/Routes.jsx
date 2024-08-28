@@ -22,6 +22,7 @@ import LeaveBalance from "../../HrManager/LeaveStatus/LeaveBalance.jsx";
 import AttendanceDetails from "../attendance/AttendanceDetails.jsx";
 import EmpViewAttendance from "../../HrManager/attendance/SelfAttendance.jsx";
 import UpdateTaskEmpManager from "../../../Pages/UpdateTaskEmpManager.jsx";
+import NoticeBoard from "../../../Utils/NoticeBoard/NoticeBoard.jsx";
 
 const RouterContent = ({ data }) => {
   return (
@@ -110,6 +111,7 @@ const RouterContent = ({ data }) => {
       />
       <Route path="/employee/notification" exact component={Notification} />
       <Route path="/employee/document" exact component={Document} />
+      <Route path="/employee/NoticeBoard" exact component={NoticeBoard} />
       <Route
         path="/employee/emp_manager"
         exact

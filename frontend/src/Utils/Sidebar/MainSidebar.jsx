@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { GoKey, GoTasklist } from "react-icons/go";
+import { GoTasklist } from "react-icons/go";
 import Logo from "../../img/logo.webp";
 import {
   MdCurrencyRupee,
@@ -25,9 +25,7 @@ import { FaRegCircleUser, FaRegUser } from "react-icons/fa6";
 import { ImCalendar } from "react-icons/im";
 import { TbBeach, TbUserCheck } from "react-icons/tb";
 import { PiUsersThree } from "react-icons/pi";
-import { BsBuildings, BsFolderCheck } from "react-icons/bs";
 import { FaRegUserCircle } from "react-icons/fa";
-import DarkModeToggle from "../../Pages/TheamChanger/DarkModeToggle";
 
 const MainSidebar = () => {
   const [activeCategory, setActiveCategory] = useState(null);
@@ -281,47 +279,14 @@ const MainSidebar = () => {
         { to: "/manager/rejectTask", label: "Rejected Task" },
       ],
     },
-    {
-      user: "4",
-      icon: <GoKey />,
-      name: "Administration",
-      navLinks: [
-        { to: "/manager/role", label: "Role" },
-        { to: "/manager/position", label: "Position" },
-        { to: "/manager/department", label: "Department" },
-      ],
-    },
-    {
-      user: "4",
-      icon: <BsBuildings />,
-      name: "Company",
-      navLinks: [
-        { to: "/manager/company", label: "Company List" },
-        // { to: "/manager/employee", label: "Create Employee" },
-      ],
-    },
-    {
-      user: "4",
-      icon: <MdOutlineLocationOn />,
-      name: "Address",
-      navLinks: [
-        { to: "/manager/country", label: "Country" },
-        { to: "/manager/state", label: "State" },
-        { to: "/manager/city", label: "City" },
-      ],
-    },
+
     {
       user: "4",
       icon: <HiOutlineSpeakerphone />,
       name: "Notice",
       navLinks: [{ to: "/manager/NoticeManagement", label: "Notice" }],
     },
-    {
-      user: "4",
-      icon: <LuPartyPopper />,
-      name: "Holiday",
-      navLinks: [{ to: "/manager/holiday", label: "Leave Calendar" }],
-    },
+
     {
       user: "4",
       icon: <FaRegUserCircle />,
@@ -378,17 +343,17 @@ const MainSidebar = () => {
         { to: "/employee/taskreject", label: "Rejected Task" },
       ],
     },
-    {
-      user: "3",
-      icon: <BsFolderCheck />,
-      name: "Documents",
-      navLinks: [
-        {
-          to: "/employee/Document",
-          label: "Document",
-        },
-      ],
-    },
+    // {
+    //   user: "3",
+    //   icon: <BsFolderCheck />,
+    //   name: "Documents",
+    //   navLinks: [
+    //     {
+    //       to: "/employee/Document",
+    //       label: "Document",
+    //     },
+    //   ],
+    // },
   ];
 
   const LoginUser = localStorage.getItem("Account");
@@ -417,7 +382,7 @@ const MainSidebar = () => {
         backgroundColor: darkMode
           ? "var(--primaryDashMenuColor)"
           : "var(--primaryDashColorDark)",
-        padding: ".5rem .5rem .5rem .5rem",
+        padding: ".5rem 1rem .5rem .5rem",
       }}
       className="d-none d-sm-flex flex-column gap-2"
     >
@@ -460,18 +425,18 @@ const MainSidebar = () => {
         style={{
           height: "calc(100vh - 20vh)",
           overflow: "auto",
-          background: "#FBFBFF",
+          // background: "#fbfbff0",
         }}
       >
         {allLinks
           .filter((links) => links.user === LoginUser)
-          .map(({ icon, name, navLinks }) => (
-            <div
-              key={name}
-              onClick={() => toggleDropdown(name)}
-              className="position-relative"
-            >
-              {navLinks.length > 1 ? (
+          .map(({ icon, name, navLinks }) =>
+            navLinks.length > 1 ? (
+              <div
+                key={name}
+                onClick={() => toggleDropdown(name)}
+                className="position-relative rounded-5"
+              >
                 <OverlayTrigger
                   placement="right"
                   overlay={
@@ -490,9 +455,8 @@ const MainSidebar = () => {
                       height: "3rem",
                       outline: "none",
                       border: "none",
-                      background: "#F5F5FF",
                     }}
-                    className="p-0 px-1 rounded-2 text-start gap-2 justify-between w-100 d-flex justify-content-between"
+                    className="p-0 px-1 rounded-2  text-start gap-2 justify-between w-100 d-flex justify-content-between"
                   >
                     <div
                       style={{ width: "fit-content" }}
@@ -535,70 +499,11 @@ const MainSidebar = () => {
                     </span>
                   </span>
                 </OverlayTrigger>
-              ) : (
-                <OverlayTrigger
-                  placement="right"
-                  overlay={
-                    !extended ? (
-                      <Tooltip id={`tooltip-${name}`}>{name}</Tooltip>
-                    ) : (
-                      <span></span>
-                    )
-                  }
-                >
-                  <NavLink to={navLinks[0].to} className="text-decoration-none">
-                    <span
-                      style={{
-                        color: darkMode
-                          ? "var(--primaryDashColorDark)"
-                          : "var(--primaryDashMenuColor)",
-                        height: "3rem",
-                        outline: "none",
-                        border: "none",
-                        background: "#F5F5FF",
-                      }}
-                      className="p-0 px-1 rounded-2 text-start gap-2 justify-between w-100 d-flex justify-content-between"
-                    >
-                      <div
-                        style={{ width: "fit-content" }}
-                        className="d-flex gap-2 my-auto"
-                      >
-                        <p
-                          style={{
-                            height: "30px",
-                            width: "30px",
-                            alignItems: "center",
-                            color: darkMode
-                              ? "var(--primaryDashColorDark)"
-                              : "var(--primaryDashMenuColor)",
-                          }}
-                          className="m-auto d-flex rounded-5 justify-content-center fs-5"
-                        >
-                          {icon}
-                        </p>
-                        <p
-                          style={{
-                            display:
-                              activeCategory || extended ? "block" : "none",
-                          }}
-                          className="my-auto"
-                        >
-                          {name}
-                        </p>
-                      </div>
-                    </span>
-                  </NavLink>
-                </OverlayTrigger>
-              )}
 
-              {navLinks.length > 1 && (
                 <div
                   style={{
                     ...dropdownStyle,
                     display: activeCategory === name ? "flex" : "none",
-                    // backgroundColor: darkMode
-                    //   ? "var(--primaryDashMenuColor)"
-                    //   : "var(--primaryDashColorDark)",
                     width: "fit-content",
                     borderLeft: "1px solid gray",
                     paddingLeft: ".5rem",
@@ -606,15 +511,6 @@ const MainSidebar = () => {
                   }}
                   className="flex-column  start-100 py-0 gap-2 mt-0"
                 >
-                  {/* <p
-                  style={{
-                    display: extended ? "none" : "block",
-                    color: darkMode ? "green" : "orange",
-                  }}
-                  className="m-0 py-0 pl-1 fw-bold"
-                >
-                  {name}
-                </p> */}
                   {navLinks.map((link) => (
                     <NavLink
                       className="text-decoration-none"
@@ -627,7 +523,7 @@ const MainSidebar = () => {
                             ? "var(--primaryDashColorDark)"
                             : "var(--primaryDashMenuColor)",
                         }}
-                        className="text-decoration-none flex-nowrap text-start gap-3 d-flex justify-content-between "
+                        className="text-decoration-none flex-nowrap text-start gap-3 d-flex justify-content-between"
                       >
                         <div className="d-flex gap-1 flex-nowrap">
                           <p className="m-0">{link.icon}</p>
@@ -639,16 +535,68 @@ const MainSidebar = () => {
                     </NavLink>
                   ))}
                 </div>
-              )}
-            </div>
-          ))}
+              </div>
+            ) : (
+              <OverlayTrigger
+                key={name}
+                placement="right"
+                overlay={
+                  !extended ? (
+                    <Tooltip id={`tooltip-${name}`}>{name}</Tooltip>
+                  ) : (
+                    <span></span>
+                  )
+                }
+              >
+                <NavLink to={navLinks[0].to} className="text-decoration-none">
+                  <span
+                    style={{
+                      color: darkMode
+                        ? "var(--primaryDashColorDark)"
+                        : "var(--primaryDashMenuColor)",
+                      height: "3rem",
+                      outline: "none",
+                      border: "none",
+                    }}
+                    className="p-0 px-1 rounded-2 text-start gap-2 justify-between w-100 d-flex justify-content-between"
+                  >
+                    <div
+                      style={{ width: "fit-content" }}
+                      className="d-flex gap-2 my-auto"
+                    >
+                      <p
+                        style={{
+                          height: "30px",
+                          width: "30px",
+                          alignItems: "center",
+                          color: darkMode
+                            ? "var(--primaryDashColorDark)"
+                            : "var(--primaryDashMenuColor)",
+                        }}
+                        className="m-auto d-flex rounded-5 justify-content-center fs-5"
+                      >
+                        {icon}
+                      </p>
+                      <p
+                        style={{
+                          display:
+                            activeCategory || extended ? "block" : "none",
+                        }}
+                        className="my-auto"
+                      >
+                        {name}
+                      </p>
+                    </div>
+                  </span>
+                </NavLink>
+              </OverlayTrigger>
+            )
+          )}
       </div>
       <div
         style={{ height: "10vh" }}
-        className="d-flex align-items-center justify-content-start mx-2"
-      >
-        <DarkModeToggle />
-      </div>
+        className="d-flex align-items-center justify-content-start gap-2 mx-2 ms-3"
+      ></div>
     </div>
   );
 };

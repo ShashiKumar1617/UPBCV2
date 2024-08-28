@@ -1,4 +1,4 @@
-.dashboard-grid-employee {
+.dashboard-grid {
     padding: 0;
     margin: 0;
     max-height: 100dvh;
@@ -13,7 +13,7 @@
         "sidebar mainbar mainbar";
 }
 
-.employeenavbar-grid {
+.navbar-grid {
     height: 3.5rem !important;
     position: sticky;
     z-index: 1000;
@@ -31,7 +31,7 @@
 }
 
 
-.employeesidebar-grid {
+.sidebar-grid {
     position: sticky;
     grid-area: sidebar;
     max-height: 100vh;
@@ -39,6 +39,6 @@
     z-index: 90;
 }
 
-.employeemainbar-grid {
+.mainbar-grid {
     grid-area: mainbar;
 }

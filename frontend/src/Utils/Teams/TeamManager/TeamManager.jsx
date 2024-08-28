@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { SiMicrosoftteams } from "react-icons/si";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchAttendanceData } from "../../../Redux/Slices/attendanceSlice";
 import { useTheme } from "../../../Context/TheamContext/ThemeContext";
+import { IoLogInOutline } from "react-icons/io5";
 
 const TeamManager = () => {
   const dispatch = useDispatch();
@@ -10,10 +11,6 @@ const TeamManager = () => {
     (state) => state.attendance
   );
 
-  const [activeCategory, setActiveCategory] = useState(null);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [sortField, setSortField] = useState(null);
-  const [sortOrder, setSortOrder] = useState("asc");
   const { darkMode } = useTheme();
 
   useEffect(() => {
@@ -78,27 +75,6 @@ const TeamManager = () => {
     }
   };
 
-  const sortedAndFilteredData = attendanceData
-    .slice()
-    .filter((item) =>
-      item.FirstName.toLowerCase().includes(searchQuery.toLowerCase())
-    )
-    .sort((a, b) => {
-      if (sortField) {
-        const aValue = a[sortField];
-        const bValue = b[sortField];
-
-        if (typeof aValue === "string" && typeof bValue === "string") {
-          return sortOrder === "asc"
-            ? aValue.localeCompare(bValue)
-            : bValue.localeCompare(aValue);
-        } else {
-          return sortOrder === "asc" ? aValue - bValue : bValue - aValue;
-        }
-      }
-      return 0;
-    });
-
   if (status === "loading") {
     return <div>Loading...</div>;
   }
@@ -109,14 +85,21 @@ const TeamManager = () => {
 
   const reportingManager = localStorage.getItem("Email");
   const userType = localStorage.getItem("Account");
-  console.log(attendanceData);
+  const MyId = localStorage.getItem("_id");
+
+  const MyReportingManager = attendanceData
+    .filter((data) => data.userId === MyId)
+    .map((data) => data.reportManager)[0];
+
+  console.log(MyReportingManager);
 
   return (
     <div
       style={{
         height: "17rem",
         overflow: "hidden",
-        background: "#F5F5F6",
+        color: darkMode ? "black" : "White",
+        background: darkMode ? "#F5F5F6" : "#161515f6",
       }}
       className="px-3 shadow-sm rounded-2 d-flex flex-column gap-2 justify-content-between pb-3 pt-2"
     >
@@ -130,8 +113,9 @@ const TeamManager = () => {
             minHeight: "1.6rem",
             minWidth: "1.6rem",
             borderRadius: "50%",
+            background: darkMode ? "#ededf1f4" : "#1b1a1af0",
           }}
-          className="bg-white  d-flex align-items-center justify-content-center"
+          className="  d-flex align-items-center justify-content-center"
         >
           {userType >= 1 &&
             userType <= 4 &&
@@ -141,13 +125,17 @@ const TeamManager = () => {
         </span>
       </div>
       <div
-        className="p-1 bg-white px-3 rounded-3"
-        style={{ height: "14rem", overflow: "auto" }}
+        className="p-1 px-3 rounded-3"
+        style={{
+          height: "14rem",
+          overflow: "auto",
+          background: darkMode ? "#ededf1f4" : "#1b1a1af0",
+        }}
       >
         {userType == 1 && (
           <div>
             {attendanceData
-              .filter((data) => data.reportManager === reportingManager)
+              .filter((data) => data.Account === 2)
               .map((atten, index) => (
                 <div
                   key={index}
@@ -174,17 +162,29 @@ const TeamManager = () => {
                       />
                     </div>
                     <div className="text-capitalize">
-                      {atten.FirstName} {atten.LastName} <br />
-                      {atten.position}
+                      {" "}
+                      <span
+                        className="text-primary py-1 px-2 rounded-2"
+                        style={{ background: "#2984da21", fontSize: ".8rem" }}
+                      >
+                        {atten.position.PositionName}
+                      </span>{" "}
+                      <br />
+                      <span className="mx-1">
+                        {atten.FirstName} {atten.LastName}
+                      </span>
                     </div>
                   </div>
-
+                  <div className="ms-auto mr-3">
+                    {atten?.attendance?.loginTime[0]
+                      ? atten?.attendance?.loginTime[0]
+                      : "--"}
+                  </div>
                   <div
                     style={{ fontSize: ".8rem" }}
                     className="text-capitalize"
                   >
                     {getAttendanceStatus(atten?.attendance?.loginTime[0])}{" "}
-                    <br />
                   </div>
                 </div>
               ))}
@@ -193,7 +193,7 @@ const TeamManager = () => {
         {userType == 2 && (
           <div>
             {attendanceData
-              .filter((data) => data.reportManager === reportingManager)
+              .filter((data) => data.Account === 2)
               .map((atten, index) => (
                 <div
                   key={index}
@@ -220,16 +220,29 @@ const TeamManager = () => {
                       />
                     </div>
                     <div className="text-capitalize">
-                      {atten.FirstName} {atten.LastName} <br />
+                      {" "}
+                      <span
+                        className="text-primary py-1 px-2 rounded-2"
+                        style={{ background: "#2984da21", fontSize: ".8rem" }}
+                      >
+                        {atten.position.PositionName}
+                      </span>{" "}
+                      <br />
+                      <span className="mx-1">
+                        {atten.FirstName} {atten.LastName}
+                      </span>
                     </div>
                   </div>
-
+                  <div className="ms-auto mr-3">
+                    {atten?.attendance?.loginTime[0]
+                      ? atten?.attendance?.loginTime[0]
+                      : "--"}
+                  </div>
                   <div
                     style={{ fontSize: ".8rem" }}
                     className="text-capitalize"
                   >
                     {getAttendanceStatus(atten?.attendance?.loginTime[0])}{" "}
-                    <br />
                   </div>
                 </div>
               ))}
@@ -238,7 +251,7 @@ const TeamManager = () => {
         {userType == 3 && (
           <div>
             {attendanceData
-              // .filter((data) => data.reportManager === reportingManager)
+              .filter((data) => data.reportManager === MyReportingManager)
               .map((atten, index) => (
                 <div
                   key={index}
@@ -250,31 +263,48 @@ const TeamManager = () => {
                         height: "2.2rem",
                         width: "2.2rem",
                         borderRadius: "50%",
-                        background: "blue",
+                        background: atten?.profile?.image_url
+                          ? "transparent"
+                          : "blue",
                       }}
                     >
-                      <img
-                        style={{
-                          height: "100%",
-                          width: "100%",
-                          objectFit: "cover",
-                          borderRadius: "50%",
-                        }}
-                        src={atten?.profile?.image_url}
-                        alt=""
-                      />
+                      {atten?.profile?.image_url ? (
+                        <img
+                          style={{
+                            height: "100%",
+                            width: "100%",
+                            objectFit: "cover",
+                            borderRadius: "50%",
+                          }}
+                          src={atten?.profile?.image_url}
+                          alt="Profile"
+                        />
+                      ) : null}
                     </div>
                     <div className="text-capitalize">
-                      {atten.FirstName} {atten.LastName} <br />
-                    </div>
+                      {" "}
+                      <span
+                        className="text-primary py-1 px-2 rounded-2"
+                        style={{ background: "#2984da21", fontSize: ".8rem" }}
+                      >
+                        {atten.position.PositionName}
+                      </span>{" "}
+                      <br />
+                      <span className="mx-1">
+                        {atten.FirstName} {atten.LastName}
+                      </span>
+                    </div>{" "}
                   </div>
-
+                  <div className="ms-auto mr-3">
+                    {atten?.attendance?.loginTime[0]
+                      ? atten?.attendance?.loginTime[0]
+                      : "--"}
+                  </div>
                   <div
                     style={{ fontSize: ".8rem" }}
                     className="text-capitalize"
                   >
                     {getAttendanceStatus(atten?.attendance?.loginTime[0])}{" "}
-                    <br />
                   </div>
                 </div>
               ))}
@@ -310,16 +340,28 @@ const TeamManager = () => {
                       />
                     </div>
                     <div className="text-capitalize">
-                      {atten.FirstName} {atten.LastName} <br />
+                      <span
+                        className="text-primary py-1 px-2 rounded-2"
+                        style={{ background: "#2984da21", fontSize: ".8rem" }}
+                      >
+                        {atten.position.PositionName}
+                      </span>
+                      <br />
+                      <span className="mx-1">
+                        {atten.FirstName} {atten.LastName}
+                      </span>
                     </div>
                   </div>
-
+                  <div className="ms-auto mr-3">
+                    {atten?.attendance?.loginTime[0]
+                      ? atten?.attendance?.loginTime[0]
+                      : "--"}
+                  </div>
                   <div
                     style={{ fontSize: ".8rem" }}
                     className="text-capitalize"
                   >
                     {getAttendanceStatus(atten?.attendance?.loginTime[0])}{" "}
-                    <br />
                   </div>
                 </div>
               ))}

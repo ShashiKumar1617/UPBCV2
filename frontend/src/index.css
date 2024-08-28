@@ -347,8 +347,7 @@ code {
 }
 
 .active {
-  background-color: rgb(23, 119, 230) !important;
-  color: rgba(100, 193, 255, 0.87) !important;
+  background-color: #F5F5FF !important;
 }
 
 .selected-employee-email:hover span {

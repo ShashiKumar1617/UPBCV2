@@ -1,57 +1,50 @@
 import React from "react";
-import "./EmpDash.css";
-import EmpTaskChart from "./EmpChart.jsx/EmpTaskChart";
-import WelcomeBoard from "../../../Pages/WelcomeBoard/WelcomeBoard";
 import MyTodaysLoginData from "../WelcomeBoard/MyTodaysLoginData/MyTodaysLoginData";
-import TittleHeader from "../../../Pages/TittleHeader/TittleHeader";
-import AttendanceDetails from "../attendance/AttendanceDetails";
-import AttendanceCard from "../../../Utils/AttendanceCard/AttendanceCard";
-import EmployeeLeaveDash from "../../../Utils/EmployeeLeaveDash/EmployeeLeaveDash";
 import AdminNews from "../../../Utils/AdminNews/AdminNews";
-import TaskDash from "../../../Utils/TaskDash/TaskDash";
+import AttendanceCard from "../../../Utils/AttendanceCard/AttendanceCard";
 import UpcomingBirthdays from "./CountData/UpcomingBirthdays";
 import HolidayDash from "../../../Utils/HolidayDash/HolidayDash";
 import TeamManager from "../../../Utils/Teams/TeamManager/TeamManager";
+import EmployeeLeaveDash from "../../../Utils/EmployeeLeaveDash/EmployeeLeaveDash";
+import TaskDash from "../../../Utils/TaskDash/TaskDash";
+import LeaveComponentHrDash from "../../../Utils/LeaveComponentHrDash/LeaveComponentHrDash";
 
-const HRDash = () => {
+const HrDash = () => {
+  const displayComponents = [
+    {
+      component: <MyTodaysLoginData />,
+      display: "col-6 col-md-4 col-md-3 p-2",
+    },
+    {
+      component: <EmployeeLeaveDash />,
+      display: "col-6 col-md-4 col-md-3 p-2",
+    },
+    { component: <AdminNews />, display: "col-6 col-md-4 col-md-3 p-2" },
+    { component: <AttendanceCard />, display: "col-6 col-md-4 col-md-3 p-2" },
+    // {
+    //   component: <LeaveComponentHrDash />,
+    //   display: "col-6 col-md-4 col-md-3 p-2",
+    // },
+    { component: <TaskDash />, display: "col-8 col-md-8 col-md-8 p-2" },
+    {
+      component: <UpcomingBirthdays />,
+      display: "col-6 col-md-4 col-md-3 p-2",
+    },
+    { component: <HolidayDash />, display: "col-6 col-md-4 col-md-3 p-2" },
+    { component: <TeamManager />, display: "col-6 col-md-4 col-md-3 p-2" },
+  ];
+
   return (
-    <div className="container-fluid py-2 ">
-      <div className="row justif-content-between row-gap-2 align-items-center">
-        <div className="col-12 col-md-6 col-lg-4">
-          <MyTodaysLoginData />
-        </div>
-        <div className="col-12 col-lg-4">
-          <EmployeeLeaveDash />
-        </div>
-        <div className="col-12 col-lg-4">
-          <AdminNews />
-        </div>
-        <div className="col-12 col-lg-4">
-          <AttendanceCard />
-        </div>
-        <div className="col-12 col-lg-8">
-          {/* <AttendanceDetails /> */}
-
-          <TaskDash />
-        </div>
-        <div className="col-12 col-lg-4">
-          {" "}
-          <UpcomingBirthdays />
-        </div>
-        <div className="col-12 col-lg-4">
-          {" "}
-          <HolidayDash />
-        </div>
-        <div className="col-12 col-lg-4">
-          {" "}
-          <TeamManager />
-        </div>
-      </div>
-      <div className="row justif-content-between row-gap-4 mt-3 align-items-center">
-        <div className="col-12">{/* <EmpTaskChart /> */}</div>
+    <div className="container-fluid py-2 pb-4">
+      <div className="row align-items-center">
+        {displayComponents.map(({ component, display }, index) => (
+          <div key={index} className={display}>
+            {component}
+          </div>
+        ))}
       </div>
     </div>
   );
 };
 
-export default HRDash;
+export default HrDash;

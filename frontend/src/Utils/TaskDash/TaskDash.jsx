@@ -5,11 +5,13 @@ import "./TaskDash.css";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { HiArrowLongRight, HiOutlineCalendarDays } from "react-icons/hi2";
 import { MdOutlineAddTask } from "react-icons/md";
+import { useTheme } from "../../Context/TheamContext/ThemeContext";
 
 const TaskDash = () => {
   const [tasks, setTasks] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { darkMode } = useTheme();
 
   const email = localStorage.getItem("Email");
 
@@ -81,21 +83,93 @@ const TaskDash = () => {
     return totalEmployees > 0 ? (completedTasks / totalEmployees) * 100 : 0;
   };
 
+  const TaskStatus = (key) => {
+    switch (key) {
+      case "Assigned":
+        return (
+          <span
+            className="p-1 px-2 d-flex align-items-center gap-1  rounded-2"
+            style={{
+              background: darkMode ? "#e1ea2f4b" : "#131414f1",
+              color: darkMode ? "#131414f1" : "#f3ff14c4",
+              fontSize: ".8rem",
+            }}
+          >
+            Assigned
+          </span>
+        );
+
+      case "Completed":
+        return (
+          <span
+            className="p-1 px-2 d-flex align-items-center gap-1  rounded-2"
+            style={{
+              background: darkMode ? "#3ee7284a" : "#131414f1",
+              color: darkMode ? "#131414f1" : "#1cdf4dc4",
+              fontSize: ".8rem",
+            }}
+          >
+            Completed
+          </span>
+        );
+      case "Cancelled":
+        return (
+          <span
+            className="p-1 px-2 d-flex align-items-center gap-1  rounded-2"
+            style={{
+              background: darkMode ? "#e1ea2f4b" : "#131414f1",
+              color: darkMode ? "#131414f1" : "#f3ff14c4",
+              fontSize: ".8rem",
+            }}
+          >
+            Cancelled
+          </span>
+        );
+      case "Rejected":
+        return (
+          <span
+            className="p-1 px-2 d-flex align-items-center gap-1  rounded-2"
+            style={{
+              background: darkMode ? "#e1ea2f4b" : "#131414f1",
+              color: darkMode ? "#131414f1" : "#f3ff14c4",
+              fontSize: ".8rem",
+            }}
+          >
+            Rejected
+          </span>
+        );
+
+      default:
+        return (
+          <span
+            className="p-1 px-2 d-flex align-items-center gap-1  rounded-2"
+            style={{
+              background: darkMode ? "#e1ea2f4b" : "#131414f1",
+              color: darkMode ? "#131414f1" : "#f3ff14c4",
+              fontSize: ".8rem",
+            }}
+          >
+            Pending
+          </span>
+        );
+    }
+  };
+
   return (
     <div
       style={{
         height: "17rem",
         overflow: "hidden",
-        background: "#F5F5F6",
+        background: darkMode ? "#F5F5F6" : "#161515f6",
       }}
-      className="px-3 scroll-container shadow-sm rounded-2 d-flex flex-column gap-2 justify-content-between pb-2 pt-2"
+      className="p-2 px-3 shadow-sm rounded-2 d-flex flex-column gap-2"
       onWheel={handleWheel}
     >
       <div
         style={{ height: "3vh" }}
         className="d-flex align-items-center justify-content-between"
       >
-        <h5 className="my-0 fw-normal  d-flex align-items-center gap-2">
+        <h5 className="my-1 fw-normal  d-flex align-items-center gap-2">
           <MdOutlineAddTask /> Team Task
         </h5>
         <Link
@@ -115,10 +189,8 @@ const TaskDash = () => {
         }}
       >
         {tasks
-          .filter(
-            (task) =>
-              task.status === "Pending" &&
-              task.employees.some((taskemp) => taskemp.empemail === email)
+          .filter((task) =>
+            task.employees.some((taskemp) => taskemp.empemail === email)
           )
           .reverse()
           .map((task, index) => (
@@ -129,19 +201,18 @@ const TaskDash = () => {
                 width: "45%",
                 minWidth: "25rem",
                 overflow: "hidden",
+                background: darkMode ? "#ffffffbc" : "#252424c3",
+                border: darkMode
+                  ? "1px solid #2524245a"
+                  : "1px solid #f2f2f26c",
               }}
-              className="shadow-sm rounded-3 d-flex flex-column justify-content-between p-2 border bg-light"
+              className="shadow-sm rounded-3 d-flex flex-column justify-content-between p-2 "
               key={index}
             >
               <div>
                 <div className="d-flex align-items-center justify-content-between">
                   <h6 className="m-0">{task.Taskname}</h6>
-                  <span
-                    className="mx-1 text-warning p-0 px-2 rounded-3"
-                    style={{ background: "#f8fbbe5f" }}
-                  >
-                    {task.status}
-                  </span>
+                  {TaskStatus(task.status)}
                 </div>
 
                 <div
@@ -150,8 +221,12 @@ const TaskDash = () => {
                 >
                   <div className="my-1">
                     <span
-                      style={{ width: "fit-content", background: "#cbffd1d1" }}
-                      className="p-0 px-2 d-flex align-items-center gap-1 text-success  rounded-0"
+                      style={{
+                        width: "fit-content",
+                        background: darkMode ? "#a2f6804a" : "#a6f4963c",
+                        color: darkMode ? "#20680dc4" : "#3ddc11c4",
+                      }}
+                      className="p-1 px-2 d-flex align-items-center gap-1  rounded-2"
                     >
                       <HiOutlineCalendarDays /> {formatDOB(task.startDate)}
                     </span>
@@ -159,8 +234,12 @@ const TaskDash = () => {
                   <HiArrowLongRight />
                   <div>
                     <span
-                      style={{ width: "fit-content", background: "#ffc4c461" }}
-                      className="p-0 px-2 d-flex align-items-center gap-1 text-danger  rounded-0"
+                      style={{
+                        width: "fit-content",
+                        background: darkMode ? "#f6a18049" : "#f4a4963b",
+                        color: darkMode ? "#681f0dc4" : "#ff6131ef",
+                      }}
+                      className="p-1 px-2 d-flex align-items-center gap-1  rounded-2"
                     >
                       <HiOutlineCalendarDays /> {formatDOB(task.endDate)}
                     </span>
@@ -178,9 +257,9 @@ const TaskDash = () => {
                 <div className="d-flex align-items-center  gap-3 justify-content-between p-1">
                   <div
                     style={{
-                      minHeight: ".5rem",
-                      height: ".5rem",
-                      maxHeight: ".5rem",
+                      minHeight: ".3rem",
+                      height: ".3rem",
+                      maxHeight: ".3rem",
                       width: "100%",
                       background: "#78788054",
                     }}
@@ -199,7 +278,7 @@ const TaskDash = () => {
                     {calculateProgress(task).toFixed(2)}%
                   </span>
                 </div>
-                <p style={{ fontSize: ".8rem" }} className="text-muted ">
+                <p style={{ fontSize: ".8rem" }}>
                   Last Update : {formatUpdateDate(task.updatedAt)}
                 </p>
               </div>

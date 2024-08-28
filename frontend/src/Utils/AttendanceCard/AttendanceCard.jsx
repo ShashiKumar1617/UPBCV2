@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { IoSunnyOutline, IoMoonOutline } from "react-icons/io5"; // Import moon icon
 import "./AttendanceCard.css";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import { useTheme } from "../../Context/TheamContext/ThemeContext";
 
 const AttendanceCard = () => {
+  const { darkMode } = useTheme();
   const [currentTime, setCurrentTime] = useState(
     new Date().toLocaleTimeString("en-US", {
       hour: "2-digit",
@@ -43,8 +45,20 @@ const AttendanceCard = () => {
 
   return (
     <div
-      className="p-2 rounded-2 background justify-content-between d-flex flex-column"
-      style={{ height: "17rem" }}
+      className="p-2 rounded-2 shadow-sm justify-content-between d-flex flex-column"
+      style={{
+        height: "17rem",
+        border: darkMode ? "1px, solid #ede7e7da" : "1px solid #55585d76",
+        background: !darkMode
+          ? "linear-gradient(#152d5b, rgba(22, 21, 21, 0.816))"
+          : "linear-gradient(#87aef6, rgb(255, 255, 255))",
+        // backgroundImage:
+        //   "url(https://media1.tenor.com/images/042292e831e2bb4d7207ee30908836b6/tenor.gif?itemid=15536525)",
+        // "url(https://media.giphy.com/media/SirUFDS5F83Go/giphy.gif)",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
     >
       <div className="d-flex  align-items-center justify-content-between px-2">
         <div className="d-flex flex-column gap-3 p-2">
@@ -64,10 +78,16 @@ const AttendanceCard = () => {
             className="d-flex flex-column rounded-1"
             style={{ overflow: "hidden", fontSize: "1rem" }}
           >
-            <span className="py-1 px-3" style={{ background: "#b6b0b0" }}>
+            <span
+              className="py-1 text-black px-3"
+              style={{ background: "#f8f8f8eb" }}
+            >
               {period}
             </span>
-            <span className="py-1 px-3 bg-light text-muted">
+            <span
+              style={{ background: "#dbd7d7" }}
+              className="py-1 px-3 text-muted"
+            >
               {period === "PM" ? "AM" : "PM"}
             </span>
           </div>

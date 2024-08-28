@@ -96,12 +96,10 @@ const MyTodaysLoginData = (props) => {
   return (
     <div
       style={{
-        color: darkMode
-          ? "var(--primaryDashColorDark)"
-          : "var(--secondaryDashMenuColor)",
         width: "100%",
         height: "17rem",
-        background: "#F5F5F6",
+        color: darkMode ? "black" : "White",
+        background: darkMode ? "#F5F5F6" : "#161515f6",
       }}
       className="d-flex flex-wrap shadow-sm rounded-2 align-items-center justify-content-evenly"
     >
@@ -111,11 +109,14 @@ const MyTodaysLoginData = (props) => {
             background: darkMode
               ? "var(--primaryDashMenuColor)"
               : "var(--primaryDashColorDark)",
-            // border: darkMode ? "1px solid black" : "1px solid white",
             height: "fit-content",
+            border: darkMode ? "1px solid #1f1e1e46" : "1px solid #f5f5f693",
             width: "45%",
           }}
           TytleStyle={"d-flex align-items-center justify-content-between p-2"}
+          baseStyle={{
+            border: darkMode ? "1px solid #1f1e1e46" : "1px solid #f5f5f693",
+          }}
           key={index}
           icon={item.icon}
           title={item.title}
@@ -151,14 +152,19 @@ export default MyTodaysLoginData;
 //   );
 // };
 
-const Labels = ({ title, data, icon, style, TytleStyle, background }) => {
+const Labels = ({
+  title,
+  data,
+  icon,
+  style,
+  TytleStyle,
+  background,
+  baseStyle,
+}) => {
   return (
-    <div className="border bg-white border-1 my-0 p-0 rounded-3" style={style}>
+    <div className="my-0 p-0 rounded-3" style={style}>
       <h4 className="my-1 text-center  fw-normal">{data}</h4>
-      <div
-        style={{ border: "1px solid rgba(0,0,0,.3)" }}
-        className="my-auto shadow  bg-white rounded-3"
-      >
+      <div style={baseStyle} className="my-auto shadow rounded-3">
         <span className={TytleStyle}>
           {title}
           <span

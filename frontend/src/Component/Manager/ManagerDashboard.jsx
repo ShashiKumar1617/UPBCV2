@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import "./DashboardHR.css";
+import "../../Style/Dashboard.css";
 import { HashRouter as Router } from "react-router-dom";
-import Sidebar from "./Sidebar.jsx";
 import MainContent from "./Router.jsx";
 import NavBar from "../../Pages/Navbar/NavBar.jsx";
 import SidebarSlider from "../../Pages/Sidebar/SidebarSlider.jsx";
@@ -35,9 +34,6 @@ const DashboardHR = (props) => {
           ? "var(--secondaryDashMenuColor)"
           : "var(--secondaryDashColorDark)",
         maxHeight: "100vh",
-        color: darkMode
-          ? "var(--secondaryDashColorDark)"
-          : "var(--secondaryDashMenuColor)",
         overflow: "hidden",
         position: "fixed",
         width: "100%",
@@ -47,37 +43,53 @@ const DashboardHR = (props) => {
     >
       <SidebarSlider />
       <Router>
-        <div className="dashboard-grid-manager">
-          <div
-            style={{
-              transform: isOpen ? "translateX(0%)" : "translateX(-500%)",
-              transition: "1s ease",
-            }}
-            className="sidebarsmall d-flex "
-          >
-            <SidebarSmallScreen />
-          </div>
-          <div className="navbar-grid  shadow-sm">
-            <NavBar
-              loginInfo={props.data}
-              checked={checked}
-              handleChange={handleChange}
-              onLogout={props.onLogout}
-            />
-          </div>
-          <div className="sidebar-grid">
-            {/* <Sidebar data={props.data} /> */}
-            <MainSidebar />
-          </div>
-          <div className="mainbar-grid py-5 py-md-3">
-            <MainContent />
-            <div
-              style={{ zIndex: "50", position: "absolute", bottom: "0" }}
-              className="HrPannelFooter bg-dark w-100 text-white"
-            >
-              <Footer />
+        <div
+          style={{
+            backgroundColor: darkMode
+              ? "var(--secondaryDashMenuColor)"
+              : "var(--secondaryDashColorDark)",
+            maxHeight: "100vh",
+            overflow: "hidden",
+            position: "fixed",
+            width: "100%",
+            left: "0",
+            top: "0",
+          }}
+        >
+          <SidebarSlider />
+          <Router>
+            <div className="dashboard-grid">
+              <div
+                style={{
+                  transform: isOpen ? "translateX(0%)" : "translateX(-500%)",
+                  transition: "1s ease",
+                }}
+                className="sidebarsmall d-flex "
+              >
+                <SidebarSmallScreen />
+              </div>
+              <div className="navbar-grid  shadow-sm">
+                <NavBar
+                  loginInfo={props.data}
+                  checked={checked}
+                  handleChange={handleChange}
+                  onLogout={props.onLogout}
+                />
+              </div>
+              <div className="sidebar-grid">
+                <MainSidebar />
+              </div>
+              <div className="mainbar-grid">
+                <MainContent />
+                <div
+                  style={{ zIndex: "50", position: "absolute", bottom: "0" }}
+                  className="HrPannelFooter bg-dark w-100 text-white"
+                >
+                  <Footer />
+                </div>
+              </div>
             </div>
-          </div>
+          </Router>
         </div>
       </Router>
     </div>

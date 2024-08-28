@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import "./DashboardHR.css";
+import "../../Style/Dashboard.css";
 import { HashRouter as Router } from "react-router-dom";
-import Sidebar from "./Sidebar.jsx";
 import MainContent from "./Router.jsx";
 import NavBar from "../../Pages/Navbar/NavBar.jsx";
 import { useSidebar } from "../../Context/AttendanceContext/smallSidebarcontext.jsx";
@@ -44,7 +43,7 @@ const DashboardHR = (props) => {
     >
       <SidebarSlider />
       <Router>
-        <div className="dashboard-grid-manager">
+        <div className="dashboard-grid">
           <div
             style={{
               transform: isOpen ? "translateX(0%)" : "translateX(-500%)",
@@ -63,7 +62,6 @@ const DashboardHR = (props) => {
             />
           </div>
           <div className="sidebar-grid">
-            {/* <Sidebar /> */}
             <MainSidebar />
           </div>
           <div className="mainbar-grid">

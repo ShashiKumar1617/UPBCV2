@@ -35,7 +35,8 @@ const EmployeeLeaveDash = () => {
       style={{
         height: "17rem",
         overflow: "hidden",
-        background: "#F5F5F6",
+        color: darkMode ? "black" : "White",
+        background: darkMode ? "#F5F5F6" : "#161515f6",
       }}
       className="p-2 px-3 shadow-sm rounded-2 d-flex flex-column gap-2"
     >
@@ -52,21 +53,15 @@ const EmployeeLeaveDash = () => {
             <div className="d-flex justify-content-between px-3">
               <div className="d-flex">
                 Total:{" "}
-                <span className="text-primary mx-2 fw-bold">
-                  {leave.totalBalance}
-                </span>
+                <span className="text-primary mx-2">{leave.totalBalance}</span>
               </div>
               <div>
                 Taken:{" "}
-                <span className="text-primary mx-2 fw-bold">
-                  {leave.leaveTaken}
-                </span>
+                <span className="text-primary mx-2">{leave.leaveTaken}</span>
               </div>
               <div>
                 Balance:{" "}
-                <span className="text-primary mx-2 fw-bold">
-                  {leave.balance}
-                </span>
+                <span className="text-primary mx-2">{leave.balance}</span>
               </div>
             </div>
           </div>

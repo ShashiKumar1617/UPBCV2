@@ -26,7 +26,7 @@ attendanceRoute.get("/attendance/:id", findEmployeeAttendanceId);
 attendanceRoute.get("/holidays", findAllHolidays);
 
 attendanceRoute.get("/attendance-register/:year/:month", attendanceRegister);
-attendanceRoute.get("/todays-attendance", todaysAttendance);
+attendanceRoute.get("/todays-attendance",  todaysAttendance);
 
 // Route to fetch today's attendance for a particular employee
 attendanceRoute.get(

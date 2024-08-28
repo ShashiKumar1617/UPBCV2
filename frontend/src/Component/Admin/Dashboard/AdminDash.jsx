@@ -1,43 +1,37 @@
 import React from "react";
-import "../AdminDash.css";
-import TaskChart from "../Dashboard/Chart/TaskChart";
-import DepartmentChart from "../../../Pages/Chart/DepartmentChart";
-import DailyAttendChart from "../../../Pages/Chart/DailyAttendChart";
-import EmployeeLogCount from "../../../Pages/Chart/EmployeeLogCount";
-import AdminEmployeeTable from "../../../Pages/Chart/EmployeeCountTable";
 import MyTodaysLoginData from "../../Employee/WelcomeBoard/MyTodaysLoginData/MyTodaysLoginData";
-import WelcomeBoard from "../../../Pages/WelcomeBoard/WelcomeBoard";
-import TittleHeader from "../../../Pages/TittleHeader/TittleHeader";
+import TeamManager from "../../../Utils/Teams/TeamManager/TeamManager";
+import AdminNews from "../../../Utils/AdminNews/AdminNews";
+import UpcomingBirthdays from "../../Employee/Dashboard/CountData/UpcomingBirthdays";
+import HolidayDash from "../../../Utils/HolidayDash/HolidayDash";
+import EmployeeLogCount from "../../../Pages/Chart/EmployeeLogCount";
+import DailyAttendChart from "../../../Pages/Chart/DailyAttendChart";
+import DepartmentChart from "../../../Pages/Chart/DepartmentChart";
+import AttendanceCard from "../../../Utils/AttendanceCard/AttendanceCard";
+import EmployeeCounts from "../../../Utils/EmployeeCounts/EmployeeCounts";
 
 const AdminDash = () => {
+  const displayComponents = [
+    { compName: <MyTodaysLoginData /> },
+    { compName: <EmployeeCounts /> },
+    { compName: <TeamManager /> },
+    { compName: <AdminNews /> },
+    { compName: <AttendanceCard /> },
+    { compName: <UpcomingBirthdays /> },
+    { compName: <HolidayDash /> },
+    { compName: <EmployeeLogCount /> },
+    { compName: <DailyAttendChart /> },
+    { compName: <DepartmentChart /> },
+  ];
+
   return (
-    <div className="container-fluid ">
-      <TittleHeader
-        title={"Dashboard"}
-        message={"View a comprehensive analysis of your data here."}
-      />
-      <MyTodaysLoginData />
-      <div className="row justif-content-between row-gap-2 mb-3 align-items-center">
-        <div className="col-6 col-md-6 col-lg-4">
-          <WelcomeBoard />
-        </div>
-        <div className="col-6 col-md-6 col-lg-4">
-          <AdminEmployeeTable />
-        </div>
-        <div className="col-12 col-md-6 col-lg-4">
-          <EmployeeLogCount />
-        </div>
-      </div>
-      <div className="row row-gap-3  my-2">
-        <div className="col-12 col-md-5 ">
-          <DailyAttendChart />
-        </div>
-        <div className="col-12 col-md-7 ">
-          <DepartmentChart />
-        </div>
-        <div className="col-12 col-lg-12 ">
-          <TaskChart />
-        </div>
+    <div className="container-fluid py-0 pb-4">
+      <div className="row justify-content-between align-items-center">
+        {displayComponents.map((Comp, index) => (
+          <div key={index} className="col-6 col-md-4 p-2">
+            <div>{Comp.compName}</div>
+          </div>
+        ))}
       </div>
     </div>
   );

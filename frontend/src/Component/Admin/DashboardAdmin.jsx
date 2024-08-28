@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { HashRouter as Router } from "react-router-dom";
 import AdminRoutes from "./Routes.jsx";
 import NavBar from "../../Pages/Navbar/NavBar.jsx";
-import "./DashboardAdmin.css";
+import "../../Style/Dashboard.css";
 import SidebarSlider from "../../Pages/Sidebar/SidebarSlider.jsx";
 import { useTheme } from "../../Context/TheamContext/ThemeContext.js";
 import Footer from "../../Pages/Footer/Footer.jsx";
@@ -34,9 +34,6 @@ const DashboardAdmin = (props) => {
           ? "var(--secondaryDashMenuColor)"
           : "var(--secondaryDashColorDark)",
         maxHeight: "100vh",
-        color: darkMode
-          ? "var(--secondaryDashColorDark)"
-          : "var(--secondaryDashMenuColor)",
         overflow: "hidden",
         position: "fixed",
         width: "100%",
@@ -46,7 +43,7 @@ const DashboardAdmin = (props) => {
     >
       <SidebarSlider />
       <Router>
-        <div className="dashboard-grid-manager">
+        <div className="dashboard-grid">
           <div
             style={{
               transform: isOpen ? "translateX(0%)" : "translateX(-500%)",
@@ -56,7 +53,7 @@ const DashboardAdmin = (props) => {
           >
             <SidebarSmallScreen />
           </div>
-          <div style={{ maxHeight: "fit-content" }} className="navbar-grid">
+          <div className="navbar-grid  shadow-sm">
             <NavBar
               loginInfo={props.data}
               checked={checked}
@@ -65,10 +62,9 @@ const DashboardAdmin = (props) => {
             />
           </div>
           <div className="sidebar-grid">
-            {/* <Sidebar /> */}
             <MainSidebar />
           </div>
-          <div className="mainbar-grid py-5 py-md-3">
+          <div className="mainbar-grid">
             <AdminRoutes />
             <div
               style={{ zIndex: "50", position: "absolute", bottom: "0" }}

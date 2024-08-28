@@ -58,3 +58,15 @@
   background-color: lightgray;
   overflow: hidden;
 }
+
+@keyframes glowing {
+  0% {
+    box-shadow: 0 0 1px blue, 0 0 2px blue, 0 0 2.5px blue;
+  }
+  50% {
+    box-shadow: 0 0 2px blue, 0 0 10px blue, 0 0 10px blue;
+  }
+  100% {
+    box-shadow: 0 0 1px blue, 0 0 2px blue, 0 0 2.5px blue;
+  }
+}

@@ -45,6 +45,7 @@ const NoticeManagement = () => {
         color: darkMode
           ? "var(--primaryDashColorDark)"
           : "var(--secondaryDashMenuColor)",
+        height: "95vh",
       }}
       className="container-fluid py-2"
     >

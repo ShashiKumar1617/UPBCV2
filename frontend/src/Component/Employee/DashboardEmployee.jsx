@@ -3,7 +3,7 @@ import NavBar from "../../Pages/Navbar/NavBar.jsx";
 import Sidebar from "./sidebar/Sidebar.jsx";
 import EmpRoutes from "./router/Routes.jsx";
 import { HashRouter as Router } from "react-router-dom";
-import "./DashboardEmployee.css";
+import "../../Style/Dashboard.css";
 import { useSidebar } from "../../Context/AttendanceContext/smallSidebarcontext.jsx";
 import { useTheme } from "../../Context/TheamContext/ThemeContext.js";
 import SidebarSlider from "../../Pages/Sidebar/SidebarSlider.jsx";
@@ -30,10 +30,10 @@ const DashboardEmployee = (props) => {
   return (
     <div
       style={{
+        maxHeight: "100vh",
         backgroundColor: darkMode
           ? "var(--secondaryDashMenuColor)"
           : "var(--secondaryDashColorDark)",
-        maxHeight: "100vh",
         color: darkMode
           ? "var(--secondaryDashColorDark)"
           : "var(--secondaryDashMenuColor)",
@@ -46,7 +46,7 @@ const DashboardEmployee = (props) => {
     >
       <SidebarSlider />
       <Router>
-        <div className="dashboard-grid-manager">
+        <div className="dashboard-grid">
           <div
             style={{
               transform: isOpen ? "translateX(0%)" : "translateX(-500%)",
@@ -56,7 +56,7 @@ const DashboardEmployee = (props) => {
           >
             <SidebarSmallScreen />
           </div>
-          <div className="navbar-grid  shadow-sm">
+          <div className="navbar-grid">
             <NavBar
               loginInfo={props.data}
               checked={checked}
@@ -67,7 +67,7 @@ const DashboardEmployee = (props) => {
           <div className="sidebar-grid">
             <MainSidebar />
           </div>
-          <div className="mainbar-grid py-5 py-md-3">
+          <div className="mainbar-grid pb-5 pb-md-3">
             <EmpRoutes data={props.data} />
             <div
               style={{ zIndex: "50", position: "absolute", bottom: "0" }}

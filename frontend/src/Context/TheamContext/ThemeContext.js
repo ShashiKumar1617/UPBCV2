@@ -1,26 +1,24 @@
-// ThemeContext.js
 import React, { createContext, useState, useContext, useEffect } from 'react';
+import toast from 'react-hot-toast';
 
-// Create the context
 const ThemeContext = createContext();
 
-// Create a custom hook to access the theme context
 export const useTheme = () => useContext(ThemeContext);
 
-// ThemeProvider component to provide the theme context to its children
 export const ThemeProvider = ({ children }) => {
-  // Initialize darkMode state from local storage, default to false
   const [darkMode, setDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem('darkMode');
-    return savedTheme ? JSON.parse(savedTheme) : false;
+    return savedTheme ? JSON.parse(savedTheme) : false; 
   });
 
-  // Function to toggle between dark and light modes
   const toggleTheme = () => {
-    setDarkMode(prevMode => !prevMode);
+    setDarkMode(prevMode => {
+      const newMode = !prevMode;
+      toast.success(newMode ? "Dark Mode Enabled" : "Light Mode Enabled");
+      return newMode;
+    });
   };
 
-  // Save the darkMode state to local storage whenever it changes
   useEffect(() => {
     localStorage.setItem('darkMode', JSON.stringify(darkMode));
   }, [darkMode]);

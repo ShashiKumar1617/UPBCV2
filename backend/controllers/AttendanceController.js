@@ -469,9 +469,10 @@ const todaysAttendance = async (req, res) => {
         FirstName: user.FirstName,
         LastName: user.LastName,
         empID: user.empID,
+        Account: user.Account,
         reportManager: user.reportManager,
-        position: user.position ? user.position.name : null, 
-        department: user.department ? user.department.name : null, 
+        position: user.position ? user.position[0] : null, 
+        department: user.department ? user.department[0] : null, 
         attendance: attendance,
         profile: user.profile,
       };

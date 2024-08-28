@@ -1,42 +1,51 @@
 import React from "react";
-import "./HRDash.css";
-import TaskChart from "../../../Pages/Chart/TaskChart";
-import DepartmentChart from "../../../Pages/Chart/DepartmentChart";
-import EmployeeCount from "../../../Pages/Chart/EmployeeCountTable";
-import DailyAttendChart from "../../../Pages/Chart/DailyAttendChart";
-import EmplooyeeLogCount from "./CountData/EmplooyeeLogCount";
-import WelcomeBoard from "../../../Pages/WelcomeBoard/WelcomeBoard";
 import MyTodaysLoginData from "../../Employee/WelcomeBoard/MyTodaysLoginData/MyTodaysLoginData";
-import TittleHeader from "../../../Pages/TittleHeader/TittleHeader";
+import TeamManager from "../../../Utils/Teams/TeamManager/TeamManager";
+import AdminNews from "../../../Utils/AdminNews/AdminNews";
+import UpcomingBirthdays from "../../Employee/Dashboard/CountData/UpcomingBirthdays";
+import HolidayDash from "../../../Utils/HolidayDash/HolidayDash";
+import EmployeeLogCount from "../../../Pages/Chart/EmployeeLogCount";
+import DailyAttendChart from "../../../Pages/Chart/DailyAttendChart";
+import DepartmentChart from "../../../Pages/Chart/DepartmentChart";
+import LeaveComponentHrDash from "../../../Utils/LeaveComponentHrDash/LeaveComponentHrDash";
+
 const HRDash = () => {
+  const displayComponents = [
+    {
+      component: <MyTodaysLoginData />,
+      display: "col-12 col-md-4 col-lg-4 p-2",
+    },
+    { component: <TeamManager />, display: "col-12 col-md-4 col-lg-4 p-2" },
+    { component: <AdminNews />, display: "col-12 col-md-4 col-lg-4 p-2" },
+    {
+      component: <UpcomingBirthdays />,
+      display: "col-12 col-md-4 col-lg-4 p-2",
+    },
+    {
+      component: <LeaveComponentHrDash />,
+      display: "col-12 col-md-4 col-lg-3 p-2",
+    },
+    { component: <HolidayDash />, display: "col-12 col-md-4 col-lg-5 p-2" },
+
+    {
+      component: <EmployeeLogCount />,
+      display: "col-12 col-md-4 col-lg-4 p-2",
+    },
+    {
+      component: <DailyAttendChart />,
+      display: "col-12 col-md-4 col-lg-4 p-2",
+    },
+    { component: <DepartmentChart />, display: "col-12 col-md-4 col-lg-4 p-2" },
+  ];
+
   return (
-    <div className="container-fluid mb-5 pb-3">
-      <TittleHeader
-        title={"Dashboard"}
-        message={"View a comprehensive analysis of your data here."}
-      />
-      <MyTodaysLoginData />
-      <div className="row justif-content-between align-items-center">
-        <div className="col-6 col-md-6 col-lg-4">
-          <WelcomeBoard />
-        </div>
-        <div className="col-6 col-md-6 col-lg-4">
-          <EmployeeCount />
-        </div>
-        <div className="col-12 col-md-6 col-lg-4">
-          <EmplooyeeLogCount />
-        </div>
-      </div>
-      <div className="row row-gap-3 my-2">
-        <div className="col-12 col-md-6 col-lg-3">
-          <DailyAttendChart />
-        </div>
-        <div className="col-12 col-md-6 col-lg-3">
-          <DepartmentChart />
-        </div>
-        <div className="col-12 col-lg-6 ">
-          <TaskChart />
-        </div>
+    <div className="container-fluid py-2 pb-4">
+      <div className="row align-items-center">
+        {displayComponents.map(({ component, display }, index) => (
+          <div key={index} className={display}>
+            {component}
+          </div>
+        ))}
       </div>
     </div>
   );

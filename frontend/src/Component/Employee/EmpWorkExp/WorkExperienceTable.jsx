@@ -4,13 +4,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { RingLoader } from "react-spinners";
 import { css } from "@emotion/core";
-import { FaPlus, FaRegEdit } from "react-icons/fa";
+import { FaRegEdit } from "react-icons/fa";
 import "./WorkExperienceTable.css";
 import SearchLight from "../../../img/Attendance/SearchLight.svg";
 import BASE_URL from "../../../Pages/config/config.js";
 import { useTheme } from "../../../Context/TheamContext/ThemeContext.js";
 import OverLayToolTip from "../../../Utils/OverLayToolTip.jsx";
-import TittleHeader from "../../../Pages/TittleHeader/TittleHeader.jsx";
+import { MdOutlineAdd } from "react-icons/md";
 const override = css`
   display: block;
   margin: 0 auto;
@@ -147,23 +147,23 @@ const WorkExperienceTable = (props) => {
     <div className="container-fluid">
       <div id="table-outer-div-scroll">
         <div className="d-flex justify-content-between my-2">
-          <TittleHeader
-            title={"Work Experience"}
-            numbers={rowData.length}
-            message={"You can view work experience details here."}
-          />
-
-          <div className="py-1">
-            <button
-              className="btn btn-primary d-flex align-items-center justify-content-center gap-2"
-              onClick={props.onAddWorkExperience}
-            >
-              <FaPlus />
-              <span className="d-none d-md-flex">Add Experience</span>
-            </button>
-          </div>
+          <h5>Work Experience ( {rowData.length} )</h5>
+          <span
+            onClick={props.onAddWorkExperience}
+            title="upload"
+            className="d-flex align-items-center justify-content-center"
+            style={{
+              height: "2.2rem",
+              width: "2.2rem",
+              borderRadius: "50%",
+              background: darkMode ? "#6fa5e486" : "#6aa9f090",
+              color: darkMode ? "#1a41c4" : "#ffffff",
+              cursor: "pointer",
+            }}
+          >
+            <MdOutlineAdd className="fs-5" />
+          </span>
         </div>
-
         <div id="clear-both" />
 
         {loading && (

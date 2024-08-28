@@ -3,11 +3,12 @@ import { IoMdDownload } from "react-icons/io";
 import { IoEye } from "react-icons/io5";
 import axios from "axios";
 import BASE_URL from "../../../Pages/config/config";
-import { MdDelete } from "react-icons/md";
+import { MdDelete, MdOutlineAdd } from "react-icons/md";
 import { toast } from "react-hot-toast";
 import { useTheme } from "../../../Context/TheamContext/ThemeContext";
 import { FaPlus } from "react-icons/fa";
 import SearchLight from "../../../img/Attendance/SearchLight.svg";
+import { RiUploadCloud2Line } from "react-icons/ri";
 
 const DocumentTable = (props) => {
   const [showDownloadbtn, setShowDownloadbtn] = useState(null);
@@ -52,30 +53,25 @@ const DocumentTable = (props) => {
 
   return (
     <div className="container-fluid py-2">
+      <div className="d-flex justify-content-between my-2">
+        <h5>Documents ( {documents.length} )</h5>
+        <span
+          onClick={props.onAddDocument}
+          title="upload"
+          className="d-flex align-items-center justify-content-center"
+          style={{
+            height: "2.2rem",
+            width: "2.2rem",
+            borderRadius: "50%",
+            background: darkMode ? "#6fa5e486" : "#6aa9f090",
+            color: darkMode ? "#1a41c4" : "#ffffff",
+            cursor: "pointer",
+          }}
+        >
+          <RiUploadCloud2Line className="fs-5" />
+        </span>
+      </div>
       <div>
-        <div className="d-flex justify-content-between">
-          <h6
-            style={{
-              color: darkMode
-                ? "var(--primaryDashColorDark)"
-                : "var(--primaryDashMenuColor)",
-            }}
-            className="my-auto"
-          >
-            Uploaded Documents ( {documents.length} )
-          </h6>
-
-          <div className="py-1">
-            <button
-              className="btn btn-primary d-flex align-items-center justify-content-center gap-2"
-              onClick={props.onAddDocument}
-            >
-              <FaPlus />
-              <span className="d-none d-md-flex">Upload Documents</span>
-            </button>
-          </div>
-        </div>
-
         <div
           className="mt-2"
           style={{
@@ -85,13 +81,13 @@ const DocumentTable = (props) => {
           }}
         >
           {documents.length > 0 ? (
-            <div className="row mx-2 pb-3 column-gap-4 row-gap-4">
+            <div className="row column-gap-4">
               {documents.reverse().map((data, index) => (
                 <div
                   key={index}
                   onMouseEnter={() => setShowDownloadbtn(index)}
                   onMouseLeave={() => setShowDownloadbtn(null)}
-                  className="d-flex flex-column gap-2 px-2 text-capitalize py-1 shadow"
+                  className="d-flex rounded-2 flex-column text-capitalize border"
                   style={{
                     height: "190px",
                     width: "250px",
@@ -106,15 +102,13 @@ const DocumentTable = (props) => {
                 >
                   <div
                     style={{
-                      height: "150px",
+                      height: "100%",
                       width: "100%",
                       overflow: "hidden",
                       background: `url(${data.files})`,
                       backgroundPosition: "center",
                       backgroundSize: "cover",
-                      opacity: "85%",
-                      boxShadow:
-                        "0 0 10px 1px rgba(192, 185, 185, 0.758) inset",
+                      opacity: "100%",
                     }}
                     className="m-auto position-relative "
                   >

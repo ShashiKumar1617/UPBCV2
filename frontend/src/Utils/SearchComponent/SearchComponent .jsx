@@ -1,19 +1,18 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Form, InputGroup, ListGroup } from "react-bootstrap";
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
-import { useTheme } from "../../Context/TheamContext/ThemeContext";
+import { Form, ListGroup } from "react-bootstrap";
+import { Link, useHistory } from "react-router-dom";
 import { SearchRouteData } from "./SearchRouteData";
 import BASE_URL from "../../Pages/config/config";
 import axios from "axios";
-import { IoSearchOutline } from "react-icons/io5";
 
 const SearchComponent = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [expanded, setExpanded] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(-1); // Track the selected index
   const inputRef = useRef(null);
   const [employeeData, setEmployeeData] = useState({});
-  const { darkMode } = useTheme();
   const id = localStorage.getItem("_id");
+  const history = useHistory();
 
   const loadEmployeeData = () => {
     axios
@@ -23,7 +22,6 @@ const SearchComponent = () => {
         },
       })
       .then((response) => {
-        console.log(response.data);
         setEmployeeData(response.data);
       })
       .catch((error) => {
@@ -37,6 +35,7 @@ const SearchComponent = () => {
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
+    setSelectedIndex(-1); // Reset selection when typing
   };
 
   const handleIconClick = () => {
@@ -46,6 +45,23 @@ const SearchComponent = () => {
   const handleLinkClick = () => {
     setSearchTerm("");
     setExpanded(false);
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "ArrowDown") {
+      setSelectedIndex((prevIndex) =>
+        Math.min(prevIndex + 1, filteredRoutes.length - 1)
+      );
+    } else if (event.key === "ArrowUp") {
+      setSelectedIndex((prevIndex) => Math.max(prevIndex - 1, 0));
+    } else if (event.key === "Enter" && selectedIndex >= 0) {
+      // Prevent default behavior (form submission)
+      event.preventDefault();
+      // Navigate to the selected route
+      history.push(filteredRoutes[selectedIndex].path);
+      setSearchTerm("");
+      setExpanded(false);
+    }
   };
 
   const filteredRoutes = searchTerm
@@ -90,76 +106,49 @@ const SearchComponent = () => {
     <div
       style={{
         width: "210px",
-        height: "2rem",
+        height: "2.2rem",
+        position: "relative",
       }}
-      className="searchComponent bg-white rounded-5"
       ref={inputRef}
     >
-      <InputGroup
-        className="rounded-2"
-        style={{ position: "relative", height: "100%" }}
-      >
-        <Form.Control
-          className="rounded-5 border-0"
-          placeholder="Search"
-          value={searchTerm}
-          onChange={handleSearch}
-          style={{
-            transition: "1s ease",
-            height: "2rem",
-            paddingLeft: "2rem",
-          }}
-        />
-        <span
-          style={{
-            position: "absolute",
-            top: "50%",
-            width: "25px",
-            height: "25px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            borderRadius: "50%",
-            left: "4px",
-            transform: "translate(-2px, -50%)",
-            zIndex: "2001",
-            // color: darkMode
-            //   ? "var(--primaryDashMenuColor)"
-            //   : "var(--primaryDashColorDark)",
-            // backgroundColor: darkMode
-            //   ? "var(--primaryDashColorDark)"
-            //   : "var(--primaryDashMenuColor)",
-            cursor: "pointer",
-          }}
-          onClick={handleIconClick}
-        >
-          <IoSearchOutline />
-        </span>
-      </InputGroup>
+      <Form.Control
+        className="rounded-0 border-0"
+        placeholder="Search"
+        style={{ height: "2.3rem" }}
+        value={searchTerm}
+        onChange={handleSearch}
+        onKeyDown={handleKeyDown}
+      />
 
       {filteredRoutes.length > 0 ? (
         <ListGroup
-          className="bg-white p-2"
+          className="p-2"
           style={{
             position: "absolute",
-            width: "209px",
+            width: "90%",
             borderRadius: "0",
             zIndex: "2000",
+            background: "#ebe8e8ea",
           }}
         >
           {filteredRoutes.map((route, index) => (
             <Link
-              style={{ textDecorationLine: "none" }}
+              style={{ textDecorationLine: "none", width: "100%" }}
               to={route.path}
               key={index}
               onClick={handleLinkClick}
             >
-              <span
-                style={{ textDecorationLine: "none" }}
+              <div
+                style={{
+                  textDecorationLine: "none",
+                  backgroundColor:
+                    index === selectedIndex ? "#abcdf56f" : "transparent",
+                  padding: "5px",
+                }}
                 className="text-dark search-hoverable-text"
               >
                 {route.name}
-              </span>
+              </div>
             </Link>
           ))}
         </ListGroup>
@@ -172,7 +161,7 @@ const SearchComponent = () => {
                 width: "210px",
                 textAlign: "start",
               }}
-              className="bg-white shadow-sm border rounded-0 py-1  px-3"
+              className="bg-white shadow-sm border rounded-0 py-1 px-3"
             >
               No result found
             </span>

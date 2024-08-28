@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import "./profilePage.css";
 
 import FloralAbstract from "./FloralAbstract.jpg";
-import { GoDotFill } from "react-icons/go";
+import { GoDotFill, GoPencil } from "react-icons/go";
 import { IoArrowBackCircle } from "react-icons/io5";
 import Education from "../EmpEducation/Education";
 import WorkExperience from "../EmpWorkExp/WorkExperience";
@@ -186,621 +186,507 @@ const PersonalInfoTable = (props) => {
   };
 
   return (
-    <div
-      // style={{ height: "95vh", overflow: "auto" }}
-      className="container-fluid"
-    >
+    <div className="container-fluid">
       <div id="clear-both" />
       {!loading ? (
-        <div className="d-flex flex-column">
-          <Link
-            className="m-2 mt-3"
-            style={{ width: "fit-content", padding: "0" }}
-            to="/hr/employee"
+        <div
+          style={{ maxHeight: "100%", minHeight: "85vh" }}
+          className="row mx-auto"
+        >
+          <div
+            style={{
+              backgroundPosition: "center",
+              backgroundSize: "cover",
+              background: darkMode ? "#FFFFFF" : "#0e0d0d",
+              color: darkMode ? "#080808" : "#ffffff",
+            }}
+            className="col-1 m-0 p-2 rounded-2 shadow-sm"
           >
-            <button
-              className="btn  m-0 d-flex gap-3 "
+            <span
+              onClick={() => onToggleSection("personalInfo")}
               style={{
-                background: "white",
-                color: "black",
+                whiteSpace: "pre",
+                background:
+                  activeSection === "personalInfo" ? "#a8fcf175" : "none",
+                color: darkMode ? "#000000" : "#ffffff",
+                borderRadius: "0",
               }}
-              id="add-button"
+              className="rounded-3 my-3 py-1 d-flex align-items-center px-3 gap-2"
             >
-              <IoArrowBackCircle className="my-auto fs-5" />{" "}
-              <span my-auto>Back</span>
-            </button>
-          </Link>
-          <div style={{ position: "relative" }} className="row">
+              Personal
+            </span>
+            <span
+              onClick={() => onToggleSection("companyInfo")}
+              style={{
+                whiteSpace: "pre",
+                background:
+                  activeSection === "companyInfo" ? "#99d9f394" : "none",
+                color: darkMode ? "#000000" : "#ffffff",
+                borderRadius: "0",
+              }}
+              className="rounded-3 my-3 py-1 d-flex align-items-center px-3 gap-2"
+            >
+              Company
+            </span>
+            <span
+              onClick={() => onToggleSection("Educationalinfo")}
+              style={{
+                whiteSpace: "pre",
+                background:
+                  activeSection === "Educationalinfo" ? "#99d9f394" : "none",
+                color: darkMode ? "#000000" : "#ffffff",
+                borderRadius: "0",
+              }}
+              className="rounded-3 my-3 py-1 d-flex align-items-center px-3 gap-2"
+            >
+              Education
+            </span>
+            <span
+              onClick={() => onToggleSection("Document")}
+              style={{
+                whiteSpace: "pre",
+                background: activeSection === "Document" ? "#99d9f394" : "none",
+                color: darkMode ? "#000000" : "#ffffff",
+                borderRadius: "0",
+              }}
+              className="rounded-3 my-3 py-1 d-flex align-items-center px-3 gap-2"
+            >
+              Documents
+            </span>
+            <span
+              onClick={() => onToggleSection("WorkExperience")}
+              style={{
+                whiteSpace: "pre",
+                background:
+                  activeSection === "WorkExperience" ? "#99d9f394" : "none",
+                color: darkMode ? "#000000" : "#ffffff",
+                borderRadius: "0",
+              }}
+              className="rounded-3 my-3 py-1 d-flex align-items-center px-3 gap-2"
+            >
+              Experience
+            </span>
+            <span
+              onClick={() => onToggleSection("otherInfo")}
+              style={{
+                whiteSpace: "pre",
+                background:
+                  activeSection === "otherInfo" ? "#99d9f394" : "none",
+                color: darkMode ? "#000000" : "#ffffff",
+                borderRadius: "0",
+              }}
+              className="rounded-3 my-3 py-1 d-flex align-items-center px-3 gap-2"
+            >
+              Family
+            </span>
+          </div>
+
+          <div className="row col-11 d-flex mx-auto flex-column gap-3">
+            <div className="m-0 p-0">
+              {activeSection === "personalInfo" && (
+                <h4 className="m-0 p-0">My Profile </h4>
+              )}
+              {activeSection === "companyInfo" && (
+                <h4 className="m-0 p-0">Company </h4>
+              )}
+              {activeSection === "Educationalinfo" && (
+                <h4 className="m-0 p-0">Education </h4>
+              )}
+              {activeSection === "Document" && (
+                <h4 className="m-0 p-0">Documents </h4>
+              )}
+              {activeSection === "WorkExperience" && (
+                <h4 className="m-0 p-0">Experience </h4>
+              )}
+              {activeSection === "otherInfo" && (
+                <h4 className="m-0 p-0">Family </h4>
+              )}
+            </div>
             <div
               style={{
-                minHeight: "80vh",
-                maxHeight: "80vh",
+                height: "fit-content",
+                backgroundPosition: "center",
+                backgroundSize: "cover",
+                overflow: "hidden",
+                background: darkMode ? "#FFFFFF" : "#0e0d0d",
+                color: darkMode ? "#080808" : "#ffffff",
+                width: "100%",
               }}
-              className="col-12 row mx-auto justify-content-center gap-3 w-100"
+              className="m-0 p-2 rounded-2 shadow-sm "
             >
-              <div
-                style={{
-                  height: "35rem",
-                  background: `url(${FloralAbstract})`,
-                  backgroundPosition: "center",
-                  backgroundSize: "cover",
-                  overflow: "hidden",
-                }}
-                className="col-12 m-0 p-0 rounded-0 col-lg-3 bg-white shadow"
-              >
-                {rowData.map((items, index) => {
-                  return (
-                    <div
-                      style={{
-                        backgroundColor: darkMode
-                          ? "rgba(258,258,258,.95)"
-                          : "rgba(0,0,0,.95)",
-                        position: "relative",
-                      }}
-                      className="d-flex flex-column gap-3 py-2 h-100"
-                      key={index}
-                    >
+              {rowData.map((items, index) => {
+                return (
+                  <div key={index}>
+                    <div className="d-flex align-items-center gap-3">
                       <div
-                        className="d-flex flex-column gap-2"
-                        style={{ width: "100%", padding: "1rem 1rem" }}
-                      >
-                        <div
-                          className="mx-auto"
-                          style={{
-                            height: "120px",
-                            width: "120px",
-                            border: "6px solid #39A7FF",
-                            borderRadius: "50%",
-                            position: "relative",
-                          }}
-                        >
-                          <img
-                            style={{
-                              height: "100%",
-                              width: "100%",
-                              borderRadius: "50%",
-                              objectFit: "cover",
-                            }}
-                            src={
-                              items?.data?.profile?.image_url
-                                ? items?.data?.profile?.image_url
-                                : "https://a.storyblok.com/f/191576/1200x800/215e59568f/round_profil_picture_after_.webp"
-                            }
-                            alt="employee"
-                          />
-                          {/* <button
-                            style={{
-                              height: "30px",
-                              width: "30px",
-                              borderRadius: "50%",
-                              border: "3px solid white",
-                              position: "absolute",
-                              bottom: "0",
-                              right: "0",
-                              overflow: "hidden",
-                              cursor: "pointer",
-                            }}
-                            className="btn bg-primary text-white d-flex p-1 "
-                          >
-                            <FaCamera
-                              style={{
-                                height: "100%",
-                                width: "100%",
-                              }}
-                              className="m-auto"
-                            />
-                          </button> */}
-                        </div>
-                        <p
-                          style={{ position: "absolute", top: "0", left: "0" }}
-                          className="btn btn-success px-2 py-0 m-2 rounded-5  shadow"
-                        >
-                          {items.empID}
-                        </p>
-                        {/* <p className="m-auto  fs-6">{items.empID}</p> */}
-                        <h3
-                          style={{
-                            color: darkMode
-                              ? "var(--secondaryDashColorDark)"
-                              : "var(--primaryDashMenuColor)",
-                          }}
-                          className="text-capitalize my-0   text-center"
-                        >
-                          {items.FirstName} {personalInfoData.LastName}
-                        </h3>
-                        <p
-                          style={{
-                            color: darkMode
-                              ? "var(--secondaryDashColorDark)"
-                              : "var(--primaryDashMenuColor)",
-                          }}
-                          className="text-capitalize my-0  text-center"
-                        >
-                          {items.RoleName}
-                        </p>
-                      </div>
-                      <div className="d-flex flex-column justify-content-between gap-2">
-                        <div
-                          style={rowBodyStyle}
-                          className="p-2  mx-3 d-flex px-3 justify-content-between shadow rounded-5"
-                        >
-                          <span
-                            style={{ alignItems: "center" }}
-                            className="my-auto d-flex gap-2 "
-                          >
-                            <GoDotFill className="text-primary fs-4" />
-                            Total Assigned Task
-                          </span>{" "}
-                          <span className="text-primary my-auto">
-                            {pendingTasksCount}
-                          </span>
-                        </div>
-                        <div
-                          style={rowBodyStyle}
-                          className="p-2  mx-3 d-flex px-3 justify-content-between shadow rounded-5"
-                        >
-                          <span
-                            style={{ alignItems: "center" }}
-                            className="my-auto d-flex gap-2 "
-                          >
-                            <GoDotFill className="text-warning fs-4" />
-                            Total Active Task
-                          </span>{" "}
-                          <span className=" text-warning my-auto">
-                            {acceptedTasksCount}
-                          </span>
-                        </div>
-                        <div
-                          style={rowBodyStyle}
-                          className="p-2 px-3  mx-3 d-flex   justify-content-between shadow rounded-5"
-                        >
-                          <span
-                            style={{ alignItems: "center" }}
-                            className="my-auto d-flex gap-2 "
-                          >
-                            {" "}
-                            <GoDotFill className="text-danger fs-4" />
-                            Total Rejected Task
-                          </span>{" "}
-                          <span className=" my-auto text-danger">
-                            {rejectedTasksCount}
-                          </span>
-                        </div>
-                        <div
-                          style={rowBodyStyle}
-                          className="p-2 px-3   mx-3 d-flex justify-content-between shadow rounded-5"
-                        >
-                          <span
-                            style={{ alignItems: "center" }}
-                            className="my-auto d-flex gap-2 "
-                          >
-                            <GoDotFill className="text-success fs-4" />
-                            Total Completed Task
-                          </span>{" "}
-                          <span className=" my-auto text-success">
-                            {completedTasksCount}
-                          </span>
-                        </div>
-                      </div>
-                      <span
-                        onClick={() => props.onEditPersonalInfo(items.data)}
                         style={{
-                          borderBottom:
-                            activeSection === "documentDetails"
-                              ? "4px solid blue"
-                              : "none",
-                          borderRadius: "0",
-                          position: "absolute",
-                          bottom: "0",
-                          left: "0",
-                          cursor: "pointer",
+                          height: "4rem",
+                          width: "4rem",
+                          borderRadius: "50%",
                         }}
-                        className="btn px-3 w-100  btn-primary "
                       >
-                        Update Details
-                      </span>
+                        <img
+                          src={
+                            items?.data?.profile?.image_url
+                              ? items?.data?.profile?.image_url
+                              : "https://a.storyblok.com/f/191576/1200x800/215e59568f/round_profil_picture_after_.webp"
+                          }
+                          alt="employee"
+                          style={{
+                            height: "100%",
+                            width: "100%",
+                            objectFit: "cover",
+                            borderRadius: "50%",
+                          }}
+                        />
+                      </div>
+                      <div>
+                        <h4 className="m-1">
+                          {items.FirstName} {personalInfoData.LastName}
+                        </h4>
+                        {/* <p className="m-0">{items.empID}</p> */}
+
+                        <p className="m-1">{items.Email}</p>
+                        <div className="d-flex align-items-center gap-2">
+                          <p
+                            style={{ width: "fit-content" }}
+                            className={
+                              darkMode ? "badge-warning" : "badge-warning-dark"
+                            }
+                          >
+                            {items.DepartmentName}
+                          </p>
+                          <p
+                            style={{ width: "fit-content" }}
+                            className={
+                              darkMode ? "badge-primary" : "badge-primary-dark"
+                            }
+                          >
+                            {items.PositionName}
+                          </p>
+                        </div>
+                      </div>
                     </div>
-                  );
-                })}
-              </div>
-              <div
-                className="col-12 rounded-0 col-lg-7 p-0 m-0  border shadow"
-                style={rowBodyStyle}
-              >
-                <div
-                  id="personalinfo"
-                  style={{ height: "100%", overflow: "hidden" }}
-                >
+                  </div>
+                );
+              })}
+            </div>
+            <div
+              style={{
+                height: "fit-content",
+                backgroundPosition: "center",
+                backgroundSize: "cover",
+                overflow: "hidden",
+                background: darkMode ? "#FFFFFF" : "#0e0d0d",
+                color: darkMode ? "#080808" : "#ffffff",
+              }}
+              className="m-0 p-2 rounded-2 shadow-sm "
+            >
+              {activeSection === "personalInfo" && (
+                <div className="row">
+                  <div
+                    className="pb-0"
+                    id="companyinfo"
+                    style={{
+                      overflow: "hidden auto",
+                      height: "100%",
+                      width: "100%",
+                      scrollbarWidth: "thin",
+                    }}
+                  >
+                    {rowData.map((items, index) => {
+                      return (
+                        <div className="row w-100 rouned-2 container-fluid mx-auto justify-content-start py-3 row-gap-2">
+                          <div className="col-12 d-flex align-items-center justify-content-between">
+                            <h5>Information</h5>
+                            <span
+                              onClick={() =>
+                                props.onEditPersonalInfo(items.data)
+                              }
+                              className="d-flex align-items-center justify-content-center"
+                              style={{
+                                height: "2.1rem",
+                                width: "2.1rem",
+                                borderRadius: "50%",
+                                background: darkMode
+                                  ? "#6fa5e486"
+                                  : "#6aa9f090",
+                                color: darkMode ? "#1a41c4" : "#ffffff",
+                                cursor: "pointer",
+                              }}
+                            >
+                              <GoPencil />
+                            </span>
+                          </div>
+
+                          <div className="col-12 col-sm-6 d-flex flex-column">
+                            <label htmlFor="" className="text-muted">
+                              First Name
+                            </label>
+                            <input
+                              type="text"
+                              className="border-0 rounded-1 py-2 text-capitalize px-1 bg-light "
+                              value={items.FirstName}
+                            />
+                          </div>
+                          <div className="col-12 col-sm-6 d-flex flex-column">
+                            <label htmlFor="" className="text-muted">
+                              Last Name
+                            </label>
+                            <input
+                              type="text"
+                              className="border-0 rounded-1 py-2 text-capitalize px-1 bg-light "
+                              value={items.LastName}
+                            />
+                          </div>
+                          <div className="col-12 col-sm-6 d-flex flex-column">
+                            <label htmlFor="" className="text-muted">
+                              Phone Number
+                            </label>
+                            <input
+                              type="text"
+                              className="border-0 rounded-1 py-2 text-capitalize px-1 bg-light "
+                              value={items.ContactNo}
+                            />
+                          </div>
+                          <div className="col-12 col-sm-6 d-flex flex-column">
+                            <label htmlFor="" className="text-muted">
+                              Emergency Contact
+                            </label>
+                            <input
+                              type="text"
+                              className="border-0 rounded-1 py-2 text-capitalize px-1 bg-light "
+                              value={items.EmergencyContactNo}
+                            />
+                          </div>
+                          <div className="col-12 col-sm-6 d-flex flex-column">
+                            <label htmlFor="" className="text-muted">
+                              Presonal Email
+                            </label>
+                            <input
+                              type="text"
+                              className="border-0 rounded-1 py-2 text-capitalize px-1 bg-light "
+                              value={items.presonalEmail}
+                            />
+                          </div>
+                          <div className="col-12 col-sm-6 d-flex flex-column">
+                            <label htmlFor="" className="text-muted">
+                              Gender
+                            </label>
+                            <input
+                              type="text"
+                              className="border-0 rounded-1 py-2 text-capitalize px-1 bg-light "
+                              value={items.Gender}
+                            />
+                          </div>
+                          <div className="col-12 col-sm-6 d-flex flex-column">
+                            <label htmlFor="" className="text-muted">
+                              Date of Birth
+                            </label>
+                            <input
+                              type="text"
+                              className="border-0 rounded-1 py-2 text-capitalize px-1 bg-light "
+                              value={items.DOB.slice(0, 10)}
+                            />
+                          </div>
+                          <div className="col-12 col-sm-6 d-flex flex-column">
+                            <label htmlFor="" className="text-muted">
+                              Blood Group
+                            </label>
+                            <input
+                              type="text"
+                              className="border-0 rounded-1 py-2 text-capitalize px-1 bg-light "
+                              value={items.BloodGroup}
+                            />
+                          </div>
+                          <div className="col-12 col-sm-6 d-flex flex-column">
+                            <label htmlFor="" className="text-muted">
+                              PAN Number
+                            </label>
+                            <input
+                              type="text"
+                              className="border-0 rounded-1 py-2 text-capitalize px-1 bg-light "
+                              value={items.PANcardNo}
+                            />
+                          </div>
+                          <div className="col-12 col-sm-6 d-flex flex-column">
+                            <label htmlFor="" className="text-muted">
+                              Present Address
+                            </label>
+
+                            <textarea
+                              type="text"
+                              className="border-0 rounded-1 py-2 text-capitalize px-1 bg-light "
+                              value={items.PresentAddress}
+                            />
+                          </div>
+                          <div className="col-12 col-sm-6 d-flex flex-column">
+                            <label htmlFor="" className="text-muted">
+                              Permanent Address
+                            </label>
+
+                            <textarea
+                              type="text"
+                              className="border-0 rounded-1 py-2 text-capitalize px-1 bg-light "
+                              value={items.PermanetAddress}
+                            />
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+              {activeSection === "companyInfo" && (
+                <div className="row">
                   <div
                     style={{
-                      background: darkMode
-                        ? "var(--secondaryDashMenuColor)"
-                        : "var(--secondaryDashColorDark)",
-                      color: darkMode
-                        ? "var(--secondaryDashColorDark)"
-                        : "var(--primaryDashMenuColor)",
-                      maxWidth: "100%",
-                      overflow: "auto",
+                      overflow: "hidden auto",
+                      height: "100%",
+                      scrollbarWidth: "thin",
                     }}
-                    className="shift-pages border w-100 shadow-sm d-flex justify-content-start gap-2 px-0 mb-3"
                   >
-                    <span
-                      onClick={() => onToggleSection("personalInfo")}
-                      style={{
-                        whiteSpace: "pre",
-                        borderBottom:
-                          activeSection === "personalInfo"
-                            ? "4px solid blue"
-                            : "none",
-                        borderRadius: "0",
-                        color: darkMode
-                          ? "var(--secondaryDashColorDark)"
-                          : "var(--primaryDashMenuColor)",
-                      }}
-                      className="btn d-flex align-items-center px-1 justify-content-center gap-2 "
-                    >
-                      Personal
-                    </span>
-                    <span
-                      onClick={() => onToggleSection("companyInfo")}
-                      style={{
-                        whiteSpace: "pre",
-                        borderBottom:
-                          activeSection === "companyInfo"
-                            ? "4px solid blue"
-                            : "none",
-                        borderRadius: "0",
-                        color: darkMode
-                          ? "var(--secondaryDashColorDark)"
-                          : "var(--primaryDashMenuColor)",
-                      }}
-                      className="btn d-flex align-items-center px-1 justify-content-center gap-2 "
-                    >
-                      Company
-                    </span>
-                    <span
-                      onClick={() => onToggleSection("Educationalinfo")}
-                      style={{
-                        whiteSpace: "pre",
-                        borderBottom:
-                          activeSection === "Educationalinfo"
-                            ? "4px solid blue"
-                            : "none",
-                        borderRadius: "0",
-                        color: darkMode
-                          ? "var(--secondaryDashColorDark)"
-                          : "var(--primaryDashMenuColor)",
-                      }}
-                      className="btn d-flex align-items-center px-1 justify-content-center gap-2 "
-                    >
-                      Education
-                    </span>
-
-                    <span
-                      onClick={() => onToggleSection("Document")}
-                      style={{
-                        whiteSpace: "pre",
-                        borderBottom:
-                          activeSection === "Document"
-                            ? "4px solid blue"
-                            : "none",
-                        borderRadius: "0",
-                        color: darkMode
-                          ? "var(--secondaryDashColorDark)"
-                          : "var(--primaryDashMenuColor)",
-                      }}
-                      className="btn d-flex align-items-center px-1 justify-content-center gap-2 "
-                    >
-                      Documents
-                    </span>
-
-                    <span
-                      onClick={() => onToggleSection("WorkExperience")}
-                      style={{
-                        whiteSpace: "pre",
-                        borderBottom:
-                          activeSection === "WorkExperience"
-                            ? "4px solid blue"
-                            : "none",
-                        borderRadius: "0",
-                        color: darkMode
-                          ? "var(--secondaryDashColorDark)"
-                          : "var(--primaryDashMenuColor)",
-                      }}
-                      className="btn d-flex align-items-center px-1 justify-content-center gap-2 "
-                    >
-                      Experience
-                    </span>
-                    <span
-                      onClick={() => onToggleSection("otherInfo")}
-                      style={{
-                        whiteSpace: "pre",
-                        borderBottom:
-                          activeSection === "otherInfo"
-                            ? "4px solid blue"
-                            : "none",
-                        borderRadius: "0",
-                        color: darkMode
-                          ? "var(--secondaryDashColorDark)"
-                          : "var(--primaryDashMenuColor)",
-                      }}
-                      className="btn d-flex align-items-center px-1 justify-content-center gap-2 "
-                    >
-                      Family
-                    </span>
+                    {rowData.map((items, index) => {
+                      return (
+                        <div className="row container-fluid mx-auto justify-content-start py-3 row-gap-3">
+                          <div className="col-12 d-flex align-items-center justify-content-between">
+                            <h5>Details</h5>
+                            <span
+                              onClick={() =>
+                                props.onEditPersonalInfo(items.data)
+                              }
+                              className="d-flex align-items-center justify-content-center"
+                              style={{
+                                height: "2.1rem",
+                                width: "2.1rem",
+                                borderRadius: "50%",
+                                background: darkMode
+                                  ? "#6fa5e486"
+                                  : "#6aa9f090",
+                                color: darkMode ? "#1a41c4" : "#ffffff",
+                                cursor: "pointer",
+                              }}
+                            >
+                              <GoPencil />
+                            </span>
+                          </div>
+                          <div className="col-12 col-sm-6 d-flex flex-column">
+                            <label htmlFor="" className="text-muted">
+                              Employee ID
+                            </label>
+                            <input
+                              type="text"
+                              className="border-0 rounded-1 py-2 text-capitalize px-1 bg-light "
+                              value={items.empID}
+                            />
+                          </div>
+                          <div className="col-12 col-sm-6 d-flex flex-column">
+                            <label htmlFor="" className="text-muted">
+                              Work Email
+                            </label>
+                            <input
+                              type="text"
+                              className="border-0 rounded-1 py-2 text-capitalize px-1 bg-light "
+                              value={items.Email}
+                            />
+                          </div>
+                          <div className="col-12 col-sm-6 d-flex flex-column">
+                            <label htmlFor="" className="text-muted">
+                              Role
+                            </label>
+                            <input
+                              type="text"
+                              className="border-0 rounded-1 py-2 text-capitalize px-1 bg-light "
+                              value={items.RoleName}
+                            />
+                          </div>
+                          <div className="col-12 col-sm-6 d-flex flex-column">
+                            <label htmlFor="" className="text-muted">
+                              Position
+                            </label>
+                            <input
+                              type="text"
+                              className="border-0 rounded-1 py-2 text-capitalize px-1 bg-light "
+                              value={items.PositionName}
+                            />
+                          </div>
+                          <div className="col-12 col-sm-6 d-flex flex-column">
+                            <label htmlFor="" className="text-muted">
+                              Department
+                            </label>
+                            <input
+                              type="text"
+                              className="border-0 rounded-1 py-2 text-capitalize px-1 bg-light "
+                              value={items.DepartmentName}
+                            />
+                          </div>
+                          <div className="col-12 col-sm-6 d-flex flex-column">
+                            <label htmlFor="" className="text-muted">
+                              Date of Joining
+                            </label>
+                            <input
+                              type="text"
+                              className="border-0 rounded-1 py-2 text-capitalize px-1 bg-light "
+                              value={items.DateOfJoining}
+                            />
+                          </div>
+                          <div className="col-12 col-sm-6 d-flex flex-column">
+                            <label htmlFor="" className="text-muted">
+                              Account Access
+                            </label>
+                            <input
+                              type="text"
+                              className="border-0 rounded-1 py-2 text-capitalize px-1 bg-light "
+                              value={items.Account}
+                            />
+                          </div>
+                          <div className="col-12 col-sm-6 d-flex flex-column">
+                            <label htmlFor="" className="text-muted">
+                              Reporting Manager
+                            </label>
+                            <input
+                              type="text"
+                              className="border-0 rounded-1 py-2 text-capitalize px-1 bg-light "
+                              value={items.reportManager}
+                            />
+                          </div>
+                          <div className="col-12 col-sm-6 d-flex flex-column">
+                            <label htmlFor="" className="text-muted">
+                              Reporting HR
+                            </label>
+                            <input
+                              type="text"
+                              className="border-0 rounded-1 py-2 text-capitalize px-1 bg-light "
+                              value={items.reportHr}
+                            />
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
-                  {activeSection === "personalInfo" && (
-                    <div className="row">
-                      <div
-                        className="pb-5"
-                        id="companyinfo"
-                        style={{
-                          overflow: "hidden auto",
-                          height: "100%",
-                          width: "100%",
-                          scrollbarWidth: "thin",
-                        }}
-                      >
-                        {rowData.map((items, index) => {
-                          return (
-                            <div className="row w-100 container-fluid mx-auto justify-content-start py-3 row-gap-2">
-                              <TittleHeader
-                                title={"Personal Details"}
-                                message={"You can view personal details here."}
-                              />
-                              <div className="col-12 col-sm-6 d-flex flex-column">
-                                <label htmlFor="" className=" ">
-                                  First Name
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control rounded-1 shadow-sm text-capitalize"
-                                  value={items.FirstName}
-                                />
-                              </div>
-                              <div className="col-12 col-sm-6 d-flex flex-column">
-                                <label htmlFor="" className=" ">
-                                  Last Name
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control rounded-1 shadow-sm text-capitalize"
-                                  value={items.LastName}
-                                />
-                              </div>
-                              <div className="col-12 col-sm-6 d-flex flex-column">
-                                <label htmlFor="" className="  ">
-                                  Phone Number
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control rounded-1 shadow-sm"
-                                  value={items.ContactNo}
-                                />
-                              </div>
-                              <div className="col-12 col-sm-6 d-flex flex-column">
-                                <label htmlFor="" className="  ">
-                                  Emergency Contact
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control rounded-1 shadow-sm"
-                                  value={items.EmergencyContactNo}
-                                />
-                              </div>
-                              <div className="col-12 col-sm-6 d-flex flex-column">
-                                <label htmlFor="" className="  ">
-                                  Presonal Email
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control rounded-1 shadow-sm"
-                                  value={items.presonalEmail}
-                                />
-                              </div>
-                              <div className="col-12 col-sm-6 d-flex flex-column">
-                                <label htmlFor="" className="  ">
-                                  Gender
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control text-capitalize rounded-1 shadow-sm"
-                                  value={items.Gender}
-                                />
-                              </div>
-                              <div className="col-12 col-sm-6 d-flex flex-column">
-                                <label htmlFor="" className="  ">
-                                  Date of Birth
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control rounded-1 shadow-sm"
-                                  value={items.DOB.slice(0, 10)}
-                                />
-                              </div>
-                              <div className="col-12 col-sm-6 d-flex flex-column">
-                                <label htmlFor="" className="  ">
-                                  Blood Group
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control rounded-1 shadow-sm"
-                                  value={items.BloodGroup}
-                                />
-                              </div>
-                              <div className="col-12 col-sm-6 d-flex flex-column">
-                                <label htmlFor="" className="  ">
-                                  PAN Number
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control rounded-1 shadow-sm text-uppercase"
-                                  value={items.PANcardNo}
-                                />
-                              </div>
-                              <div className="col-12 col-sm-6 d-flex flex-column">
-                                <label htmlFor="" className="  ">
-                                  Present Address
-                                </label>
-
-                                <textarea
-                                  type="text"
-                                  className="form-control rounded-1 shadow-sm text-capitalize"
-                                  value={items.PresentAddress}
-                                />
-                              </div>
-                              <div className="col-12 col-sm-6 d-flex flex-column">
-                                <label htmlFor="" className="  ">
-                                  Permanent Address
-                                </label>
-
-                                <textarea
-                                  type="text"
-                                  className="form-control rounded-1 shadow-sm text-capitalize"
-                                  value={items.PermanetAddress}
-                                />
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  )}
-                  {activeSection === "companyInfo" && (
-                    <div className="row">
-                      <div
-                        style={{
-                          overflow: "hidden auto",
-                          height: "100%",
-                          scrollbarWidth: "thin",
-                        }}
-                      >
-                        {rowData.map((items, index) => {
-                          return (
-                            <div className="row container-fluid mx-auto justify-content-start py-3 row-gap-3">
-                              <TittleHeader
-                                title={"Company Details"}
-                                message={"You can view company details here."}
-                              />
-                              <div className="col-12 col-sm-6 d-flex flex-column">
-                                <label htmlFor="" className="  ">
-                                  Employee ID
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control rounded-1 shadow-sm text-uppercase"
-                                  value={items.empID}
-                                />
-                              </div>
-                              <div className="col-12 col-sm-6 d-flex flex-column">
-                                <label htmlFor="" className="  ">
-                                  Work Email
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control rounded-1 shadow-sm"
-                                  value={items.Email}
-                                />
-                              </div>
-                              <div className="col-12 col-sm-6 d-flex flex-column">
-                                <label htmlFor="" className="  ">
-                                  Role
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control rounded-1 shadow-sm text-capitalize"
-                                  value={items.RoleName}
-                                />
-                              </div>
-                              <div className="col-12 col-sm-6 d-flex flex-column">
-                                <label htmlFor="" className="  ">
-                                  Position
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control rounded-1 shadow-sm text-capitalize"
-                                  value={items.PositionName}
-                                />
-                              </div>
-                              <div className="col-12 col-sm-6 d-flex flex-column">
-                                <label htmlFor="" className="  ">
-                                  Department
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control rounded-1 shadow-sm text-capitalize"
-                                  value={items.DepartmentName}
-                                />
-                              </div>
-                              <div className="col-12 col-sm-6 d-flex flex-column">
-                                <label htmlFor="" className="  ">
-                                  Date of Joining
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control rounded-1 shadow-sm"
-                                  value={items.DateOfJoining}
-                                />
-                              </div>
-                              <div className="col-12 col-sm-6 d-flex flex-column">
-                                <label htmlFor="" className="  ">
-                                  Account Access
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control rounded-1 shadow-sm"
-                                  value={items.Account}
-                                />
-                              </div>
-                              <div className="col-12 col-sm-6 d-flex flex-column">
-                                <label htmlFor="" className="  ">
-                                  Reporting Manager
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control rounded-1 shadow-sm"
-                                  value={items.reportManager}
-                                />
-                              </div>
-                              <div className="col-12 col-sm-6 d-flex flex-column">
-                                <label htmlFor="" className="  ">
-                                  Reporting HR
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control rounded-1 shadow-sm"
-                                  value={items.reportHr}
-                                />
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  )}
-                  {activeSection === "Educationalinfo" && (
-                    <div className="w-100 container ">
-                      <Education data={props.data} />
-                    </div>
-                  )}
-
-                  {activeSection === "Document" && (
-                    <div className="w-100 container ">
-                      <Document data={props.data} />
-                    </div>
-                  )}
-                  {activeSection === "WorkExperience" && (
-                    <div className="w-100 container ">
-                      <WorkExperience data={props.data} />
-                    </div>
-                  )}
-                  {activeSection === "otherInfo" && (
-                    <div className="w-100 container ">
-                      <FamilyInfo data={props.data} />
-                    </div>
-                  )}
                 </div>
-              </div>
+              )}
+              {activeSection === "Educationalinfo" && (
+                <div className="w-100 h-100  container ">
+                  <Education data={props.data} />
+                </div>
+              )}
+
+              {activeSection === "Document" && (
+                <div className="w-100 container ">
+                  <Document data={props.data} />
+                </div>
+              )}
+              {activeSection === "WorkExperience" && (
+                <div className="w-100 container ">
+                  <WorkExperience data={props.data} />
+                </div>
+              )}
+              {activeSection === "otherInfo" && (
+                <div className="w-100 container ">
+                  <FamilyInfo data={props.data} />
+                </div>
+              )}
             </div>
           </div>
         </div>

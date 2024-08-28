@@ -4,6 +4,9 @@ import { ImBin } from "react-icons/im";
 import { AttendanceContext } from "../../../Context/AttendanceContext/AttendanceContext";
 import "./notification.css";
 import BASE_URL from "../../../Pages/config/config.js";
+import { useTheme } from "../../../Context/TheamContext/ThemeContext.js";
+import { Link } from "react-router-dom/cjs/react-router-dom.min.js";
+import { GoArrowRight } from "react-icons/go";
 
 const Notification = () => {
   const [selectAll, setSelectAll] = useState(false);
@@ -12,13 +15,14 @@ const Notification = () => {
   const { socket } = useContext(AttendanceContext);
   const id = localStorage.getItem("_id");
   const email = localStorage.getItem("Email");
+  const { darkMode } = useTheme();
 
   const loadEmployeeData = () => {
     axios
       .get(`${BASE_URL}/api/particularEmployee/${id}`, {
         headers: {
-          authorization: localStorage.getItem("token") || ""
-        }
+          authorization: localStorage.getItem("token") || "",
+        },
       })
       .then((response) => {
         setNotification(response.data.Notification);
@@ -74,8 +78,8 @@ const Notification = () => {
           { email },
           {
             headers: {
-              authorization: localStorage.getItem("token") || ""
-            }
+              authorization: localStorage.getItem("token") || "",
+            },
           }
         )
         .then((response) => {
@@ -93,7 +97,7 @@ const Notification = () => {
       const taskIDArray = selectedNotification.map((val) => val.taskId);
       const data = {
         employeeMail: email,
-        tasks: taskIDArray
+        tasks: taskIDArray,
       };
       if (selectAll) {
         clearAllHandler();
@@ -101,8 +105,8 @@ const Notification = () => {
         axios
           .post(`${BASE_URL}/api/multiSelectedNotificationDelete`, data, {
             headers: {
-              authorization: localStorage.getItem("token") || ""
-            }
+              authorization: localStorage.getItem("token") || "",
+            },
           })
           .then((response) => {
             setNotification(response.data.result.Notification);
@@ -116,16 +120,15 @@ const Notification = () => {
       }
     }
   };
-  const notificationDeleteHandler = (id) => {
-    console.log(id);
+  const notificationDeleteHandler = (taskId) => {
     axios
       .post(
-        `${BASE_URL}/api/notificationDeleteHandler/${id}`,
+        `${BASE_URL}/api/notificationDeleteHandler/${taskId}`,
         { email },
         {
           headers: {
-            authorization: localStorage.getItem("token") || ""
-          }
+            authorization: localStorage.getItem("token") || "",
+          },
         }
       )
       .then((response) => {
@@ -138,76 +141,141 @@ const Notification = () => {
         console.log(error);
       });
   };
-  console.log(notification);
+
+  const rowHeadStyle = {
+    verticalAlign: "middle",
+    whiteSpace: "pre",
+    background: darkMode
+      ? "var(--primaryDashMenuColor)"
+      : "var(--primaryDashColorDark)",
+    color: darkMode
+      ? "var(--primaryDashColorDark)"
+      : "var(--secondaryDashMenuColor)",
+    border: "none",
+    position: "sticky",
+    top: "0rem",
+    zIndex: "100",
+  };
+
+  const rowBodyStyle = {
+    verticalAlign: "middle",
+    whiteSpace: "pre",
+    background: darkMode
+      ? "var(--secondaryDashMenuColor)"
+      : "var(--secondaryDashColorDark)",
+    color: darkMode
+      ? "var(--secondaryDashColorDark)"
+      : "var(--primaryDashMenuColor)",
+    border: "none",
+  };
+
   return (
     <>
-      <div className="row">
-        <form className="d-flex col-8 flex-column gap-3">
-          <div>
-            <div className="p-2">
-              {" "}
-              <input
-                type="checkbox"
-                name=""
-                id=""
-                onChange={toggleSelectAll}
-                checked={selectAll}
-              />{" "}
-              <span>Select All</span>
+      {notification > 0 ? (
+        <div className="container-fluid d-flex flex-column gap-3">
+          <form
+            style={{ maxHeight: "78vh", overflow: "auto" }}
+            className="d-flex border flex-column gap-3"
+          >
+            <div>
+              <div className="p-2">
+                {" "}
+                <input
+                  type="checkbox"
+                  name=""
+                  id=""
+                  onChange={toggleSelectAll}
+                  checked={selectAll}
+                />{" "}
+                <span>Select All</span>
+              </div>
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th style={rowHeadStyle}>Select</th>
+                    <th style={rowHeadStyle}>task Name</th>
+                    <th style={rowHeadStyle}>Sender</th>
+                    <th style={rowHeadStyle}>Status</th>
+                    <th style={rowHeadStyle} className="text-end">
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {notification &&
+                    notification.map((val, index) => (
+                      <tr key={index}>
+                        <th style={rowBodyStyle}>
+                          <input
+                            type="checkbox"
+                            name=""
+                            id=""
+                            onChange={() => addSelectedNotification(val)}
+                            checked={selectedNotification.some(
+                              (noti) => noti.taskId === val.taskId
+                            )}
+                          />
+                        </th>
+                        <td style={rowBodyStyle}>{val.taskName}</td>
+                        <td style={rowBodyStyle}>{val.senderMail}</td>
+                        {val.status === "unseen" ? (
+                          <td style={rowBodyStyle}>
+                            <span className="py-1 px-2 border rounded-3">
+                              Unread
+                            </span>
+                          </td>
+                        ) : (
+                          <td style={rowBodyStyle}>read</td>
+                        )}
+                        <td style={rowBodyStyle} className="text-end">
+                          <td style={rowBodyStyle} className="text-end">
+                            <button
+                              className="btn btn-danger ms-auto px-2 rounded-3 d-flex align-items-center gap-1"
+                              onClick={() =>
+                                notificationDeleteHandler(val.taskId)
+                              }
+                            >
+                              <ImBin className="" /> Delete
+                            </button>
+                          </td>
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
             </div>
-            <table className="table">
-              <thead>
-                <tr>
-                  <th scope="col">Select</th>
-                  <th scope="col">task Name</th>
-                  <th scope="col">Sender</th>
-                  <th scope="col">Status</th>
-                  <th scope="col">Action</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {notification &&
-                  notification.map((val, index) => (
-                    <tr key={index}>
-                      <th scope="row">
-                        <input
-                          type="checkbox"
-                          name=""
-                          id=""
-                          onChange={() => addSelectedNotification(val)}
-                          checked={selectedNotification.some(
-                            (noti) => noti.taskId === val.taskId
-                          )}
-                        />
-                      </th>
-                      <td>{val.taskName}</td>
-                      <td>{val.senderMail}</td>
-                      {val.status === "unseen" ? (
-                        <td>Unread</td>
-                      ) : (
-                        <td>read</td>
-                      )}
-                      <td>
-                        <ImBin
-                          onClick={() => notificationDeleteHandler(val.taskId)}
-                          className="bin"
-                        />
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          </div>
-        </form>
-      </div>
-
-      <button
-        className="Notification_delete"
-        onClick={multiNotificationDeleteHandler}
-      >
-        Delete
-      </button>
+          </form>
+          <button
+            className="Notification_delete"
+            onClick={multiNotificationDeleteHandler}
+          >
+            Delete
+          </button>
+        </div>
+      ) : (
+        <div
+          style={{ height: "100%", width: "100%" }}
+          className="d-flex flex-column gap-3 align-items-center justify-content-center"
+        >
+          <img
+            style={{
+              height: "30%",
+              width: "auto",
+              // filter: darkMode ? "invert(0)" : "invert(1)",
+            }}
+            src="https://www.punditspace.io/images/empty-images/no-record.png"
+            alt=""
+          />{" "}
+          <p>Ooho! No Record Found</p>
+          <Link to="" className="btn btn-primary">
+            Go to Home{" "}
+            <span className="ms-3">
+              <GoArrowRight />
+            </span>
+          </Link>
+        </div>
+      )}
     </>
   );
 };

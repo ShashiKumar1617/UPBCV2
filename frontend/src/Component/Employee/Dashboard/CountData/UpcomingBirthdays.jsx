@@ -4,12 +4,14 @@ import { GiPartyPopper } from "react-icons/gi";
 import HappyBirthday from "./HappyBirthday.svg";
 import BASE_URL from "../../../../Pages/config/config";
 import { LuPartyPopper } from "react-icons/lu";
+import { useTheme } from "../../../../Context/TheamContext/ThemeContext";
 
 const UpcomingBirthdays = () => {
   const [employeeData, setEmployeeData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [rowData, setRowData] = useState([]);
   const [upcomingBirthdays, setUpcomingBirthdays] = useState([]);
+  const { darkMode } = useTheme();
 
   const loadEmployeeData = () => {
     axios
@@ -106,7 +108,8 @@ const UpcomingBirthdays = () => {
       style={{
         height: "17rem",
         overflow: "hidden",
-        background: "#F5F5F6",
+        color: darkMode ? "black" : "White",
+        background: darkMode ? "#F5F5F6" : "#161515f6",
       }}
       className="px-3 shadow-sm rounded-2 d-flex flex-column gap-2 justify-content-between pb-3 pt-2"
     >
@@ -120,8 +123,9 @@ const UpcomingBirthdays = () => {
             minHeight: "1.6rem",
             minWidth: "1.6rem",
             borderRadius: "50%",
+            background: darkMode ? "#ededf1d4" : "#252424c3",
           }}
-          className="bg-white  d-flex align-items-center justify-content-center"
+          className="d-flex align-items-center justify-content-center"
         >
           {upcomingBirthdays.length}
         </span>
@@ -129,13 +133,16 @@ const UpcomingBirthdays = () => {
       <div style={{ height: "13rem" }}>
         {upcomingBirthdays.length > 0 ? (
           <div
-            className="d-flex flex-column gap-3 p-3 rounded-3 bg-white h-100"
-            style={{ overflow: "auto" }}
+            className="d-flex flex-column gap-3 p-3 rounded-3 h-100"
+            style={{
+              overflow: "auto",
+              background: darkMode ? "#ededf1d4" : "#252424c3",
+            }}
           >
             {upcomingBirthdays.map((employee) => (
               <div className="" key={employee.empID}>
-                <div className="row ">
-                  <div className="col-5 d-flex align-items-center gap-2">
+                <div className="row mx-auto">
+                  <div className="col-6 d-flex align-items-center gap-2">
                     <div style={{ height: "32px", width: "32px" }}>
                       <img
                         style={{
@@ -163,10 +170,14 @@ const UpcomingBirthdays = () => {
                       </span>
                     </div>
                   </div>
-                  <div className="col-5 my-auto">
+                  <div className="col-4 my-auto">
                     <span
                       className="py-1 px-2 rounded-2"
-                      style={{ background: "#E3F3FF", fontSize: ".8rem" }}
+                      style={{
+                        background: darkMode ? "#2f99ea4a" : "#2c2cf341",
+                        color: darkMode ? "#572be8f0" : "#c8c2feed",
+                        fontSize: ".8rem",
+                      }}
                     >
                       {employee.birthdayMessage || "This week"}
                     </span>
@@ -176,11 +187,11 @@ const UpcomingBirthdays = () => {
                     </span>
                   </div>
                   <div
-                    className="col-2 d-flex align-items-center justify-content-center"
+                    className="col-2 my-auto mx-auto d-flex align-items-center justify-content-center"
                     style={{
                       height: "35px",
                       width: "35px",
-                      background: "#E3F3FF",
+                      background: darkMode ? "#2f99ea4a" : "#2c2cf341",
                       borderRadius: "50%",
                     }}
                   >

@@ -2,11 +2,13 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GiPartyFlags } from "react-icons/gi";
 import { fetchHolidays } from "../../Redux/Slices/holidaysSlice";
+import { useTheme } from "../../Context/TheamContext/ThemeContext";
 
 const HolidayDash = () => {
   const dispatch = useDispatch();
   const holidaysData = useSelector((state) => state.holidays.holidaysData);
   const status = useSelector((state) => state.holidays.status);
+  const { darkMode } = useTheme();
 
   useEffect(() => {
     if (status === "idle") {
@@ -14,14 +16,33 @@ const HolidayDash = () => {
     }
   }, [status, dispatch]);
 
-  console.log(holidaysData);
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  const currentMonth = new Date().getMonth(); // getMonth() returns 0-11
+  const currentYear = new Date().getFullYear();
+
+  const monthName = monthNames[currentMonth];
 
   return (
     <div
       style={{
         height: "17rem",
         overflow: "hidden",
-        background: "#F5F5F6",
+        color: darkMode ? "black" : "White",
+        background: darkMode ? "#F5F5F6" : "#161515f6",
       }}
       className="px-3 shadow-sm rounded-2 d-flex flex-column gap-2 justify-content-between pb-3 pt-2"
     >
@@ -36,33 +57,66 @@ const HolidayDash = () => {
             height: "25px",
             width: "25px",
             borderRadius: "50%",
-            background: "white",
+            background: darkMode ? "#ededf1d4" : "#252424c3",
           }}
         >
-          {holidaysData.length}
+          {
+            holidaysData.filter(
+              (holiday) =>
+                holiday.holidayYear === currentYear &&
+                holiday.holidayMonth === currentMonth + 1
+            ).length
+          }
         </span>
       </div>
-      <span>August, 2024</span>
+      <span className="text-end">
+        {monthName}, {currentYear}
+      </span>
       <div
-        style={{ height: "10rem", overflow: "auto" }}
-        className="bg-white rounded-3 p-2 py-3"
+        style={{
+          height: "12rem",
+          overflow: "auto",
+          background: darkMode ? "#ededf1d4" : "#252424c3",
+        }}
+        className="rounded-3 p-2 py-0"
       >
-        {holidaysData.map((holiday, index) => (
-          <div key={index} className="row mx-auto my-3 align-items-center">
-            <span className="col-1 d-flex align-items-center">
-              <div
-                style={{ height: ".5rem", width: ".5rem", borderRadius: "50%" }}
-                className="bg-primary"
-              ></div>
-            </span>
-            <span className="col-10 d-flex align-items-center">
-              {holiday.name}
-            </span>
-            <span className="col-1 d-flex align-items-center">
-              {new Date(holiday.date).getDate()}
-            </span>
-          </div>
-        ))}
+        {holidaysData
+          .filter(
+            (holiday) =>
+              (holiday.holidayYear === currentYear) &
+              (holiday.holidayMonth === currentMonth + 1)
+          )
+          .map((holiday, index) => (
+            <div
+              key={index}
+              className="d-flex align-items-center my-2 justify-content-between"
+            >
+              <span className="text-start d-flex align-items-center gap-3 ">
+                <span
+                  style={{
+                    height: "30px",
+                    width: "30px",
+                    background: darkMode ? "#ededf1f4" : "#1b1a1af0",
+                  }}
+                  className="d-flex align-items-center justify-content-center rounded-3"
+                >
+                  {holiday.holidayDate}
+                </span>{" "}
+                {holiday.holidayName}
+              </span>
+              <span
+                style={{
+                  background: darkMode ? "#2f99ea4a" : "#2c2cf341",
+                  color: darkMode ? "#572be8f0" : "#ffffff",
+                  fontSize: ".8rem",
+                  width: "fit-content",
+                }}
+                className="px-2 py-1 rounded-3"
+              >
+                {holiday.holidayType}
+              </span>
+            </div>
+          ))}
       </div>
     </div>
   );
