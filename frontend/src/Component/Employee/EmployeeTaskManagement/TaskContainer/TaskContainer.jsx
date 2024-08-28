@@ -1,38 +1,85 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import EmployeeNewTask from "../EmployeeNewTask";
+import EmployeeActiveTask from "../EmployeeActiveTask";
+import EmployeeCompletedTask from "../EmployeeCompleteTask";
+import EmployeeRejectTask from "../EmployeeRejectTask";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchTasks } from "../../../../Redux/Slices/tasksSlice";
+// import TittleHeader from "../../../../Pages/TittleHeader/TittleHeader";
 
 const TaskContainer = () => {
+  const dispatch = useDispatch();
+  const id = localStorage.getItem("_id");
+  const { tasks, loading, error } = useSelector((state) => state.tasks);
+  const email = localStorage.getItem("Email");
+
+  useEffect(() => {
+    dispatch(fetchTasks());
+  }, [dispatch]);
+
+  const [activeTask, setActiveTask] = useState("newTask");
+
+  const renderTaskComponent = () => {
+    switch (activeTask) {
+      case "activeTask":
+        return <EmployeeActiveTask />;
+      case "taskComplete":
+        return <EmployeeCompletedTask />;
+      case "taskReject":
+        return <EmployeeRejectTask />;
+      default:
+        return <EmployeeNewTask />;
+    }
+  };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
+
   return (
-    <div>
+    <div className="container-fluid">
       <div className="d-flex align-items-center gap-2 justify-content-end">
-        <Link
-          className="btn shadow-sm border"
-          style={{ background: "#F5F5F5" }}
-          to="/employee/newTask"
+        <button
+          className="btn shadow-sm "
+          style={{
+            background: activeTask === "newTask" ? "#5d62e89a" : "#F5F5F5",
+            color: activeTask === "newTask" ? "#F5F5F5" : "#1b20a4d3",
+          }}
+          onClick={() => setActiveTask("newTask")}
         >
-          New
-        </Link>
-        <Link
+          New Task
+        </button>
+        <button
           className="btn shadow-sm border"
-          style={{ background: "#F5F5F5" }}
-          to="/employee/activeTask"
+          style={{
+            background: activeTask === "activeTask" ? "#5d62e89a" : "#F5F5F5",
+            color: activeTask === "activeTask" ? "#F5F5F5" : "#1b20a4d3",
+          }}
+          onClick={() => setActiveTask("activeTask")}
         >
-          Active
-        </Link>
-        <Link
-          className="btn shadow-sm border"
-          style={{ background: "#F5F5F5" }}
-          to="/employee/taskcomplete"
+          Active Task
+        </button>
+        <button
+          className="btn shadow-sm "
+          style={{
+            background: activeTask === "taskComplete" ? "#5d62e89a" : "#F5F5F5",
+            color: activeTask === "taskComplete" ? "#F5F5F5" : "#1b20a4d3",
+          }}
+          onClick={() => setActiveTask("taskComplete")}
         >
-          Completed
-        </Link>
-        <Link
-          className="btn shadow-sm border"
-          style={{ background: "#F5F5F5" }}
-          to="/employee/taskreject"
+          Completed Task
+        </button>
+        <button
+          className="btn shadow-sm "
+          style={{
+            background: activeTask === "taskReject" ? "#5d62e89a" : "#F5F5F5",
+            color: activeTask === "taskReject" ? "#F5F5F5" : "#1b20a4d3",
+          }}
+          onClick={() => setActiveTask("taskReject")}
         >
-          Rejected
-        </Link>
+          Rejected Task
+        </button>
       </div>
+      <div className="">{renderTaskComponent()}</div>
     </div>
   );
 };

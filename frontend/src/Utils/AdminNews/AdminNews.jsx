@@ -98,7 +98,6 @@ const AdminNews = () => {
   };
 
   const userType = localStorage.getItem("Account");
-  console.log(userType);
 
   const paths = {
     1: "/admin/NoticeBoard",

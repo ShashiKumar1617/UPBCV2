@@ -275,11 +275,6 @@ const EmployeeNewTask = () => {
 
   return (
     <div className="container-fluid py-2">
-      <TittleHeader
-        numbers={totalTaskAssigned}
-        title={"New Task"}
-        message={"You can view all new task here."}
-      />
       {loading && (
         <div
           style={{ width: "100%", height: "100%" }}

@@ -2,12 +2,29 @@ import React, { useEffect, useState } from "react";
 import { useTheme } from "../../Context/TheamContext/ThemeContext";
 import axios from "axios";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
-import { IoAirplaneOutline } from "react-icons/io5";
+import { IoAirplaneOutline, IoTimerOutline } from "react-icons/io5";
+import { LiaCapsulesSolid } from "react-icons/lia";
+import { BsCurrencyRupee } from "react-icons/bs";
+import { MdBabyChangingStation } from "react-icons/md";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPersonalInfo } from "../../Redux/Slices/personalInfoSlice";
 
 const EmployeeLeaveDash = () => {
   const [leaveBalance, setLeaveBalance] = useState([]);
   const id = localStorage.getItem("_id");
   const { darkMode } = useTheme();
+
+  const dispatch = useDispatch();
+  const { empData, error, loading } = useSelector(
+    (state) => state.personalInfo
+  );
+
+  useEffect(() => {
+    const employeeId = localStorage.getItem("_id");
+    dispatch(fetchPersonalInfo(employeeId));
+  }, [dispatch]);
+
+  console.log(empData);
 
   useEffect(() => {
     axios
@@ -30,6 +47,91 @@ const EmployeeLeaveDash = () => {
       });
   }, []);
 
+  const setIcons = (key) => {
+    switch (key) {
+      case "paid Leave":
+        return (
+          <span
+            style={{
+              height: "1.3rem",
+              width: "1.3rem",
+              borderRadius: "50%",
+              background: "#8ff18031",
+              color: "#3ab927",
+            }}
+            className="d-flex  align-items-center justify-content-center"
+          >
+            <BsCurrencyRupee className="fs-6" />
+          </span>
+        );
+      case "casual Leave":
+        return (
+          <span
+            style={{
+              height: "1.3rem",
+              width: "1.3rem",
+              borderRadius: "50%",
+              background: "#ff5f3f2f",
+              color: "#ff5f3f",
+            }}
+            className="d-flex  align-items-center justify-content-center"
+          >
+            <IoTimerOutline className="fs-5" />
+          </span>
+        );
+      case "paternity Leave":
+        return (
+          <span
+            style={{
+              height: "1.3rem",
+              width: "1.3rem",
+              borderRadius: "50%",
+              background: "#423fff2e",
+              color: "#423fff",
+            }}
+            className="d-flex  align-items-center justify-content-center"
+          >
+            <MdBabyChangingStation className="fs-5" />
+          </span>
+        );
+      case "maternity Leave":
+        return (
+          <span
+            style={{
+              height: "1.3rem",
+              width: "1.3rem",
+              borderRadius: "50%",
+              background: "#423fff51",
+              color: "#423fff",
+            }}
+            className="d-flex  align-items-center justify-content-center"
+          >
+            <MdBabyChangingStation className="fs-5" />
+          </span>
+        );
+
+      default:
+        return (
+          <span
+            style={{
+              height: "1.3rem",
+              width: "1.3rem",
+              borderRadius: "50%",
+              background: "#f3bf5d33",
+              color: "#b37c16",
+            }}
+            className="d-flex  align-items-center justify-content-center"
+          >
+            <LiaCapsulesSolid />
+          </span>
+        );
+    }
+  };
+
+  const removeLeaveText = (text) => {
+    return text.replace(/Leave|leave/g, "").trim();
+  };
+
   return (
     <div
       style={{
@@ -45,23 +147,37 @@ const EmployeeLeaveDash = () => {
       </h5>
       <div
         style={{ height: "calc(100% - 5rem)", overflow: "auto " }}
-        className="px-3"
+        className="row mx-auto row-gap-2 pt-2"
       >
         {leaveBalance.map((leave, index) => (
-          <div key={index} className="mb-2 ">
-            <h6>{leave.leaveType}</h6>
-            <div className="d-flex justify-content-between px-3">
-              <div className="d-flex">
-                Total:{" "}
-                <span className="text-primary mx-2">{leave.totalBalance}</span>
-              </div>
-              <div>
-                Taken:{" "}
-                <span className="text-primary mx-2">{leave.leaveTaken}</span>
-              </div>
-              <div>
-                Balance:{" "}
-                <span className="text-primary mx-2">{leave.balance}</span>
+          <div key={index} className="col-12 col-md-6 h-50">
+            <div
+              style={{
+                background: !darkMode ? "black" : "white",
+                color: !darkMode ? "white" : "black",
+              }}
+              className="py-2 px-2 shadow-sm rounded-2"
+            >
+              <h6 className="d-flex align-items-center text-capitalize gap-2">
+                {removeLeaveText(leave.leaveType)}{" "}
+                <span>{setIcons(leave.leaveType)} </span>
+              </h6>
+
+              <div className="d-flex align-items-center justify-content-between gap-2">
+                {" "}
+                <div>
+                  Balance:{" "}
+                  <span className="text-primary mx-2 text-success fw-bold">
+                    {leave.balance}
+                  </span>
+                </div>
+                <span style={{ color: "#dadada" }}>|</span>
+                <div>
+                  Taken:{" "}
+                  <span className="text-primary mx-2 text-danger  fw-bold">
+                    {leave.leaveTaken}
+                  </span>
+                </div>
               </div>
             </div>
           </div>

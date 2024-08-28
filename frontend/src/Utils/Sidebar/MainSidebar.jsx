@@ -336,12 +336,7 @@ const MainSidebar = () => {
       user: "3",
       icon: <GoTasklist />,
       name: "Task",
-      navLinks: [
-        { to: "/employee/newTask", label: "New Task" },
-        { to: "/employee/activeTask", label: "Active Task" },
-        { to: "/employee/taskcomplete", label: "Completed Task" },
-        { to: "/employee/taskreject", label: "Rejected Task" },
-      ],
+      navLinks: [{ to: "/employee/task", label: "Task" }],
     },
     // {
     //   user: "3",

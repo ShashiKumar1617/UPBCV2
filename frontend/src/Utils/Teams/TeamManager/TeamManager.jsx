@@ -3,7 +3,7 @@ import { SiMicrosoftteams } from "react-icons/si";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchAttendanceData } from "../../../Redux/Slices/attendanceSlice";
 import { useTheme } from "../../../Context/TheamContext/ThemeContext";
-import { IoLogInOutline } from "react-icons/io5";
+import NoTeam from "../../../img/Team/NoTeam.svg";
 
 const TeamManager = () => {
   const dispatch = useDispatch();
@@ -91,8 +91,6 @@ const TeamManager = () => {
     .filter((data) => data.userId === MyId)
     .map((data) => data.reportManager)[0];
 
-  console.log(MyReportingManager);
-
   return (
     <div
       style={{
@@ -134,141 +132,23 @@ const TeamManager = () => {
       >
         {userType == 1 && (
           <div>
-            {attendanceData
-              .filter((data) => data.Account === 2)
-              .map((atten, index) => (
-                <div
-                  key={index}
-                  className="d-flex align-items-center justify-content-between my-2"
-                >
-                  <div className="d-flex align-items-center gap-3">
-                    <div
-                      style={{
-                        height: "2.2rem",
-                        width: "2.2rem",
-                        borderRadius: "50%",
-                        background: "blue",
-                      }}
-                    >
-                      <img
-                        style={{
-                          height: "100%",
-                          width: "100%",
-                          objectFit: "cover",
-                          borderRadius: "50%",
-                        }}
-                        src={atten?.profile?.image_url}
-                        alt=""
-                      />
-                    </div>
-                    <div className="text-capitalize">
-                      {" "}
-                      <span
-                        className="text-primary py-1 px-2 rounded-2"
-                        style={{ background: "#2984da21", fontSize: ".8rem" }}
-                      >
-                        {atten.position.PositionName}
-                      </span>{" "}
-                      <br />
-                      <span className="mx-1">
-                        {atten.FirstName} {atten.LastName}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="ms-auto mr-3">
-                    {atten?.attendance?.loginTime[0]
-                      ? atten?.attendance?.loginTime[0]
-                      : "--"}
-                  </div>
+            {attendanceData.filter((data) => data.Account === 2).length > 0 ? (
+              attendanceData
+                .filter((data) => data.Account === 2)
+                .map((atten, index) => (
                   <div
-                    style={{ fontSize: ".8rem" }}
-                    className="text-capitalize"
+                    key={index}
+                    className="d-flex align-items-center justify-content-between my-2"
                   >
-                    {getAttendanceStatus(atten?.attendance?.loginTime[0])}{" "}
-                  </div>
-                </div>
-              ))}
-          </div>
-        )}
-        {userType == 2 && (
-          <div>
-            {attendanceData
-              .filter((data) => data.Account === 2)
-              .map((atten, index) => (
-                <div
-                  key={index}
-                  className="d-flex align-items-center justify-content-between my-2"
-                >
-                  <div className="d-flex align-items-center gap-3">
-                    <div
-                      style={{
-                        height: "2.2rem",
-                        width: "2.2rem",
-                        borderRadius: "50%",
-                        background: "blue",
-                      }}
-                    >
-                      <img
+                    <div className="d-flex align-items-center gap-3">
+                      <div
                         style={{
-                          height: "100%",
-                          width: "100%",
-                          objectFit: "cover",
+                          height: "2.2rem",
+                          width: "2.2rem",
                           borderRadius: "50%",
+                          background: "blue",
                         }}
-                        src={atten?.profile?.image_url}
-                        alt=""
-                      />
-                    </div>
-                    <div className="text-capitalize">
-                      {" "}
-                      <span
-                        className="text-primary py-1 px-2 rounded-2"
-                        style={{ background: "#2984da21", fontSize: ".8rem" }}
                       >
-                        {atten.position.PositionName}
-                      </span>{" "}
-                      <br />
-                      <span className="mx-1">
-                        {atten.FirstName} {atten.LastName}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="ms-auto mr-3">
-                    {atten?.attendance?.loginTime[0]
-                      ? atten?.attendance?.loginTime[0]
-                      : "--"}
-                  </div>
-                  <div
-                    style={{ fontSize: ".8rem" }}
-                    className="text-capitalize"
-                  >
-                    {getAttendanceStatus(atten?.attendance?.loginTime[0])}{" "}
-                  </div>
-                </div>
-              ))}
-          </div>
-        )}
-        {userType == 3 && (
-          <div>
-            {attendanceData
-              .filter((data) => data.reportManager === MyReportingManager)
-              .map((atten, index) => (
-                <div
-                  key={index}
-                  className="d-flex align-items-center justify-content-between my-2"
-                >
-                  <div className="d-flex align-items-center gap-3">
-                    <div
-                      style={{
-                        height: "2.2rem",
-                        width: "2.2rem",
-                        borderRadius: "50%",
-                        background: atten?.profile?.image_url
-                          ? "transparent"
-                          : "blue",
-                      }}
-                    >
-                      {atten?.profile?.image_url ? (
                         <img
                           style={{
                             height: "100%",
@@ -277,94 +157,312 @@ const TeamManager = () => {
                             borderRadius: "50%",
                           }}
                           src={atten?.profile?.image_url}
-                          alt="Profile"
+                          alt=""
                         />
-                      ) : null}
+                      </div>
+                      <div className="text-capitalize">
+                        <span
+                          className="text-primary py-1 px-2 rounded-2"
+                          style={{ background: "#2984da21", fontSize: ".8rem" }}
+                        >
+                          {atten.position.PositionName}
+                        </span>
+                        <br />
+                        <span className="mx-1">
+                          {atten.FirstName} {atten.LastName}
+                        </span>
+                      </div>
                     </div>
-                    <div className="text-capitalize">
-                      {" "}
-                      <span
-                        className="text-primary py-1 px-2 rounded-2"
-                        style={{ background: "#2984da21", fontSize: ".8rem" }}
-                      >
-                        {atten.position.PositionName}
-                      </span>{" "}
-                      <br />
-                      <span className="mx-1">
-                        {atten.FirstName} {atten.LastName}
-                      </span>
-                    </div>{" "}
+                    <div className="ms-auto mr-3">
+                      {atten?.attendance?.loginTime[0]
+                        ? atten?.attendance?.loginTime[0]
+                        : "--"}
+                    </div>
+                    <div
+                      style={{ fontSize: ".8rem" }}
+                      className="text-capitalize"
+                    >
+                      {getAttendanceStatus(atten?.attendance?.loginTime[0])}
+                    </div>
                   </div>
-                  <div className="ms-auto mr-3">
-                    {atten?.attendance?.loginTime[0]
-                      ? atten?.attendance?.loginTime[0]
-                      : "--"}
-                  </div>
-                  <div
-                    style={{ fontSize: ".8rem" }}
-                    className="text-capitalize"
-                  >
-                    {getAttendanceStatus(atten?.attendance?.loginTime[0])}{" "}
-                  </div>
-                </div>
-              ))}
+                ))
+            ) : (
+              <div
+                className="d-flex flex-column justify-content-center align-items-center gap-2"
+                style={{ height: "13rem", width: "100%" }}
+              >
+                <img
+                  style={{
+                    height: "100px",
+                    width: "130px",
+                    objectFit: "cover",
+                  }}
+                  className="mx-auto"
+                  src={NoTeam}
+                  alt="Happy Birthday"
+                />
+                <p
+                  style={{ opacity: "60%", fontSize: ".9rem" }}
+                  className="text-center w-75 mx-auto"
+                >
+                  No Team Found
+                </p>
+              </div>
+            )}
           </div>
         )}
+
+        {userType == 2 && (
+          <div>
+            {attendanceData.filter((data) => data.Account === 2).length > 0 ? (
+              attendanceData
+                .filter((data) => data.Account === 2)
+                .map((atten, index) => (
+                  <div
+                    key={index}
+                    className="d-flex align-items-center justify-content-between my-2"
+                  >
+                    <div className="d-flex align-items-center gap-3">
+                      <div
+                        style={{
+                          height: "2.2rem",
+                          width: "2.2rem",
+                          borderRadius: "50%",
+                          background: "blue",
+                        }}
+                      >
+                        <img
+                          style={{
+                            height: "100%",
+                            width: "100%",
+                            objectFit: "cover",
+                            borderRadius: "50%",
+                          }}
+                          src={atten?.profile?.image_url}
+                          alt=""
+                        />
+                      </div>
+                      <div className="text-capitalize">
+                        <span
+                          className="text-primary py-1 px-2 rounded-2"
+                          style={{ background: "#2984da21", fontSize: ".8rem" }}
+                        >
+                          {atten.position.PositionName}
+                        </span>
+                        <br />
+                        <span className="mx-1">
+                          {atten.FirstName} {atten.LastName}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="ms-auto mr-3">
+                      {atten?.attendance?.loginTime[0]
+                        ? atten?.attendance?.loginTime[0]
+                        : "--"}
+                    </div>
+                    <div
+                      style={{ fontSize: ".8rem" }}
+                      className="text-capitalize"
+                    >
+                      {getAttendanceStatus(atten?.attendance?.loginTime[0])}
+                    </div>
+                  </div>
+                ))
+            ) : (
+              <div
+                className="d-flex flex-column justify-content-center align-items-center gap-2"
+                style={{ height: "13rem", width: "100%" }}
+              >
+                <img
+                  style={{
+                    height: "100px",
+                    width: "130px",
+                    objectFit: "cover",
+                  }}
+                  className="mx-auto"
+                  src={NoTeam}
+                  alt="Happy Birthday"
+                />
+                <p
+                  style={{ opacity: "60%", fontSize: ".9rem" }}
+                  className="text-center w-75 mx-auto"
+                >
+                  No Team Found
+                </p>
+              </div>
+            )}
+          </div>
+        )}
+
+        {userType == 3 && (
+          <div>
+            {attendanceData.filter(
+              (data) => data.reportManager === MyReportingManager
+            ).length > 0 ? (
+              attendanceData
+                .filter((data) => data.reportManager === MyReportingManager)
+                .map((atten, index) => (
+                  <div
+                    key={index}
+                    className="d-flex align-items-center justify-content-between my-2"
+                  >
+                    <div className="d-flex align-items-center gap-3">
+                      <div
+                        style={{
+                          height: "2.2rem",
+                          width: "2.2rem",
+                          borderRadius: "50%",
+                          background: atten?.profile?.image_url
+                            ? "transparent"
+                            : "blue",
+                        }}
+                      >
+                        {atten?.profile?.image_url ? (
+                          <img
+                            style={{
+                              height: "100%",
+                              width: "100%",
+                              objectFit: "cover",
+                              borderRadius: "50%",
+                            }}
+                            src={atten?.profile?.image_url}
+                            alt="Profile"
+                          />
+                        ) : null}
+                      </div>
+                      <div className="text-capitalize">
+                        <span
+                          className="text-primary py-1 px-2 rounded-2"
+                          style={{ background: "#2984da21", fontSize: ".8rem" }}
+                        >
+                          {atten.position.PositionName}
+                        </span>
+                        <br />
+                        <span className="mx-1">
+                          {atten.FirstName} {atten.LastName}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="ms-auto mr-3">
+                      {atten?.attendance?.loginTime[0]
+                        ? atten?.attendance?.loginTime[0]
+                        : "--"}
+                    </div>
+                    <div
+                      style={{ fontSize: ".8rem" }}
+                      className="text-capitalize"
+                    >
+                      {getAttendanceStatus(atten?.attendance?.loginTime[0])}
+                    </div>
+                  </div>
+                ))
+            ) : (
+              <div
+                className="d-flex flex-column justify-content-center align-items-center gap-2"
+                style={{ height: "13rem", width: "100%" }}
+              >
+                <img
+                  style={{
+                    height: "100px",
+                    width: "130px",
+                    objectFit: "cover",
+                  }}
+                  className="mx-auto"
+                  src={NoTeam}
+                  alt="Happy Birthday"
+                />
+                <p
+                  style={{ opacity: "60%", fontSize: ".9rem" }}
+                  className="text-center w-75 mx-auto"
+                >
+                  No Team Found
+                </p>
+              </div>
+            )}
+          </div>
+        )}
+
         {userType == 4 && (
           <div>
-            {attendanceData
-              .filter((data) => data.reportManager === reportingManager)
-              .map((atten, index) => (
-                <div
-                  key={index}
-                  className="d-flex align-items-center justify-content-between my-2"
-                >
-                  <div className="d-flex align-items-center gap-3">
-                    <div
-                      style={{
-                        height: "2.2rem",
-                        width: "2.2rem",
-                        borderRadius: "50%",
-                        background: "blue",
-                      }}
-                    >
-                      <img
-                        style={{
-                          height: "100%",
-                          width: "100%",
-                          objectFit: "cover",
-                          borderRadius: "50%",
-                        }}
-                        src={atten?.profile?.image_url}
-                        alt=""
-                      />
-                    </div>
-                    <div className="text-capitalize">
-                      <span
-                        className="text-primary py-1 px-2 rounded-2"
-                        style={{ background: "#2984da21", fontSize: ".8rem" }}
-                      >
-                        {atten.position.PositionName}
-                      </span>
-                      <br />
-                      <span className="mx-1">
-                        {atten.FirstName} {atten.LastName}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="ms-auto mr-3">
-                    {atten?.attendance?.loginTime[0]
-                      ? atten?.attendance?.loginTime[0]
-                      : "--"}
-                  </div>
+            {attendanceData.filter(
+              (data) => data.reportManager === reportingManager
+            ).length > 0 ? (
+              attendanceData
+                .filter((data) => data.reportManager === reportingManager)
+                .map((atten, index) => (
                   <div
-                    style={{ fontSize: ".8rem" }}
-                    className="text-capitalize"
+                    key={index}
+                    className="d-flex align-items-center justify-content-between my-2"
                   >
-                    {getAttendanceStatus(atten?.attendance?.loginTime[0])}{" "}
+                    <div className="d-flex align-items-center gap-3">
+                      <div
+                        style={{
+                          height: "2.2rem",
+                          width: "2.2rem",
+                          borderRadius: "50%",
+                          background: "blue",
+                        }}
+                      >
+                        <img
+                          style={{
+                            height: "100%",
+                            width: "100%",
+                            objectFit: "cover",
+                            borderRadius: "50%",
+                          }}
+                          src={atten?.profile?.image_url}
+                          alt=""
+                        />
+                      </div>
+                      <div className="text-capitalize">
+                        <span
+                          className="text-primary py-1 px-2 rounded-2"
+                          style={{ background: "#2984da21", fontSize: ".8rem" }}
+                        >
+                          {atten.position.PositionName}
+                        </span>
+                        <br />
+                        <span className="mx-1">
+                          {atten.FirstName} {atten.LastName}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="ms-auto mr-3">
+                      {atten?.attendance?.loginTime[0]
+                        ? atten?.attendance?.loginTime[0]
+                        : "--"}
+                    </div>
+                    <div
+                      style={{ fontSize: ".8rem" }}
+                      className="text-capitalize"
+                    >
+                      {getAttendanceStatus(atten?.attendance?.loginTime[0])}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))
+            ) : (
+              <div
+                className="d-flex flex-column justify-content-center align-items-center gap-2"
+                style={{ height: "13rem", width: "100%" }}
+              >
+                <img
+                  style={{
+                    height: "100px",
+                    width: "130px",
+                    objectFit: "cover",
+                  }}
+                  className="mx-auto"
+                  src={NoTeam}
+                  alt="Happy Birthday"
+                />
+                <p
+                  style={{ opacity: "60%", fontSize: ".9rem" }}
+                  className="text-center w-75 mx-auto"
+                >
+                  No Team Found
+                </p>
+              </div>
+            )}
           </div>
         )}
       </div>

@@ -32,7 +32,6 @@ const NavBar = (props, data) => {
   const [loginNoti, setLoginNoti] = useState(true);
   let userProfile;
 
-  console.log(userProfile);
   const id = localStorage.getItem("_id");
   const email = localStorage.getItem("Email");
   const pushNotification = (taskName) => {
@@ -52,7 +51,6 @@ const NavBar = (props, data) => {
         },
       })
       .then((response) => {
-        console.log(response.data);
         setEmployeeData(response.data);
         setNotification(response.data.Notification);
       })
@@ -75,7 +73,6 @@ const NavBar = (props, data) => {
         }
       )
       .then((response) => {
-        console.log(response);
         setEmployeeData(response.data.result);
         setNotification(response.data.result.Notification);
       })
@@ -84,7 +81,6 @@ const NavBar = (props, data) => {
       });
   };
   const notificationHandler = (id, path) => {
-    console.log(id);
     axios
       .post(
         `${BASE_URL}/api/notificationStatusUpdate/${id}`,
@@ -98,7 +94,6 @@ const NavBar = (props, data) => {
       .then((response) => {
         setEmployeeData(response.data.result);
         setNotification(response.data.result.Notification);
-        console.log(response.data.result.Notification);
         history.push(`/${location}/${path}`);
       })
       .catch((error) => {
@@ -117,19 +112,16 @@ const NavBar = (props, data) => {
     }
   };
   useEffect(() => {
-    // console.log('Socket:', socket.id);
     socket.emit("userConnected", { email });
     handleNotificationRequest();
     if (socket) {
       socket.on("taskNotificationReceived", (data) => {
-        console.log(data.Account);
         if (data.Account === 4) {
           if (data.managerEmail === email) {
             setNotification((prev) => [data, ...prev]);
             pushNotification(data.message);
           }
         } else if (data.Account === 2 || data.Account === 3) {
-          console.log(data);
           let emp = data.employeesEmail.filter((val) => {
             return val === email && val !== data.senderMail;
           });
@@ -138,7 +130,6 @@ const NavBar = (props, data) => {
             pushNotification(data.message);
           }
         } else if (data.Account === 1) {
-          console.log(data);
           if (data.adminMail === email) {
             setNotification((prev) => [data, ...prev]);
             pushNotification(data.message);
@@ -243,7 +234,6 @@ const NavBar = (props, data) => {
           }
         )
         .then((response) => {
-          console.log(response);
           setNotification(response.data.result.Notification);
         })
         .catch((error) => {
@@ -257,7 +247,6 @@ const NavBar = (props, data) => {
       arr.findIndex((item) => item.taskId === val.taskId) === index
     );
   });
-  console.log(notification);
 
   const handleClick = () => {
     toggleSidebar();
@@ -265,7 +254,6 @@ const NavBar = (props, data) => {
 
   const handleUserLogin = (data) => {
     const showNotification = (data) => {
-      console.log(data);
       if (data) {
         const { message } = data;
         alert(message);

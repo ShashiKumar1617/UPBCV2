@@ -12,7 +12,6 @@ const MyTodaysLoginData = (props) => {
   const { darkMode } = useTheme();
 
   const employeeId = localStorage.getItem("_id");
-  console.log(empName);
 
   useEffect(() => {
     const loadPersonalInfoData = async () => {
@@ -25,7 +24,6 @@ const MyTodaysLoginData = (props) => {
             },
           }
         );
-        console.log(response.data.FirstName);
         setEmpName(response.data.FirstName);
       } catch (error) {
         console.error("Error fetching employees:", error);

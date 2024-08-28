@@ -55,15 +55,14 @@ const NoticeBoard = () => {
   };
 
   const deleteHandler = (id, creator) => {
-    console.log(creator);
-    // axios
-    //   .post(`${BASE_URL}/api/noticeDelete`, { noticeId: id })
-    //   .then((res) => {
-    //     alert("Notice delete");
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    axios
+      .post(`${BASE_URL}/api/noticeDelete`, { noticeId: id })
+      .then((res) => {
+        alert("Notice delete");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (

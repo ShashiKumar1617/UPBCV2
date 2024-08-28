@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import BASE_URL from '../../Pages/config/config.js';
+import BASE_URL from '../../Pages/config/config';
 
 export const fetchEmployees = createAsyncThunk(
   'employee/fetchEmployees',
@@ -18,7 +18,7 @@ const employeeSlice = createSlice({
   name: 'employee',
   initialState: {
     employees: [],
-    status: 'idle', // idle | loading | succeeded | failed
+    status: 'idle',
     error: null,
   },
   reducers: {},

@@ -6,6 +6,7 @@ import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { HiArrowLongRight, HiOutlineCalendarDays } from "react-icons/hi2";
 import { MdOutlineAddTask } from "react-icons/md";
 import { useTheme } from "../../Context/TheamContext/ThemeContext";
+import TaskImage from "../../img/Task/ActiveTask.svg";
 
 const TaskDash = () => {
   const [tasks, setTasks] = useState([]);
@@ -174,116 +175,146 @@ const TaskDash = () => {
         </h5>
         <Link
           to="/employee/activeTask"
-          className="d-flex text-decoration-none text-black align-items-center justify-content-center bg-white p-1 px-2 rounded-5"
+          className="d-flex text-decoration-none text-black align-items-center justify-content-center bg-white px-2 rounded-5"
         >
           See All
         </Link>
       </div>
-      <div
-        className="d-flex w-100 align-items-center gap-3 py-2"
-        style={{
-          overflowX: "auto",
-          overflowY: "hidden",
-          whiteSpace: "nowrap",
-          height: "calc(100% - 3vh)",
-        }}
-      >
-        {tasks
-          .filter((task) =>
-            task.employees.some((taskemp) => taskemp.empemail === email)
-          )
-          .reverse()
-          .map((task, index) => (
-            <div
-              style={{
-                height: "100%",
-                minHeight: "13rem",
-                width: "45%",
-                minWidth: "25rem",
-                overflow: "hidden",
-                background: darkMode ? "#ffffffbc" : "#252424c3",
-                border: darkMode
-                  ? "1px solid #2524245a"
-                  : "1px solid #f2f2f26c",
-              }}
-              className="shadow-sm rounded-3 d-flex flex-column justify-content-between p-2 "
-              key={index}
-            >
-              <div>
-                <div className="d-flex align-items-center justify-content-between">
-                  <h6 className="m-0">{task.Taskname}</h6>
-                  {TaskStatus(task.status)}
-                </div>
-
+      <div>
+        {" "}
+        {tasks.filter((task) =>
+          task.employees.some((taskemp) => taskemp.empemail === email)
+        ).length >= 0 ? (
+          <div
+            className="d-flex w-100 align-items-center gap-3 py-2"
+            style={{
+              overflowX: "auto",
+              overflowY: "hidden",
+              whiteSpace: "nowrap",
+              height: "calc(100% - 3vh)",
+            }}
+          >
+            {tasks
+              .filter((task) =>
+                task.employees.some((taskemp) => taskemp.empemail === email)
+              )
+              .reverse()
+              .map((task, index) => (
                 <div
-                  style={{ fontSize: ".8rem" }}
-                  className="d-flex align-items-center gap-3"
-                >
-                  <div className="my-1">
-                    <span
-                      style={{
-                        width: "fit-content",
-                        background: darkMode ? "#a2f6804a" : "#a6f4963c",
-                        color: darkMode ? "#20680dc4" : "#3ddc11c4",
-                      }}
-                      className="p-1 px-2 d-flex align-items-center gap-1  rounded-2"
-                    >
-                      <HiOutlineCalendarDays /> {formatDOB(task.startDate)}
-                    </span>
-                  </div>
-                  <HiArrowLongRight />
-                  <div>
-                    <span
-                      style={{
-                        width: "fit-content",
-                        background: darkMode ? "#f6a18049" : "#f4a4963b",
-                        color: darkMode ? "#681f0dc4" : "#ff6131ef",
-                      }}
-                      className="p-1 px-2 d-flex align-items-center gap-1  rounded-2"
-                    >
-                      <HiOutlineCalendarDays /> {formatDOB(task.endDate)}
-                    </span>
-                  </div>
-                </div>
-                <p
                   style={{
-                    whiteSpace: "wrap",
+                    height: "100%",
+                    minHeight: "13rem",
+                    width: "45%",
+                    minWidth: "25rem",
+                    overflow: "hidden",
+                    background: darkMode ? "#ffffffbc" : "#252424c3",
+                    border: darkMode
+                      ? "1px solid #2524245a"
+                      : "1px solid #f2f2f26c",
                   }}
+                  className="shadow-sm rounded-3 d-flex flex-column justify-content-between p-2 "
+                  key={index}
                 >
-                  {ShortedText(task.description)}
-                </p>
-              </div>
-              <div>
-                <div className="d-flex align-items-center  gap-3 justify-content-between p-1">
-                  <div
-                    style={{
-                      minHeight: ".3rem",
-                      height: ".3rem",
-                      maxHeight: ".3rem",
-                      width: "100%",
-                      background: "#78788054",
-                    }}
-                    className="rounded-5 "
-                  >
+                  <div>
+                    <div className="d-flex align-items-center justify-content-between">
+                      <h6 className="m-0">{task.Taskname}</h6>
+                      {TaskStatus(task.status)}
+                    </div>
+
                     <div
+                      style={{ fontSize: ".8rem" }}
+                      className="d-flex align-items-center gap-3"
+                    >
+                      <div className="my-1">
+                        <span
+                          style={{
+                            width: "fit-content",
+                            background: darkMode ? "#a2f6804a" : "#a6f4963c",
+                            color: darkMode ? "#20680dc4" : "#3ddc11c4",
+                          }}
+                          className="p-1 px-2 d-flex align-items-center gap-1  rounded-2"
+                        >
+                          <HiOutlineCalendarDays /> {formatDOB(task.startDate)}
+                        </span>
+                      </div>
+                      <HiArrowLongRight />
+                      <div>
+                        <span
+                          style={{
+                            width: "fit-content",
+                            background: darkMode ? "#f6a18049" : "#f4a4963b",
+                            color: darkMode ? "#681f0dc4" : "#ff6131ef",
+                          }}
+                          className="p-1 px-2 d-flex align-items-center gap-1  rounded-2"
+                        >
+                          <HiOutlineCalendarDays /> {formatDOB(task.endDate)}
+                        </span>
+                      </div>
+                    </div>
+                    <p
                       style={{
-                        height: "100%",
-                        width: `${calculateProgress(task)}%`,
-                        background: "#007AFF",
+                        whiteSpace: "wrap",
                       }}
-                      className="rounded-5"
-                    ></div>
+                    >
+                      {ShortedText(task.description)}
+                    </p>
                   </div>
-                  <span style={{ fontSize: ".8rem" }}>
-                    {calculateProgress(task).toFixed(2)}%
-                  </span>
+                  <div>
+                    <div className="d-flex align-items-center  gap-3 justify-content-between p-1">
+                      <div
+                        style={{
+                          minHeight: ".3rem",
+                          height: ".3rem",
+                          maxHeight: ".3rem",
+                          width: "100%",
+                          background: "#78788054",
+                        }}
+                        className="rounded-5 "
+                      >
+                        <div
+                          style={{
+                            height: "100%",
+                            width: `${calculateProgress(task)}%`,
+                            background: "#007AFF",
+                          }}
+                          className="rounded-5"
+                        ></div>
+                      </div>
+                      <span style={{ fontSize: ".8rem" }}>
+                        {calculateProgress(task).toFixed(2)}%
+                      </span>
+                    </div>
+                    <p style={{ fontSize: ".8rem" }}>
+                      Last Update : {formatUpdateDate(task.updatedAt)}
+                    </p>
+                  </div>
                 </div>
-                <p style={{ fontSize: ".8rem" }}>
-                  Last Update : {formatUpdateDate(task.updatedAt)}
-                </p>
-              </div>
-            </div>
-          ))}
+              ))}
+          </div>
+        ) : (
+          <div
+            className="d-flex w-100 flex-column align-items-center justify-content-center gap-3 py-2"
+            style={{
+              overflowX: "auto",
+              overflowY: "hidden",
+              whiteSpace: "nowrap",
+              height: "14rem",
+            }}
+          >
+            <img
+              style={{ height: "120px", width: "120px" }}
+              className="mx-auto"
+              src={TaskImage}
+              alt="Task Not Found"
+            />
+            <p
+              style={{ opacity: "60%", fontSize: "13px" }}
+              className="text-center w-75 mx-auto"
+            >
+              Task Not Found
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -23,6 +23,7 @@ import AttendanceDetails from "../attendance/AttendanceDetails.jsx";
 import EmpViewAttendance from "../../HrManager/attendance/SelfAttendance.jsx";
 import UpdateTaskEmpManager from "../../../Pages/UpdateTaskEmpManager.jsx";
 import NoticeBoard from "../../../Utils/NoticeBoard/NoticeBoard.jsx";
+import TaskContainer from "../EmployeeTaskManagement/TaskContainer/TaskContainer.jsx";
 
 const RouterContent = ({ data }) => {
   return (
@@ -91,14 +92,14 @@ const RouterContent = ({ data }) => {
         path="/employee/:id/departmentchart"
         render={(props) => <DepartmentChart data={data} />}
       />
-      <Route path="/employee/newTask" exact component={EmployeeNewTask} />
-      <Route path="/employee/activeTask" exact component={EmployeeActiveTask} />
+      <Route exact path="/employee/task/" component={TaskContainer} />
+      {/* <Route path="/employee/task/newTask" component={EmployeeNewTask} />
+      <Route path="/employee/task/activeTask" component={EmployeeActiveTask} />
       <Route
-        path="/employee/taskcomplete"
-        exact
+        path="/employee/task/taskcomplete"
         component={EmployeeCompleteTask}
       />
-      <Route path="/employee/taskreject" exact component={EmployeeRejectTask} />
+      <Route path="/employee/task/taskreject" component={EmployeeRejectTask} /> */}
       <Route
         path="/employee/:id/selfAtteend"
         exact

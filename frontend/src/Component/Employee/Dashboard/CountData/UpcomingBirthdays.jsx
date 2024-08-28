@@ -214,7 +214,7 @@ const UpcomingBirthdays = () => {
             />
             <p
               style={{ opacity: "60%", fontSize: "13px" }}
-              className="text-center w-75 mx-auto  text-muted "
+              className="text-center w-75 mx-auto"
             >
               No upcoming birthdays in the next 7 days.
             </p>
