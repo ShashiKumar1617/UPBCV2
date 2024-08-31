@@ -1,104 +1,79 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./LeaveComponentHrDash.css";
 import { useTheme } from "../../Context/TheamContext/ThemeContext";
-import { IoNewspaperOutline } from "react-icons/io5";
+import { IoCalendarClearOutline, IoNewspaperOutline, IoTimerOutline } from "react-icons/io5";
 import { MdOutlineCancel } from "react-icons/md";
-import { GoClock } from "react-icons/go";
-import { IoMdDoneAll } from "react-icons/io";
-import BASE_URL from "../../Pages/config/config";
+import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import axios from "axios";
+import BASE_URL from "../../Pages/config/config";
+import {getFormattedDateWTY } from "../GetDayFormatted";
+import { CgArrowLongRightC } from "react-icons/cg";
 
 const LeaveComponentHrDash = () => {
   const { darkMode } = useTheme();
-  //   const location = useLocation();
-  //   const routeChecker = location.pathname.split("/")[1];
-  //   console.log(routeChecker);
-  //   const [leaveApplicationHRData, setLeaveApplicationHRData] = useState([]);
-  //   const [loading, setLoading] = useState(true);
-  //   const [rowData, setRowData] = useState([]);
-  //   const [filteredData, setFilteredData] = useState([]);
-  //   const email = localStorage.getItem("Email");
-  //   const formatDate = (dateString) => {
-  //     if (!dateString) return;
-  //     const dateParts = dateString.split("-");
-  //     return `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
-  //   };
+  const [data, SetLeaveData] = useState([]);
 
-  //   const loadLeaveApplicationHRData = () => {
-  //     axios
-  //       .post(
-  //         `${BASE_URL}/api/leave-application-hr/`,
-  //         routeChecker === "hr" ? { hr: email } : { manager: email },
-  //         {
-  //           headers: {
-  //             authorization: localStorage.getItem("token") || "",
-  //           },
-  //         }
-  //       )
-  //       .then((response) => {
-  //         const leaveApplicationHRObj = response.data;
-  //         setLeaveApplicationHRData(leaveApplicationHRObj);
-  //         setLoading(false);
+  const loadLeaveApplicationHRData = () => {
+    axios
+      .post(`${BASE_URL}/api/leave-application-hr/`, {
+        headers: {
+          authorization: localStorage.getItem("token") || "",
+        },
+      })
+      .then((response) => {
+        SetLeaveData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
-  //         const rowDataT = leaveApplicationHRObj.map((data) => {
-  //           return {
-  //             data,
-  //             empID: data?.empID,
-  //             FirstName: data?.FirstName,
-  //             LastName: data?.LastName,
-  //             Name: data?.FirstName + " " + data?.LastName,
-  //             Leavetype: data?.Leavetype,
-  //             FromDate: formatDate(data["FromDate"]?.slice(0, 10)),
-  //             ToDate: formatDate(data["ToDate"]?.slice(0, 10)),
-  //             Days: calculateDays(data?.FromDate, data?.ToDate),
-  //             Reasonforleave: data?.Reasonforleave,
-  //             CreatedOn: formatDate(data?.createdOn?.slice(0, 10)),
-  //             Status: status(data?.Status),
-  //             updatedBy: data?.updatedBy,
-  //             reasonOfRejection: data?.reasonOfRejection,
-  //           };
-  //         });
-  //         console.log(rowDataT);
-  //         setRowData(rowDataT);
-  //         setFilteredData(rowDataT);
-  //         // props.updateTotalLeaves(leaveApplicationHRObj.length);
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //       });
-  //   };
+  useEffect(() => {
+    loadLeaveApplicationHRData();
+  }, []);
 
-  const leaveData = [
-    {
-      date: "19 March, 2023",
-      type: "Sick",
-      status: "Pending",
-      icon: <GoClock />,
-    },
-    {
-      date: "19 March, 2023",
-      type: "Casual",
-      status: "Rejected",
-      icon: <MdOutlineCancel />,
-    },
-    {
-      date: "19 March, 2023",
-      type: "Paid",
-      status: "Approved",
-      icon: <IoMdDoneAll />,
-    },
-  ];
+  console.log(data);
 
   const Status = (key) => {
     switch (key) {
-      case "Rejected":
-        return <span className="badge-primary">Rejected</span>;
+      case 3:
+        return (
+          <span
+            className={`${darkMode ? "badge-danger" : "badge-danger-dark"}`}
+          >
+            Rejected
+          </span>
+        );
 
-      case "Approved":
-        return <span className="badge-primary">Approved</span>;
+      case 2:
+        return (
+          <span
+            className={`${darkMode ? "badge-success" : "badge-success-dark"}`}
+          >
+            Approved
+          </span>
+        );
 
       default:
-        return <span className="badge-info">Pending</span>;
+        return (
+          <span
+            className={`${darkMode ? "badge-warning" : "badge-warning-dark"}`}
+          >
+            Pending
+          </span>
+        );
+    }
+  };
+
+  const Icons = (key) => {
+    switch (key) {
+      case 3:
+        return <MdOutlineCancel className="text-danger" />;
+
+      case 2:
+        return <IoMdCheckmarkCircleOutline className="text-success" />;
+      default:
+        return <IoTimerOutline className="tex-danger" />;
     }
   };
 
@@ -114,7 +89,7 @@ const LeaveComponentHrDash = () => {
     >
       <div className="d-flex align-items-center justify-content-between">
         <h5 className="my-0 fw-normal  d-flex align-items-center gap-2">
-          <IoNewspaperOutline /> On Leave
+          <IoCalendarClearOutline /> Staff on leave
         </h5>
         <span
           style={{
@@ -129,20 +104,20 @@ const LeaveComponentHrDash = () => {
       </div>
       <hr className="m-1" style={{ opacity: "10%" }} />
       <div className="progress-circle">
-        <svg width="200" height="80" viewBox="0 0 100 50">
+        <svg width="150" viewBox="0 0 100 50">
           <path
             d="M 10,50 A 40,40 0 1,1 90,50"
             fill="none"
             stroke="#ddd"
-            strokeWidth="12"
+            strokeWidth="14"
           />
           <path
             d="M 10,50 A 40,40 0 1,1 90,50"
             fill="none"
             stroke="#3939FF"
-            strokeWidth="12"
+            strokeWidth="15"
             strokeDasharray="125.6"
-            strokeDashoffset={125.6 - (125.6 * 16) / 34}
+            strokeDashoffset={125.6 - (125.6 * 34) / 34}
           />
         </svg>
         <div className="leave-count d-flex flex-column gap-0">
@@ -151,16 +126,22 @@ const LeaveComponentHrDash = () => {
         </div>
       </div>
       <hr className="m-1" style={{ opacity: "10%" }} />
-      <div className="leave-list">
-        {leaveData.map((leave, index) => (
-          <div key={index} className="leave-item">
-            <span className="leave-icon">{leave.icon}</span>
-            <span className="leave-date">{leave.date}</span>
-            <span className="leave-type">{leave.type}</span>
-            <span>{Status(leave.status)}</span>
-          </div>
-        ))}
-      </div>
+{data.length >= 0 ? (      <div className="leave-list">
+        {data
+          .slice(-2)
+          .reverse().filter((leave) => new Date(leave.ToDate) > new Date())  
+          .map((leave, index) => (
+            <div key={index} className="d-flex align-items-center gap-2">
+              
+              <span className="d-flex align-items-center gap-2">
+              <span>{Icons(leave.status)}</span><span>{getFormattedDateWTY(leave.FromDate)}</span> <CgArrowLongRightC className="fs-5 my-auto text-success" /> <span>{getFormattedDateWTY(leave.ToDate)}</span> 
+              </span>
+              <span className="text-capitalize ms-auto">{leave.FirstName} {leave.LastName}</span>
+              <span className="ms-auto">{leave.Leavetype}</span>
+              <span className="ms-auto">{Status(leave.status)}</span>
+            </div>
+          ))}
+      </div>) : (<div className="d-flex align-items-center">No New Leave Request <sup className="text-danger fs-6">*</sup></div>) }
     </div>
   );
 };

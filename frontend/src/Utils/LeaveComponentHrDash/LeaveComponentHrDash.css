@@ -23,21 +23,21 @@
   
   .progress-circle {
     position: relative;
-    width: 200px;
-    height: 120px;
+    width: 150px;
+    height: 100px;
     margin: 0 auto 0px auto;
   }
   
   .leave-count {
     position: absolute;
-    bottom: -25%;
+    bottom: -1%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
   }
   
   .leave-count h6 {
-    font-size: 1.3rem; 
+    font-size: 1.4rem; 
     margin: 0;
     /* font-weight: bold; */
   }

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { FaRegUser } from "react-icons/fa";
 import { GoTasklist } from "react-icons/go";
 import {
   MdCurrencyRupee,
@@ -48,10 +47,8 @@ const Sidebar = () => {
       name: "Attendance",
       navLinks: [
         { to: "/admin/myAttendance", label: "My Attendance" },
-        // { to: "/admin/adminAttendance", label: "Create Attendance" },
         { to: "/admin/todaysAttendance", label: "TodaysAttendance" },
         { to: "/admin/viewAttendance", label: "View Attendance" },
-        // { to: "/admin/leave", label: "View Leave " }
       ],
     },
     {

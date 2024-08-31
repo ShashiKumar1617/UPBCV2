@@ -146,7 +146,9 @@ const MainSidebar = () => {
       user: "2",
       icon: <LuLayoutDashboard />,
       name: "Dashboard",
-      navLinks: [{ to: "/hr/dashboard", label: "Dashboard" }],
+      navLinks: [
+        { to: "/hr/dashboard", label: "Dashboard" }
+      ],
     },
     {
       user: "2",

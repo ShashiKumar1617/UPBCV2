@@ -33,7 +33,6 @@ const LeaveApplicationHR = (props) => {
   useEffect(() => {
     loadEmployeeData();
   }, []);
-  console.log(props);
   const handleLeaveApplicationHRSubmit = (event) => {
     event.preventDefault();
     console.log("id", event.target[0].value, event.target[1].value);

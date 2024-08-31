@@ -37,8 +37,11 @@
     max-height: 100vh;
     overflow: scroll initial;
     z-index: 90;
+    
 }
 
 .mainbar-grid {
+    height: calc(100vh - 4.5rem) !important;;
     grid-area: mainbar;
+    overflow: auto;
 }

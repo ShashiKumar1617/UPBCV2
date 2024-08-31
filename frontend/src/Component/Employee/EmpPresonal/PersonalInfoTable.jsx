@@ -3,22 +3,16 @@ import "./PersonalInfoTable.css";
 import axios from "axios";
 import { RingLoader } from "react-spinners";
 import { css } from "@emotion/core";
-import { Link } from "react-router-dom";
-
 import "./profilePage.css";
-
-import FloralAbstract from "./FloralAbstract.jpg";
-import { GoDotFill, GoPencil } from "react-icons/go";
-import { IoArrowBackCircle } from "react-icons/io5";
+import {GoPencil } from "react-icons/go";
 import Education from "../EmpEducation/Education";
 import WorkExperience from "../EmpWorkExp/WorkExperience";
 import Document from "../Document/Document.jsx";
 import FamilyInfo from "../EmpFamily/FamilyInfo";
 import BASE_URL from "../../../Pages/config/config.js";
-
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min.js";
 import { useTheme } from "../../../Context/TheamContext/ThemeContext.js";
-import TittleHeader from "../../../Pages/TittleHeader/TittleHeader.jsx";
+
 const override = css`
   display: block;
   margin: 0 auto;
@@ -106,8 +100,6 @@ const PersonalInfoTable = (props) => {
 
   // task data
   const [tasks, setTasks] = useState([]);
-  // const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [email, setEmail] = useState(null);
 
   useEffect(() => {
@@ -136,7 +128,6 @@ const PersonalInfoTable = (props) => {
       setTasks(response.data);
     } catch (error) {
       console.error("Error fetching tasks:", error.message);
-      setError("Error fetching tasks. Please try again later.");
     } finally {
       setLoading(false);
       setTimeout(fetchData, 60000);
@@ -148,42 +139,6 @@ const PersonalInfoTable = (props) => {
 
     return () => clearTimeout();
   }, []);
-
-  // Count of different task statuses for the current employee
-  const acceptedTasksCount = tasks.filter((task) =>
-    task.employees.some(
-      (taskemp) =>
-        taskemp.empemail === email && taskemp.emptaskStatus === "Accepted"
-    )
-  ).length;
-
-  const rejectedTasksCount = tasks.filter((task) =>
-    task.employees.some(
-      (taskemp) =>
-        taskemp.empemail === email && taskemp.emptaskStatus === "Rejected"
-    )
-  ).length;
-
-  const completedTasksCount = tasks.filter(
-    (task) =>
-      task.status === "Pending" &&
-      task.employees.some((emp) => emp.emptaskStatus === "Completed")
-  ).length;
-
-  const pendingTasksCount = tasks.filter((task) =>
-    task.employees.some(
-      (taskemp) => taskemp.empemail === email && task.status === "Pending"
-    )
-  ).length;
-
-  const rowBodyStyle = {
-    background: darkMode
-      ? "var(--secondaryDashMenuColor)"
-      : "var(--secondaryDashColorDark)",
-    color: darkMode
-      ? "var(--secondaryDashColorDark)"
-      : "var(--primaryDashMenuColor)",
-  };
 
   return (
     <div className="container-fluid">

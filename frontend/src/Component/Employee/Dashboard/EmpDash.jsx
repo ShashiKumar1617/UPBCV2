@@ -9,7 +9,9 @@ import TeamManager from "../../../Utils/Teams/TeamManager/TeamManager";
 import EmployeeLeaveDash from "../../../Utils/EmployeeLeaveDash/EmployeeLeaveDash";
 import TaskDash from "../../../Utils/TaskDash/TaskDash";
 
+
 const HrDash = () => {
+ 
   const displayComponents = [
     {
       component: <MyTodaysLoginData />,
@@ -29,6 +31,8 @@ const HrDash = () => {
     { component: <HolidayDash />, display: "col-12 col-md-6 col-lg-4 p-2" },
     { component: <TeamManager />, display: "col-12 col-md-6 col-lg-4 p-2" },
   ];
+
+
 
   return (
     <div className="container-fluid py-2 pb-4">

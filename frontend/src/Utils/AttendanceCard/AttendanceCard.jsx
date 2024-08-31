@@ -61,7 +61,7 @@ const AttendanceCard = () => {
       }}
     >
       <div className="d-flex  align-items-center justify-content-between px-2">
-        <div className="d-flex flex-column gap-3 p-2">
+        <div style={{color: !darkMode ? "white" : "black"}} className="d-flex flex-column gap-3 p-2">
           {isEvening ? (
             <IoMoonOutline style={{ fontSize: "5rem" }} />
           ) : (
@@ -69,8 +69,8 @@ const AttendanceCard = () => {
           )}
           <span>{currentDate}</span>
         </div>
-        <div className="d-flex align-items-center  gap-2">
-          <div className="d-flex flex-column">
+        <div  className="d-flex align-items-center  gap-2">
+          <div style={{color: !darkMode ? "white" : "black"}} className="d-flex flex-column">
             <span style={{ fontSize: "1.9rem" }}>{time}</span>
             <span style={{ fontSize: ".9rem" }}>Real time insight</span>
           </div>

@@ -114,7 +114,6 @@ const AllEmpLeaves = (props) => {
                 <th style={{ textAlign: "center" }}>Profile</th>
                 <th style={{ textAlign: "center" }}>Employee Name</th>
                 <th style={{ textAlign: "center" }}>Emp ID</th>
-
                 <th style={{ textAlign: "center" }}>Sick Leave</th>
                 <th style={{ textAlign: "center" }}>Paid Leave</th>
                 <th style={{ textAlign: "center" }}>Casual Leave</th>

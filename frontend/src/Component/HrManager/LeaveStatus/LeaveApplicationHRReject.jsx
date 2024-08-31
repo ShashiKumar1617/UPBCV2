@@ -119,8 +119,8 @@ const LeaveApplicationHRTable = (props) => {
 
   const exportToPDF = () => {
     if (window.confirm("Are you sure to download Leave record? ")) {
-      const pdfWidth = 297; // A4 width in mm
-      const pdfHeight = 210; // A4 height in mm
+      const pdfWidth = 297; 
+      const pdfHeight = 210; 
       const doc = new jsPDF({
         orientation: "landscape",
         unit: "mm",

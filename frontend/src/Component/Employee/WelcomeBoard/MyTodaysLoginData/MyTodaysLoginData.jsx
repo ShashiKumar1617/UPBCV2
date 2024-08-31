@@ -94,61 +94,53 @@ const MyTodaysLoginData = (props) => {
   return (
     <div
       style={{
-        width: "100%",
         height: "17rem",
+        overflow: "hidden",
         color: darkMode ? "black" : "White",
         background: darkMode ? "#F5F5F6" : "#161515f6",
       }}
-      className="d-flex flex-wrap shadow-sm rounded-2 align-items-center justify-content-evenly"
+      className="p-2 px-3 shadow-sm rounded-2 d-flex flex-column gap-2"
     >
-      {labelData.map((item, index) => (
-        <Labels
-          style={{
-            background: darkMode
-              ? "var(--primaryDashMenuColor)"
-              : "var(--primaryDashColorDark)",
-            height: "fit-content",
-            border: darkMode ? "1px solid #1f1e1e46" : "1px solid #f5f5f693",
-            width: "45%",
-          }}
-          TytleStyle={"d-flex align-items-center justify-content-between p-2"}
-          baseStyle={{
-            border: darkMode ? "1px solid #1f1e1e46" : "1px solid #f5f5f693",
-          }}
-          key={index}
-          icon={item.icon}
-          title={item.title}
-          data={item.data}
-          background={item.iconBG}
-        />
-      ))}
+      {" "}
+      <h5 className="my-0 fw-normal  d-flex align-items-center gap-2">
+        My Todays Overview
+      </h5>
+      <div
+        style={{
+          width: "100%",
+          height: "14rem",
+          color: darkMode ? "black" : "White",
+          background: darkMode ? "#F5F5F6" : "#161515f6",
+        }}
+        className="d-flex flex-wrap shadow-sm rounded-2 align-items-center justify-content-evenly"
+      >
+        {labelData.map((item, index) => (
+          <Labels
+            style={{
+              background: darkMode
+                ? "var(--primaryDashMenuColor)"
+                : "var(--primaryDashColorDark)",
+              height: "fit-content",
+              border: darkMode ? "1px solid #1f1e1e46" : "1px solid #f5f5f693",
+              width: "45%",
+            }}
+            TytleStyle={"d-flex align-items-center justify-content-between p-2"}
+            baseStyle={{
+              border: darkMode ? "1px solid #1f1e1e46" : "1px solid #f5f5f693",
+            }}
+            key={index}
+            icon={item.icon}
+            title={item.title}
+            data={item.data}
+            background={item.iconBG}
+          />
+        ))}
+      </div>
     </div>
   );
 };
 
 export default MyTodaysLoginData;
-
-// const Labels = ({ title, data, icon, style, TytleStyle }) => {
-//   return (
-//     <div
-//       className="col-6 col-lg-3 shadow-sm rounded-2 justify-content-between row py-2"
-//       style={style}
-//     >
-//       <div className="col-8 my-auto">
-//         <span
-//           className={TytleStyle}
-//           style={{ fontSize: "1.2rem", fontWeight: "500" }}
-//         >
-//           {title}
-//         </span>
-//         <p className="m-0">{data}</p>
-//       </div>
-//       <div className="col-2 d-flex align-items-center justify-content-center m-auto fs-2">
-//         {icon}
-//       </div>
-//     </div>
-//   );
-// };
 
 const Labels = ({
   title,

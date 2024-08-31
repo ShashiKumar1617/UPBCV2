@@ -9,9 +9,11 @@ import DailyAttendChart from "../../../Pages/Chart/DailyAttendChart";
 import DepartmentChart from "../../../Pages/Chart/DepartmentChart";
 import AttendanceCard from "../../../Utils/AttendanceCard/AttendanceCard";
 import EmployeeCounts from "../../../Utils/EmployeeCounts/EmployeeCounts";
+import TaskCompletionCard from "../../../Utils/TaskCompletionCard/TaskCompletionCard";
 
 const AdminDash = () => {
   const displayComponents = [
+    { compName: <TaskCompletionCard /> },
     { compName: <MyTodaysLoginData /> },
     { compName: <EmployeeCounts /> },
     { compName: <TeamManager /> },

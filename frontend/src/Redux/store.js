@@ -11,6 +11,6 @@ export const store = configureStore({
     holidays: holidaysReducer,
     employee: employeeReducer,
     personalInfo: personalInfoReducer,
-    tasks: tasksReducer,
+    tasks: tasksReducer
   },
 });
