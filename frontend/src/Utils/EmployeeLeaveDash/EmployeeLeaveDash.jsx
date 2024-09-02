@@ -6,7 +6,7 @@ import { IoAirplaneOutline, IoTimerOutline } from "react-icons/io5";
 import { LiaCapsulesSolid } from "react-icons/lia";
 import { BsCurrencyRupee } from "react-icons/bs";
 import { MdBabyChangingStation } from "react-icons/md";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, } from "react-redux";
 import { fetchPersonalInfo } from "../../Redux/Slices/personalInfoSlice";
 
 const EmployeeLeaveDash = () => {
@@ -15,16 +15,11 @@ const EmployeeLeaveDash = () => {
   const { darkMode } = useTheme();
 
   const dispatch = useDispatch();
-  const { empData, error, loading } = useSelector(
-    (state) => state.personalInfo
-  );
 
   useEffect(() => {
     const employeeId = localStorage.getItem("_id");
     dispatch(fetchPersonalInfo(employeeId));
   }, [dispatch]);
-
-  console.log(empData);
 
   useEffect(() => {
     axios

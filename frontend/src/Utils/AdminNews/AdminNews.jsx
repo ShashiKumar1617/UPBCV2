@@ -1,22 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import CustomModal from "../CustomModal/CustomModal";
 import { IoCloudDownloadOutline, IoNewspaperOutline } from "react-icons/io5";
 import { AttendanceContext } from "../../Context/AttendanceContext/AttendanceContext";
-import { useLocation } from "react-router-dom";
 import BASE_URL from "../../Pages/config/config";
 import { useTheme } from "../../Context/TheamContext/ThemeContext";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import NoticeImg from "../../img/Notice/NoticeImg.svg"
+import { HiOutlineBellAlert } from "react-icons/hi2";
 
 const AdminNews = () => {
-  // const [leaveBalance, setLeaveBalance] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [selectedNews, setSelectedNews] = useState(null);
   const id = localStorage.getItem("_id");
   const { darkMode } = useTheme();
-  const location = useLocation();
-  const route = location.pathname.split("/")[1];
-  const email = localStorage.getItem("Email");
   const [notice, setNotice] = useState([]);
   const { socket } = useContext(AttendanceContext);
 
@@ -52,43 +46,6 @@ const AdminNews = () => {
     }
   }, [socket]);
 
-  const pdfHandler = (path) => {
-    window.open(`${BASE_URL}/${path}`, "_blank", "noreferrer");
-  };
-
-  // useEffect(() => {
-  //   axios
-  //     .post("http://localhost:4000/api/getLeave", { id })
-  //     .then((response) => {
-  //       const formattedData = response.data.map((item) => {
-  //         const leaveType = Object.keys(item)[0];
-  //         const totalLeaveType = Object.keys(item)[1];
-  //         return {
-  //           leaveType: leaveType.replace(/([A-Z])/g, " $1").trim(),
-  //           balance: item[leaveType],
-  //           totalBalance: item[totalLeaveType],
-  //           leaveTaken: item[totalLeaveType] - item[leaveType],
-  //         };
-  //       });
-  //       setLeaveBalance(formattedData);
-  //     })
-  //     .catch((error) => {
-  //       console.error(error);
-  //     });
-  // }, []);
-
-  const handleViewClick = () => {
-    setSelectedNews(
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, et dolor nobis quas unde officiis quaerat hic illum consequuntur, veniam maxime quisquam voluptate. Iusto quisquam porro, ea quia reiciendis rem quod, asperiores dignissimos."
-    );
-    setShowModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setSelectedNews(null);
-  };
-
   const ShortedText = (text) => {
     if (text.length > 180) {
       return text.slice(0, 300) + "...";
@@ -106,6 +63,15 @@ const AdminNews = () => {
     4: "/manager/NoticeBoard",
   };
 
+  const sanitizedNotice = (notice) => {
+    return  ShortedText(notice
+      .replace(/<img[^>]*>/g, '')
+      .replace(/<img[^>]*>/g, '')
+      .replace(/<iframe[^>]*>/g, '')
+      .replace(/<h1[^>]*>.*?<\/h1>/gi, '')
+      .replace(/<h2[^>]*>.*?<\/h2>/gi, '')
+      .replace(/<script[^>]*>.*?<\/script>/gi, ''))
+  };
   return (
     <>
       <div
@@ -119,7 +85,7 @@ const AdminNews = () => {
       >
         <div className="d-flex align-items-center justify-content-between">
           <h5 className="my-0 fw-normal  d-flex align-items-center gap-2">
-            <IoNewspaperOutline /> Notice Board
+            <HiOutlineBellAlert /> Notice
           </h5>
           <span
             style={{
@@ -133,9 +99,9 @@ const AdminNews = () => {
             {notice.length}
           </span>
         </div>
+            {notice.length > 0 ? (        <div>
         {notice
-          .reverse()
-          .slice(0, 1)
+        .slice(-1)
           .map((n, i) => (
             <div key={i} className="d-flex flex-column gap-3">
               <div className="d-flex align-items-center justify-content-between gap-2">
@@ -217,15 +183,30 @@ const AdminNews = () => {
                     rotate: "45deg",
                   }}
                 ></div>
-                <p style={{ zIndex: "1" }}>{ShortedText(n.notice)}</p>
+                 <div className="text-start"
+              dangerouslySetInnerHTML={{ __html: sanitizedNotice(n.notice) }}
+            />
               </div>
             </div>
           ))}
+        </div>) : (          <div
+            className="d-flex flex-column justify-content-center align-items-center gap-3"
+            style={{ height: "100%", width: "100%" }}
+          >
+            <img
+              style={{ height: "100px", width: "100px" }}
+              className="mx-auto"
+              src={NoticeImg}
+              alt="No Data"
+            />
+            <p
+              style={{ opacity: "60%", fontSize: "13px" }}
+              className="text-center w-75 mx-auto"
+            >
+              No notices available at the moment.
+            </p>
+          </div>)}
       </div>
-
-      <CustomModal title="News" show={showModal} onClose={handleCloseModal}>
-        {selectedNews}
-      </CustomModal>
     </>
   );
 };

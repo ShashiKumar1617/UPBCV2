@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./LeaveComponentHrDash.css";
 import { useTheme } from "../../Context/TheamContext/ThemeContext";
-import { IoCalendarClearOutline, IoNewspaperOutline, IoTimerOutline } from "react-icons/io5";
+import { IoCalendarClearOutline, IoTimerOutline } from "react-icons/io5";
 import { MdOutlineCancel } from "react-icons/md";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import axios from "axios";
@@ -31,8 +31,6 @@ const LeaveComponentHrDash = () => {
   useEffect(() => {
     loadLeaveApplicationHRData();
   }, []);
-
-  console.log(data);
 
   const Status = (key) => {
     switch (key) {
@@ -76,6 +74,8 @@ const LeaveComponentHrDash = () => {
         return <IoTimerOutline className="tex-danger" />;
     }
   };
+  
+
 
   return (
     <div

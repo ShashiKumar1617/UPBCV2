@@ -5,16 +5,16 @@ import { AiOutlineUser } from "react-icons/ai";
 import { LuUserMinus } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAttendanceData } from "../../Redux/Slices/attendanceSlice";
-import { IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { GoClock } from "react-icons/go";
 
 const EmployeeStatus = () => {
   const { darkMode } = useTheme();
-
   const dispatch = useDispatch();
   const { attendanceData, status } = useSelector((state) => state.attendance);
-
   const [showAllAbsent, setShowAllAbsent] = useState(false);
-  const [showAllHalday, setShowAllHalday] = useState(false);
+  const [showAllHalfDay, setShowAllHalfDay] = useState(false);
+  const [showAllBreak, setShowAllBreak] = useState(false);
 
   useEffect(() => {
     if (status === "idle") {
@@ -26,11 +26,13 @@ const EmployeeStatus = () => {
     setShowAllAbsent((prevState) => !prevState);
   };
 
-  const handleToggleShowAllHalfday = () => {
-    setShowAllHalday((prevState) => !prevState);
+  const handleToggleShowAllHalfDay = () => {
+    setShowAllHalfDay((prevState) => !prevState);
   };
 
-  const displayedData = showAllAbsent ? attendanceData : attendanceData.slice(0, 2);
+  const handleToggleShowAllBreak = () => {
+    setShowAllBreak((prevState) => !prevState);
+  };
 
   const getAttendanceMark = (user) => {
     if (!user || !user.attendance) {
@@ -58,15 +60,36 @@ const EmployeeStatus = () => {
     return "Present";
   };
 
-  const FilteredHalday = attendanceData.filter((attn) => {
+  // Separate Absent, Half Day, and Break data
+  const absentData = attendanceData.filter(
+    (attn) =>
+      !attn?.attendance?.loginTime[0] ||
+      attn?.attendance?.loginTime[0] === "WO" ||
+      attn?.attendance === null
+  );
+
+  const halfDayData = attendanceData.filter((attn) => {
     const loginTime = attn?.attendance?.loginTime[0];
     if (!loginTime || loginTime === "WO" || attn?.attendance === null) {
-      return true;
+      return false; // Exclude Absent data
     }
 
     const [hours, minutes] = loginTime.split(":").map(Number);
-    return hours > 9 || (hours === 9 && minutes > 30);
+    return hours > 9 || (hours === 9 && minutes > 45);
   });
+
+  const breakData = attendanceData.filter(attn => attn?.attendance?.status === "Break");
+
+  // Present data if none of the other categories are populated
+  const presentData = attendanceData.filter(attn => 
+    !absentData.includes(attn) && 
+    !halfDayData.includes(attn) && 
+    !breakData.includes(attn)
+  );
+
+  const displayedAbsentData = showAllAbsent ? absentData : absentData.slice(0, 2);
+  const displayedHalfDayData = showAllHalfDay ? halfDayData : halfDayData.slice(0, 2);
+  const displayedBreakData = showAllBreak ? breakData : breakData.slice(0, 2);
 
   return (
     <div
@@ -82,81 +105,69 @@ const EmployeeStatus = () => {
         <h5 className="my-0 fw-normal d-flex align-items-center gap-2">
           <AiOutlineUser /> Employee Status
         </h5>
-        <span className="py-1 px-2 bg-white rounded-5">
+        <span className="py-1 px-2  rounded-5">
           See All <MdOutlineArrowForwardIos />
         </span>
       </div>
       <div style={{ height: "30rem", overflow: "auto" }}>
-      <hr className="m-0 my-2" style={{border:'1px solid rgba(0,0,0,.3)'}} />
-        <div className="bg-white p-2 px-3 rounded-3 shadow-sm">
-          <h6>Absent</h6>
-          <div className="d-flex flex-column gap-2">
-            {displayedData
-              .filter(
-                (attn) =>
-                  attn?.attendance?.loginTime[0] === "" ||
-                  attn?.attendance?.loginTime[0] === "WO" ||
-                  attn?.attendance === null
-              )
-              .map((attn, index) => (
-                <div key={index} className="d-flex align-items-center">
-                  <div className="d-flex align-items-center gap-2">
-                    <div
-                      style={{
-                        height: "30px",
-                        width: "30px",
-                        borderRadius: "50%",
-                      }}
-                    >
-                      <img
+        <hr className="m-0 my-2" style={{ border: '1px solid rgba(0,0,0,.3)' }} />
+        
+        {/* Conditionally show Absent, Half Day, Break or Present */}
+        {displayedAbsentData.length === 0 && displayedHalfDayData.length === 0 && displayedBreakData.length === 0 ? (
+          // Present Section
+          <div className=" p-2 px-3 mb-1 rounded-3 shadow-sm">
+            <h6 className="text-start">Present</h6>
+            {presentData.length > 0 ? (
+              <div className="d-flex flex-column gap-2">
+                {presentData.map((attn, index) => (
+                  <div key={index} className="d-flex align-items-center">
+                    <div className="d-flex align-items-center gap-2">
+                      <div
                         style={{
-                          height: "100%",
-                          width: "100%",
+                          height: "30px",
+                          width: "30px",
                           borderRadius: "50%",
-                          objectFit: "cover",
                         }}
-                        src={
-                          attn?.profile?.image_url
-                            ? attn?.profile?.image_url
-                            : "https://img.freepik.com/free-photo/portrait-man-laughing_23-2148859448.jpg?size=338&ext=jpg&ga=GA1.1.2008272138.1724976000&semt=ais_hybrid"
-                        }
-                        alt=""
-                      />
+                      >
+                        <img
+                          style={{
+                            height: "100%",
+                            width: "100%",
+                            borderRadius: "50%",
+                            objectFit: "cover",
+                          }}
+                          src={
+                            attn?.profile?.image_url
+                              ? attn?.profile?.image_url
+                              : "https://img.freepik.com/free-photo/portrait-man-laughing_23-2148859448.jpg?size=338&ext=jpg&ga=GA1.1.2008272138.1724976000&semt=ais_hybrid"
+                          }
+                          alt=""
+                        />
+                      </div>
+                      <div className="d-flex flex-column text-start text-capitalize">
+                        <p className="m-0">
+                          {attn?.FirstName} {attn?.LastName}
+                        </p>
+                        <p className="m-0">{attn?.department?.DepartmentName}</p>
+                      </div>
                     </div>
-                    <div className="d-flex flex-column text-capitalize">
-                      <p className=" m-0">
-                        {attn?.FirstName} {attn?.LastName}
-                      </p>
-                      <p className=" m-0">{attn?.department?.DepartmentName}</p>
-                    </div>
+                    <span className={`badge-success ms-auto py-1`}>
+                      Present
+                    </span>
                   </div>
-                  <span
-                    className={`${
-                      darkMode
-                        ? "badge-danger ms-auto py-1"
-                        : "badge-danger-dark ms-auto py-1"
-                    }`}
-                  >
-                    <LuUserMinus className="my-auto" />{" "}
-                    {attn?.attendance?.loginTime[0]
-                      ? getAttendanceMark(attn?.attendance?.loginTime[0])
-                      : "Absent"}
-                  </span>
-                </div>
-              ))}
+                ))}
+              </div>
+            ) : (
+              <p className="text-start">No employees are currently present.</p>
+            )}
           </div>
-          <button
-            className="btn py-0 px-2 rounded-0 shadow-sm border my-2 mx-auto"
-            onClick={handleToggleShowAllAbsent}
-          >
-            {showAllAbsent ? "Show Less" : "See All"} <IoIosArrowDown />
-          </button>
-        </div>
-        <hr className="m-0 my-2" style={{border:'1px solid rgba(0,0,0,.3)'}} />
-        <div className="bg-white p-2 px-3 rounded-3 shadow-sm">
-          <h6>Half day</h6>
-          <div className="d-flex flex-column gap-2">
-            {FilteredHalday.map((attn, index) => (
+        ) : (
+          <>
+        {/* Absent Section */}
+        <div className=" p-2 px-3 mb-1 rounded-3 shadow-sm">
+          <h6 className="text-start">Absent</h6>
+          {displayedAbsentData.length > 0 ? (<div className="d-flex flex-column gap-2">
+            {displayedAbsentData.map((attn, index) => (
               <div key={index} className="d-flex align-items-center">
                 <div className="d-flex align-items-center gap-2">
                   <div
@@ -181,11 +192,11 @@ const EmployeeStatus = () => {
                       alt=""
                     />
                   </div>
-                  <div className="d-flex flex-column text-capitalize">
-                    <p className=" m-0">
+                  <div className="d-flex flex-column text-start text-capitalize">
+                    <p className="m-0">
                       {attn?.FirstName} {attn?.LastName}
                     </p>
-                    <p className=" m-0">{attn?.department?.DepartmentName}</p>
+                    <p className="m-0">{attn?.department?.DepartmentName}</p>
                   </div>
                 </div>
                 <span
@@ -197,20 +208,156 @@ const EmployeeStatus = () => {
                 >
                   <LuUserMinus className="my-auto" />{" "}
                   {attn?.attendance?.loginTime[0]
-                    ? getAttendanceMark(attn?.attendance?.loginTime[0])
+                    ? getAttendanceMark(attn)
                     : "Absent"}
                 </span>
               </div>
             ))}
-          </div>
-          <button
-            className="btn py-0 px-2 rounded-0 shadow-sm border my-2 mx-auto"
-            onClick={handleToggleShowAllHalfday}
-          >
-            {showAllHalday ? "Show Less" : "See All"} <IoIosArrowDown />
-          </button>
+          </div>) : (<p className="text-start">Great! No one is absent today.</p>)}
+          
+          {absentData.length > 2 && (
+            <div className="d-flex">
+              <button
+                className="btn py-0 px-2 rounded-0 shadow-sm border my-2 mx-0"
+                onClick={handleToggleShowAllAbsent}
+              >
+                {showAllAbsent ? (<span className="d-flex align-items-center gap-1">Show Less <IoIosArrowUp /></span>) : (<span className="d-flex align-items-center gap-1">Show more (+{absentData.length - 2}) <IoIosArrowDown /></span>)} 
+              </button>
+            </div>
+          )}
         </div>
-        <hr className="m-0 my-2" style={{border:'1px solid rgba(0,0,0,.3)'}} />
+
+        {/* Half Day Section */}
+        <div className=" p-2 px-3 mb-1 rounded-3 shadow-sm">
+          <h6 className="text-start mt-3">Half Day</h6>
+          {displayedHalfDayData.length > 0 ? (<div className="d-flex flex-column gap-2">
+            {displayedHalfDayData.map((attn, index) => (
+              <div key={index} className="d-flex align-items-center">
+                <div className="d-flex align-items-center gap-2">
+                  <div
+                    style={{
+                      height: "30px",
+                      width: "30px",
+                      borderRadius: "50%",
+                    }}
+                  >
+                    <img
+                      style={{
+                        height: "100%",
+                        width: "100%",
+                        borderRadius: "50%",
+                        objectFit: "cover",
+                      }}
+                      src={
+                        attn?.profile?.image_url
+                          ? attn?.profile?.image_url
+                          : "https://img.freepik.com/free-photo/portrait-man-laughing_23-2148859448.jpg?size=338&ext=jpg&ga=GA1.1.2008272138.1724976000&semt=ais_hybrid"
+                      }
+                      alt=""
+                    />
+                  </div>
+                  <div className="d-flex flex-column text-start text-capitalize">
+                    <p className="m-0">
+                      {attn?.FirstName} {attn?.LastName}
+                    </p>
+                    <p className="m-0">{attn?.department?.DepartmentName}</p>
+                  </div>
+                </div>
+                <span
+                  className={`${
+                    darkMode
+                      ? "badge-warning ms-auto py-1"
+                      : "badge-warning-dark ms-auto py-1"
+                  }`}
+                >
+                  <GoClock /> {getAttendanceMark(attn)}
+                </span>
+              </div>
+            ))}
+          </div>) : (
+  <p className="text-start">Great! No one is half-day today.</p>
+)}
+          
+          {halfDayData.length > 2 && (
+            <div className="d-flex">
+              <button
+                className="btn py-0 px-2 rounded-0 shadow-sm border my-2 mx-0"
+                onClick={handleToggleShowAllHalfDay}
+              >
+                {showAllHalfDay ? (<span className="d-flex align-items-center gap-1">Show Less <IoIosArrowUp /></span>) : (<span className="d-flex align-items-center gap-1">Show more (+{halfDayData.length - 2}) <IoIosArrowDown /></span>)} 
+              
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* Break Section */}
+        <div className=" p-2 px-3 mb-1 rounded-3 shadow-sm">
+          <h6 className="text-start mt-3">Break</h6>
+          {displayedBreakData.length > 0 ? (
+  <div className="d-flex flex-column gap-2">
+    {displayedBreakData.map((attn, index) => (
+      <div key={index} className="d-flex align-items-center">
+        <div className="d-flex align-items-center gap-2">
+          <div
+            style={{
+              height: "30px",
+              width: "30px",
+              borderRadius: "50%",
+              overflow: "hidden", // Ensure image fits within the circle
+            }}
+          >
+            <img
+              style={{
+                height: "100%",
+                width: "100%",
+                objectFit: "cover",
+              }}
+              src={
+                attn?.profile?.image_url
+                  ? attn?.profile?.image_url
+                  : "https://img.freepik.com/free-photo/portrait-man-laughing_23-2148859448.jpg?size=338&ext=jpg&ga=GA1.1.2008272138.1724976000&semt=ais_hybrid"
+              }
+              alt="Profile"
+            />
+          </div>
+          <div className="d-flex flex-column text-start text-capitalize">
+            <p className="m-0">
+              {attn?.FirstName} {attn?.LastName}
+            </p>
+            <p className="m-0">{attn?.department?.DepartmentName}</p>
+          </div>
+        </div>
+        <span
+          className={`${
+            darkMode
+              ? "badge-warning ms-auto py-1"
+              : "badge-warning-dark ms-auto py-1"
+          }`}
+        >
+          <GoClock /> {attn?.attendance?.status || "Absent"}
+        </span>
+      </div>
+    ))}
+  </div>
+) : (
+  <p className="text-start">Great! No one is on break at the moment</p>
+)}
+
+          {breakData.length > 2 && (
+            <div className="d-flex">
+              <button
+                className="btn py-0 px-2 rounded-0 shadow-sm border my-2 mx-0"
+                onClick={handleToggleShowAllBreak}
+              >
+                {showAllBreak ? (<span className="d-flex align-items-center gap-1">Show Less <IoIosArrowUp /></span>) : (<span className="d-flex align-items-center gap-1">Show more (+{breakData.length - 2}) <IoIosArrowDown /></span>)} 
+              </button>
+            </div>
+          )}
+        </div>
+          </>
+        )}
+        <hr className="m-0 my-2" style={{ border: '1px solid rgba(0,0,0,.3)' }} />
       </div>
     </div>
   );

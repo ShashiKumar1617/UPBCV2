@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import { SiMicrosoftteams } from "react-icons/si";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchAttendanceData } from "../../../Redux/Slices/attendanceSlice";
 import { useTheme } from "../../../Context/TheamContext/ThemeContext";
 import NoTeam from "../../../img/Team/NoTeam.svg";
+import { AiOutlineTeam } from "react-icons/ai";
 
 const TeamManager = () => {
   const dispatch = useDispatch();
@@ -103,7 +103,7 @@ const TeamManager = () => {
     >
       <div className="d-flex align-items-center justify-content-between">
         <h5 className="my-0 fw-normal d-flex align-items-center gap-2">
-          <SiMicrosoftteams />
+          <AiOutlineTeam />
           Team
         </h5>{" "}
         <span
