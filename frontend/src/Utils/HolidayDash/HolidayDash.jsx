@@ -5,7 +5,7 @@ import { fetchHolidays } from "../../Redux/Slices/holidaysSlice";
 import { useTheme } from "../../Context/TheamContext/ThemeContext";
 import holidayImage from "../../img/holidayImage.svg";
 import KasperCalendar from "../KasperCalendar/KasperCalendar";
-import { MdOutlineKeyboardArrowLeft, MdOutlineKeyboardArrowRight } from "react-icons/md";
+import { MdDateRange, MdOutlineKeyboardArrowLeft, MdOutlineKeyboardArrowRight } from "react-icons/md";
 
 const HolidayDash = () => {
   const dispatch = useDispatch();
@@ -72,34 +72,14 @@ const HolidayDash = () => {
         height: "17rem",
         overflow: "hidden",
         color: darkMode ? "black" : "white",
-        // background: darkMode ? "#F5F5F6" : "#161515f6", 
-        backgroundImage:'url(https://i.pinimg.com/564x/e4/76/44/e47644d39b8d79a3982bd8eded0fd2b8.jpg)',
-        backgroundPosition:'center',
-        backgroundSize:'cover',
-        backgroundRepeat:'no-repeat'
+        background: darkMode ? "#F5F5F6" : "#161515f6", 
       }}
       className="px-3 shadow-sm rounded-2 d-flex flex-column gap-2 justify-content-between pb-3 pt-2"
     >
-      {/* <div className="d-flex align-items-center justify-content-between">
-        <h5 className="my-0 fw-normal d-flex align-items-center gap-2">
-          Calendar
-        </h5>
-        <span
-          className="d-flex align-items-center justify-content-center"
-          style={{
-            height: "25px",
-            width: "25px",
-            borderRadius: "50%",
-            background: darkMode ? "#ededf1d4" : "#252424c3",
-          }}
-        >
-          {holidaysForCurrentMonth.length}
-        </span>
-      </div> */}
       <div className="d-flex align-items-center justify-content-between">
         <button className="shadow-sm btn btn-light d-flex align-items-center justify-content-center" onClick={handlePreviousMonth}><MdOutlineKeyboardArrowLeft /></button>
-        <span>
-          {monthName}, {currentYear}
+        <span className="shadow-sm btn btn-light d-flex align-items-center justify-content-center">
+        Calendar |  {monthName}, {currentYear}
         </span>
         <button className="shadow-sm btn btn-light d-flex align-items-center justify-content-center" onClick={handleNextMonth}><MdOutlineKeyboardArrowRight /></button>
       </div>

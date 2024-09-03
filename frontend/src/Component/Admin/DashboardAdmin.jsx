@@ -3,7 +3,6 @@ import { HashRouter as Router } from "react-router-dom";
 import AdminRoutes from "./Routes.jsx";
 import NavBar from "../../Pages/Navbar/NavBar.jsx";
 import "../../Style/Dashboard.css";
-import SidebarSlider from "../../Pages/Sidebar/SidebarSlider.jsx";
 import { useTheme } from "../../Context/TheamContext/ThemeContext.js";
 import Footer from "../../Pages/Footer/Footer.jsx";
 import { useSidebar } from "../../Context/AttendanceContext/smallSidebarcontext.jsx";
@@ -41,7 +40,6 @@ const DashboardAdmin = (props) => {
         top: "0",
       }}
     >
-      <SidebarSlider />
       <Router>
         <div className="dashboard-grid">
           <div

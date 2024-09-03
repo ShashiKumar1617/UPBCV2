@@ -38,6 +38,7 @@ import LeaveAssign from "./leave/LeaveAssign.jsx";
 import UpdateTask from "../../Pages/UpdateTask.jsx";
 import SelfAttendance from "../HrManager/attendance/SelfAttendance.jsx";
 import NoticeBoard from "../../Utils/NoticeBoard/NoticeBoard.jsx";
+import MyTeam from "../../Pages/MyTeams/MyTeam.jsx";
 
 // import AdminViewTask from "./TaskManagement/AdminViewTask.jsx";
 
@@ -45,9 +46,9 @@ const AdminRoutes = () => {
   return (
     <div
       style={{
-        height: "85vh",
-        maxHeight: "85vh",
-        minHeightL: "85vh",
+        height: "90vh",
+        maxHeight: "90vh",
+        minHeightL: "90vh",
         overflow: "auto",
       }}
     >
@@ -121,6 +122,7 @@ const AdminRoutes = () => {
           component={NoticeManagement}
         />
         <Route path="/admin/NoticeBoard" exact component={NoticeBoard} />
+        <Route path="/admin/managerTeam" exact component={MyTeam} />
         {/* <Route path="/admin/viewtask" exact component={AdminViewTask} /> */}
         {/* <Route path="/admin/viewtask/:id" exact component={AdminViewTask} /> */}
 

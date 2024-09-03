@@ -1,20 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { RingLoader } from "react-spinners";
-import { Button } from "react-bootstrap";
 import { useTheme } from "../../Context/TheamContext/ThemeContext";
 import BASE_URL from "../config/config";
-import Position from "../../img/Position/Position.svg";
-import { AiOutlinePlusCircle } from "react-icons/ai";
+import { AiOutlineDelete, AiOutlinePlusCircle } from "react-icons/ai";
 import OverLayToolTip from "../../Utils/OverLayToolTip";
-import { FaEdit } from "react-icons/fa";
-import { IoTrashBin } from "react-icons/io5";
+import { FiEdit2 } from "react-icons/fi";
 
 const AdminCompanyTable = (props) => {
   const [companyData, setCompanyData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10); 
   const { darkMode } = useTheme();
 
   useEffect(() => {
@@ -42,15 +39,25 @@ const AdminCompanyTable = (props) => {
     }
   };
 
+  // Pagination logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = companyData.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(companyData.length / itemsPerPage);
+
+  const handlePageChange = (newPage) => {
+    if (newPage > 0 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
+
   const rowHeadStyle = {
     verticalAlign: "middle",
     whiteSpace: "pre",
-    background: darkMode
-      ? "var(--primaryDashMenuColor)"
-      : "var(--primaryDashColorDark)",
+    background: "#EAE9FF",
     color: darkMode
       ? "var(--primaryDashColorDark)"
-      : "var( --secondaryDashMenuColor)",
+      : "var(--secondaryDashMenuColor)",
     border: "none",
     position: "sticky",
     top: "0rem",
@@ -61,12 +68,12 @@ const AdminCompanyTable = (props) => {
     verticalAlign: "middle",
     whiteSpace: "pre",
     background: darkMode
-      ? "var( --secondaryDashMenuColor)"
+      ? "var(--secondaryDashMenuColor)"
       : "var(--secondaryDashColorDark)",
     color: darkMode
       ? "var(--secondaryDashColorDark)"
-      : "var( --primaryDashMenuColor)",
-    border: "none",
+      : "var(--primaryDashMenuColor)",
+        borderBottom:'1px solid rgba(0,0,0,.08)'
   };
 
   return (
@@ -111,7 +118,6 @@ const AdminCompanyTable = (props) => {
       )}
 
       <div
-        className="border border-1 border-dark "
         style={{
           color: darkMode
             ? "var(--secondaryDashColorDark)"
@@ -123,100 +129,106 @@ const AdminCompanyTable = (props) => {
         }}
       >
         {companyData.length > 0 ? (
-          <table className="table" style={{ fontSize: ".9rem" }}>
-            <thead>
-              <tr>
-                <th style={rowHeadStyle}>Company Name</th>
-                <th style={rowHeadStyle}>Address</th>
-                <th style={rowHeadStyle}>Country</th>
-                <th style={rowHeadStyle}>State</th>
-                <th style={rowHeadStyle}>City</th>
-                <th style={rowHeadStyle}>Postal Code</th>
-                <th style={rowHeadStyle}>Website</th>
-                <th style={rowHeadStyle}>Email</th>
-                <th style={rowHeadStyle}>Contact Person</th>
-                <th style={rowHeadStyle}>Contact No</th>
-                <th style={rowHeadStyle}>Fax No</th>
-                <th style={rowHeadStyle}>Pan No</th>
-                <th style={rowHeadStyle}>GST No</th>
-                <th style={rowHeadStyle}>CIN No</th>
-                <th className="text-end" style={rowHeadStyle}>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {companyData.map((item) => (
-                <tr key={item._id}>
-                  <td style={rowBodyStyle}>{item.CompanyName}</td>
-                  <td style={rowBodyStyle}>{item.Address}</td>
-                  <td style={rowBodyStyle}>
-                    {item.city[0].state[0].country[0].CountryName}
-                  </td>
-                  <td style={rowBodyStyle}>
-                    {item.city[0].state[0].StateName}
-                  </td>
-                  <td style={rowBodyStyle}>{item.city[0].CityName}</td>
-                  <td style={rowBodyStyle}>{item.PostalCode}</td>
-                  <td style={rowBodyStyle}>{item.Website}</td>
-                  <td style={rowBodyStyle}>{item.Email}</td>
-                  <td style={rowBodyStyle}>{item.ContactPerson}</td>
-                  <td style={rowBodyStyle}>{item.ContactNo}</td>
-                  <td style={rowBodyStyle}>{item.FaxNo}</td>
-                  <td style={rowBodyStyle}>{item.PanNo}</td>
-                  <td style={rowBodyStyle}>{item.GSTNo}</td>
-                  <td style={rowBodyStyle}>{item.CINNo}</td>
-                  <td className="text-end" style={rowBodyStyle}>
-                  <OverLayToolTip
-                      style={{ color: darkMode ? "black" : "white" }}
-                      icon={<FaEdit />}
-                      onClick={() => props.onEditCompany(item)}
-                      tooltip={"Edit Company"}
-                    />
-                    <OverLayToolTip
-                      style={{ color: darkMode ? "black" : "white" }}
-                      icon={<IoTrashBin />}
-                      onClick={() => onCompanyDelete(item._id)}
-                      tooltip={"Delete Company"}
-                    />
-                   
-                  </td>
-                  
+          <>
+            <table className="table" style={{ fontSize: ".9rem" }}>
+              <thead>
+                <tr>
+                  <th style={rowHeadStyle}>Company Name</th>
+                  <th style={rowHeadStyle}>Address</th>
+                  <th style={rowHeadStyle}>Country</th>
+                  <th style={rowHeadStyle}>State</th>
+                  <th style={rowHeadStyle}>City</th>
+                  <th style={rowHeadStyle}>Postal Code</th>
+                  <th style={rowHeadStyle}>Website</th>
+                  <th style={rowHeadStyle}>Email</th>
+                  <th style={rowHeadStyle}>Contact Person</th>
+                  <th style={rowHeadStyle}>Contact No</th>
+                  <th style={rowHeadStyle}>Fax No</th>
+                  <th style={rowHeadStyle}>Pan No</th>
+                  <th style={rowHeadStyle}>GST No</th>
+                  <th style={rowHeadStyle}>CIN No</th>
+                  <th className="text-end" style={rowHeadStyle}>Action</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {currentItems.map((item) => (
+                  <tr key={item._id}>
+                    <td style={rowBodyStyle}>{item.CompanyName}</td>
+                    <td style={rowBodyStyle}>{item.Address}</td>
+                    <td style={rowBodyStyle}>
+                      {item.city[0].state[0].country[0].CountryName}
+                    </td>
+                    <td style={rowBodyStyle}>
+                      {item.city[0].state[0].StateName}
+                    </td>
+                    <td style={rowBodyStyle}>{item.city[0].CityName}</td>
+                    <td style={rowBodyStyle}>{item.PostalCode}</td>
+                    <td style={rowBodyStyle}>{item.Website}</td>
+                    <td style={rowBodyStyle}>{item.Email}</td>
+                    <td style={rowBodyStyle}>{item.ContactPerson}</td>
+                    <td style={rowBodyStyle}>{item.ContactNo}</td>
+                    <td style={rowBodyStyle}>{item.FaxNo}</td>
+                    <td style={rowBodyStyle}>{item.PanNo}</td>
+                    <td style={rowBodyStyle}>{item.GSTNo}</td>
+                    <td style={rowBodyStyle}>{item.CINNo}</td>
+                    <td className="text-end" style={rowBodyStyle}>
+                      <OverLayToolTip
+                        style={{ color: darkMode ? "black" : "white" }}
+                        icon={<FiEdit2 className="text-primary" />}
+                        onClick={() => props.onEditCompany(item)}
+                        tooltip={"Edit Company"}
+                      />
+                      <OverLayToolTip
+                        style={{ color: darkMode ? "black" : "white" }}
+                        icon={<AiOutlineDelete className="fs-5 text-danger" />}
+                        onClick={() => onCompanyDelete(item._id)}
+                        tooltip={"Delete Company"}
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {/* Pagination Controls */}
+            <div className="d-flex justify-content-between align-items-center mt-3">
+              <span>
+                Showing {indexOfFirstItem + 1} to{" "}
+                {Math.min(indexOfLastItem, companyData.length)} of{" "}
+                {companyData.length} results
+              </span>
+              <div className="pagination">
+                <button
+                  className="btn bg-light rounded-5 border shadow-sm py-1 mx-1"
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                >
+                  Previous
+                </button>
+                {[...Array(totalPages)].map((_, i) => (
+                  <button
+                    key={i + 1}
+                    className={`btn mx-1 ${
+                      currentPage === i + 1
+                        ? "btn bg-dark text-white rounded-5 border shadow-sm py-0 mx-1"
+                        : "btn bg-light rounded-5 border shadow-sm py-0 mx-1"
+                    }`}
+                    onClick={() => handlePageChange(i + 1)}
+                  >
+                    {i + 1}
+                  </button>
+                ))}
+                <button
+                  className="btn bg-light rounded-5 border shadow-sm py-1 mx-1"
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          </>
         ) : (
-          <div
-            style={{
-              height: "80vh",
-              width: "100%",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              wordSpacing: "5px",
-              flexDirection: "column",
-              gap: "2rem",
-            }}
-          >
-            <img
-              style={{
-                height: "auto",
-                width: "20%",
-              }}
-              src={Position}
-              alt="img"
-            />
-            <p
-              className="text-center w-75 mx-auto"
-              style={{
-                color: darkMode
-                  ? "var(--secondaryDashColorDark)"
-                  : "var( --primaryDashMenuColor)",
-              }}
-            >
-              Company not created yet, to create new role click on "+ Create
-              Company" button.
-            </p>
-          </div>
+          !loading && <div className="text-center py-5">No companies found.</div>
         )}
       </div>
     </div>

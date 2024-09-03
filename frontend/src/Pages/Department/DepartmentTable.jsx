@@ -4,15 +4,15 @@ import axios from "axios";
 import { useTheme } from "../../Context/TheamContext/ThemeContext";
 import Position from "../../img/Position/Position.svg";
 import BASE_URL from "../config/config";
-import { AiOutlinePlusCircle } from "react-icons/ai";
-import { HiOutlineOfficeBuilding } from "react-icons/hi";
-import { PiOfficeChair } from "react-icons/pi";
+import { AiOutlineDelete, AiOutlinePlusCircle } from "react-icons/ai";
 import OverLayToolTip from "../../Utils/OverLayToolTip";
-import { IoTrashBin } from "react-icons/io5";
-import { FaEdit } from "react-icons/fa";
+import { FiEdit2 } from "react-icons/fi";
+
 const DepartmentTable = ({ onAddDepartment, onEditDepartment }) => {
   const [departmentData, setDepartmentData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
   const { darkMode } = useTheme();
 
   useEffect(() => {
@@ -55,15 +55,25 @@ const DepartmentTable = ({ onAddDepartment, onEditDepartment }) => {
     }
   };
 
+  // Pagination logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = departmentData.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(departmentData.length / itemsPerPage);
+
+  const handlePageChange = (newPage) => {
+    if (newPage > 0 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
+
   const rowHeadStyle = {
     verticalAlign: "middle",
     whiteSpace: "pre",
-    background: darkMode
-      ? "var(--primaryDashMenuColor)"
-      : "var(--primaryDashColorDark)",
+    background: "#EAE9FF",
     color: darkMode
       ? "var(--primaryDashColorDark)"
-      : "var( --secondaryDashMenuColor)",
+      : "var(--secondaryDashMenuColor)",
     border: "none",
     position: "sticky",
     top: "0rem",
@@ -74,12 +84,12 @@ const DepartmentTable = ({ onAddDepartment, onEditDepartment }) => {
     verticalAlign: "middle",
     whiteSpace: "pre",
     background: darkMode
-      ? "var( --secondaryDashMenuColor)"
+      ? "var(--secondaryDashMenuColor)"
       : "var(--secondaryDashColorDark)",
     color: darkMode
       ? "var(--secondaryDashColorDark)"
-      : "var( --primaryDashMenuColor)",
-    border: "none",
+      : "var(--primaryDashMenuColor)",
+        borderBottom:'1px solid rgba(0,0,0,.08)'
   };
 
   return (
@@ -95,7 +105,7 @@ const DepartmentTable = ({ onAddDepartment, onEditDepartment }) => {
             }}
             className=" m-0"
           >
-            Department Details ( {departmentData.length} )
+            Department Details ({departmentData.length})
           </h5>
           <p
             style={{
@@ -117,7 +127,6 @@ const DepartmentTable = ({ onAddDepartment, onEditDepartment }) => {
         </button>
       </div>
       <div
-        className="border border-1 border-dark "
         style={{
           color: darkMode
             ? "var(--secondaryDashColorDark)"
@@ -128,53 +137,95 @@ const DepartmentTable = ({ onAddDepartment, onEditDepartment }) => {
         }}
       >
         {departmentData.length > 0 ? (
-          <table className="table">
-            <thead>
-              <tr>
-                <th style={rowHeadStyle}>
-                  <HiOutlineOfficeBuilding /> S. No.
-                </th>
-                <th style={rowHeadStyle}>
-                  <HiOutlineOfficeBuilding /> Company
-                </th>
-                <th style={rowHeadStyle}>
-                  <PiOfficeChair /> Department
-                </th>
-                <th style={rowHeadStyle} className="text-end">
-                  Action
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {departmentData.map((items, index) => (
-                <tr key={index}>
-                  <td style={rowBodyStyle} className="text-capitalize">
-                    {(index + 1).toString().padStart(2, 0)}
-                  </td>
-                  <td style={rowBodyStyle} className="text-capitalize">
-                    {items.company[0].CompanyName}
-                  </td>
-                  <td style={rowBodyStyle} className="text-capitalize">
-                    {items.DepartmentName}
-                  </td>
-                  <td style={rowBodyStyle} className="text-capitalize text-end">
-                    <OverLayToolTip
-                      style={{ color: darkMode ? "black" : "white" }}
-                      icon={<FaEdit />}
-                      onClick={() => onEditDepartment(items)}
-                      tooltip={"Edit Department"}
-                    />
-                    <OverLayToolTip
-                      style={{ color: darkMode ? "black" : "white" }}
-                      icon={<IoTrashBin />}
-                      onClick={() => onDepartmentDelete(items._id)}
-                      tooltip={"Delete Department"}
-                    />
-                  </td>
+          <>
+            <table className="table">
+              <thead>
+                <tr>
+                  <th style={rowHeadStyle}>
+                    S. No.
+                  </th>
+                  <th style={rowHeadStyle}>
+                    Company
+                  </th>
+                  <th style={rowHeadStyle}>
+                    Department
+                  </th>
+                  <th style={rowHeadStyle} className="text-end">
+                    Action
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {currentItems.map((items, index) => (
+                  <tr key={index}>
+                    <td style={rowBodyStyle} className="text-capitalize">
+                      {indexOfFirstItem + index + 1}
+                    </td>
+                    <td style={rowBodyStyle} className="text-capitalize">
+                      {items.company[0].CompanyName}
+                    </td>
+                    <td style={rowBodyStyle} className="text-capitalize">
+                      {items.DepartmentName}
+                    </td>
+                    <td
+                      style={rowBodyStyle}
+                      className="text-capitalize text-end"
+                    >
+                      <OverLayToolTip
+                        style={{ color: darkMode ? "black" : "white" }}
+                        icon={<FiEdit2 className="text-primary" />}
+                        onClick={() => onEditDepartment(items)}
+                        tooltip={"Edit Department"}
+                      />
+                      <OverLayToolTip
+                        style={{ color: darkMode ? "black" : "white" }}
+                        icon={<AiOutlineDelete className="fs-5 text-danger" />}
+                        onClick={() => onDepartmentDelete(items._id)}
+                        tooltip={"Delete Department"}
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {/* Pagination Controls */}
+            <div className="d-flex justify-content-between align-items-center mt-3">
+              <span>
+                Showing {indexOfFirstItem + 1} to{" "}
+                {Math.min(indexOfLastItem, departmentData.length)} of{" "}
+                {departmentData.length} results
+              </span>
+              <div className="pagination">
+                <button
+                  className="btn bg-light rounded-5 border shadow-sm py-1 mx-1"
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                >
+                  Previous
+                </button>
+                {[...Array(totalPages)].map((_, i) => (
+                  <button
+                    key={i + 1}
+                    className={`btn mx-1 ${
+                      currentPage === i + 1
+                        ? "btn bg-dark text-white rounded-5 border shadow-sm py-0 mx-1"
+                        : "btn bg-light rounded-5 border shadow-sm py-0 mx-1"
+                    }`}
+                    onClick={() => handlePageChange(i + 1)}
+                  >
+                    {i + 1}
+                  </button>
+                ))}
+                <button
+                  className="btn bg-light rounded-5 border shadow-sm py-1 mx-1"
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          </>
         ) : (
           <div
             style={{
@@ -210,7 +261,6 @@ const DepartmentTable = ({ onAddDepartment, onEditDepartment }) => {
           </div>
         )}
       </div>
-
       {loading && <div>Loading...</div>}
     </div>
   );

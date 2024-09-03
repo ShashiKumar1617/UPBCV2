@@ -6,10 +6,9 @@ import { Table } from "react-bootstrap";
 import { useTheme } from "../../Context/TheamContext/ThemeContext";
 import Position from "../../img/Position/Position.svg";
 import BASE_URL from "../config/config";
-import { AiOutlinePlusCircle } from "react-icons/ai";
+import { AiOutlineDelete, AiOutlinePlusCircle } from "react-icons/ai";
 import OverLayToolTip from "../../Utils/OverLayToolTip";
-import { FaEdit } from "react-icons/fa";
-import { IoTrashBin } from "react-icons/io5";
+import { FiEdit2 } from "react-icons/fi";
 
 const PositionTable = ({
   updateTotalPositions,
@@ -18,6 +17,8 @@ const PositionTable = ({
 }) => {
   const [positionData, setPositionData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
   const { darkMode } = useTheme();
 
   useEffect(() => {
@@ -42,7 +43,7 @@ const PositionTable = ({
   };
 
   const onPositionDelete = (id) => {
-    if (window.confirm("Are you sure to delete this record ? ")) {
+    if (window.confirm("Are you sure to delete this record?")) {
       axios
         .delete(`${BASE_URL}/api/position/${id}`, {
           headers: {
@@ -61,15 +62,25 @@ const PositionTable = ({
     }
   };
 
+  // Pagination logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = positionData.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(positionData.length / itemsPerPage);
+
+  const handlePageChange = (newPage) => {
+    if (newPage > 0 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
+
   const rowHeadStyle = {
     verticalAlign: "middle",
     whiteSpace: "pre",
-    background: darkMode
-      ? "var(--primaryDashMenuColor)"
-      : "var(--primaryDashColorDark)",
+    background: "#EAE9FF",
     color: darkMode
       ? "var(--primaryDashColorDark)"
-      : "var( --secondaryDashMenuColor)",
+      : "var(--secondaryDashMenuColor)",
     border: "none",
     position: "sticky",
     top: "0rem",
@@ -80,12 +91,12 @@ const PositionTable = ({
     verticalAlign: "middle",
     whiteSpace: "pre",
     background: darkMode
-      ? "var( --secondaryDashMenuColor)"
+      ? "var(--secondaryDashMenuColor)"
       : "var(--secondaryDashColorDark)",
     color: darkMode
       ? "var(--secondaryDashColorDark)"
-      : "var( --primaryDashMenuColor)",
-    border: "none",
+      : "var(--primaryDashMenuColor)",
+        borderBottom:'1px solid rgba(0,0,0,.08)'
   };
 
   return (
@@ -99,9 +110,9 @@ const PositionTable = ({
                 : "var(--secondaryDashMenuColor)",
               fontWeight: "600",
             }}
-            className=" m-0"
+            className="m-0"
           >
-            Position Details ( {positionData.length} )
+            Position Details ({positionData.length})
           </h5>
           <p
             style={{
@@ -109,13 +120,13 @@ const PositionTable = ({
                 ? "var(--secondaryDashColorDark)"
                 : "var(--secondaryDashMenuColor)",
             }}
-            className=" m-0"
+            className="m-0"
           >
             You can see all position's list here
           </p>
         </div>
         <button
-          className="btn btn-primary gap-1 d-flex  my-auto align-items-center justify-content-center"
+          className="btn btn-primary gap-1 d-flex my-auto align-items-center justify-content-center"
           onClick={onAddPosition}
         >
           <AiOutlinePlusCircle className="fs-4" />
@@ -131,7 +142,6 @@ const PositionTable = ({
       )}
 
       <div
-        className="border border-1 border-dark "
         style={{
           color: darkMode
             ? "var(--secondaryDashColorDark)"
@@ -142,47 +152,89 @@ const PositionTable = ({
         }}
       >
         {positionData.length > 0 ? (
-          <Table className="table" style={{ fontSize: ".9rem" }}>
-            <thead>
-              <tr>
-                <th style={rowHeadStyle}>S. No.</th>
-                <th style={rowHeadStyle}>Company</th>
-                <th style={rowHeadStyle}>Position</th>
-                <th style={rowHeadStyle} className="text-end">
-                  Action
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {positionData.map((data, index) => (
-                <tr key={index}>
-                  <td style={rowBodyStyle} className="text-capitalize">
-                    {index + 1}
-                  </td>
-                  <td style={rowBodyStyle} className="text-capitalize">
-                    {data.company[0].CompanyName}
-                  </td>
-                  <td style={rowBodyStyle} className="text-capitalize">
-                    {data.PositionName}
-                  </td>
-                  <td style={rowBodyStyle} className="text-capitalize text-end">
-                    <OverLayToolTip
-                      style={{ color: darkMode ? "black" : "white" }}
-                      icon={<FaEdit />}
-                      onClick={() => onEditPosition(data)}
-                      tooltip={"Edit Position"}
-                    />
-                    <OverLayToolTip
-                      style={{ color: darkMode ? "black" : "white" }}
-                      icon={<IoTrashBin />}
-                      onClick={() => onPositionDelete(data._id)}
-                      tooltip={"Delete Position"}
-                    />
-                  </td>
+          <>
+            <Table className="table" style={{ fontSize: ".9rem" }}>
+              <thead>
+                <tr>
+                  <th style={rowHeadStyle}>S. No.</th>
+                  <th style={rowHeadStyle}>Company</th>
+                  <th style={rowHeadStyle}>Position</th>
+                  <th style={rowHeadStyle} className="text-end">
+                    Action
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
+              </thead>
+              <tbody>
+                {currentItems.map((data, index) => (
+                  <tr key={index}>
+                    <td style={rowBodyStyle} className="text-capitalize">
+                      {indexOfFirstItem + index + 1}
+                    </td>
+                    <td style={rowBodyStyle} className="text-capitalize">
+                      {data.company[0].CompanyName}
+                    </td>
+                    <td style={rowBodyStyle} className="text-capitalize">
+                      {data.PositionName}
+                    </td>
+                    <td
+                      style={rowBodyStyle}
+                      className="text-capitalize text-end"
+                    >
+                      <OverLayToolTip
+                        style={{ color: darkMode ? "black" : "white" }}
+                        icon={<FiEdit2 className="text-primary" />}
+                        onClick={() => onEditPosition(data)}
+                        tooltip={"Edit Position"}
+                      />
+                      <OverLayToolTip
+                        style={{ color: darkMode ? "black" : "white" }}
+                        icon={<AiOutlineDelete className="fs-5 text-danger" />}
+                        onClick={() => onPositionDelete(data._id)}
+                        tooltip={"Delete Position"}
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+            {/* Pagination Controls */}
+            <div className="d-flex justify-content-between align-items-center mt-3">
+              <span>
+                Showing {indexOfFirstItem + 1} to{" "}
+                {Math.min(indexOfLastItem, positionData.length)} of{" "}
+                {positionData.length} results
+              </span>
+              <div className="pagination">
+                <button
+                  className="btn bg-light rounded-5 border shadow-sm py-1 mx-1"
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                >
+                  Previous
+                </button>
+                {[...Array(totalPages)].map((_, i) => (
+                  <button
+                    key={i + 1}
+                    className={`btn mx-1 ${
+                      currentPage === i + 1
+                        ? "btn bg-dark text-white rounded-5 border shadow-sm py-0 mx-1"
+                        : "btn bg-light rounded-5 border shadow-sm py-0 mx-1"
+                    }`}
+                    onClick={() => handlePageChange(i + 1)}
+                  >
+                    {i + 1}
+                  </button>
+                ))}
+                <button
+                  className="btn bg-light rounded-5 border shadow-sm py-1 mx-1"
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          </>
         ) : (
           <div
             style={{
@@ -209,7 +261,7 @@ const PositionTable = ({
               style={{
                 color: darkMode
                   ? "var(--secondaryDashColorDark)"
-                  : "var( --primaryDashMenuColor)",
+                  : "var(--primaryDashMenuColor)",
               }}
             >
               Position not created yet, to create new role click on "+ Create

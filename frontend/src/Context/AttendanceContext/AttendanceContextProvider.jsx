@@ -13,6 +13,7 @@ const AttendanceContextProvider = ({ children }) => {
   const [message, setMessage] = useState("");
   const [emailInput, setEmailInput] = useState("");
   const [profile, setProfile] = useState("");
+  const [managerMail, setManagerMail] = useState(null);
   const [messageData, setMessageData] = useState({
     taskId: "",
     to: "",
@@ -31,6 +32,8 @@ const AttendanceContextProvider = ({ children }) => {
         setSelectedEmployee,
         attencenceID,
         setAttencenceID,
+        managerMail,
+        setManagerMail,
         message,
         setMessage,
         messageData,

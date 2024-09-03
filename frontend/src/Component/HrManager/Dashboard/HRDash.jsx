@@ -17,8 +17,8 @@ const HRDash = () => {
       <div className="dash-item"><AdminNews/></div>
       <div className="dash-item"><AttendanceCard/></div>
       <div className="dash-item"><LeaveComponentHrDash/></div>
-      <div className="dash-item"><UpcomingBirthdays/></div>
       <div className="dash-item"><HolidayDash/></div>
+      <div className="dash-item"><UpcomingBirthdays/></div>
       <div className="dash-item EmployeeStatus"><EmployeeStatus/></div>
     </div>
   );

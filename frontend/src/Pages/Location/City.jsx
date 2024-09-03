@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./City.css";
 import axios from "axios";
 import CityTable from "./CityTable.jsx";

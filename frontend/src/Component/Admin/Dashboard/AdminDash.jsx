@@ -4,33 +4,23 @@ import AdminNews from "../../../Utils/AdminNews/AdminNews";
 import UpcomingBirthdays from "../../Employee/Dashboard/CountData/UpcomingBirthdays";
 import HolidayDash from "../../../Utils/HolidayDash/HolidayDash";
 import AttendanceCard from "../../../Utils/AttendanceCard/AttendanceCard";
-import EmployeeCounts from "../../../Utils/EmployeeCounts/EmployeeCounts";
 import TaskCompletionCard from "../../../Utils/TaskCompletionCard/TaskCompletionCard";
 import LeaveComponentHrDash from "../../../Utils/LeaveComponentHrDash/LeaveComponentHrDash";
 import EmployeeStatus from "../../../Utils/EmployeeStatus/EmployeeStatus";
+import "./AdminDash.css"
+import MyTeamList from "../../../Pages/MyTeams/MyTeamList";
 
 const AdminDash = () => {
-  const displayComponents = [
-    { compName: <TaskCompletionCard /> },
-    { compName: <AdminNews/> },
-    { compName: <HolidayDash /> },
-    { compName: <EmployeeCounts /> },
-    { compName: <AttendanceCard /> },
-    { compName: <LeaveComponentHrDash /> },
-    { compName: <TeamManager /> },
-    { compName: <UpcomingBirthdays /> },
-    { compName: <EmployeeStatus/> },
-  ];
-
   return (
-    <div className="container-fluid py-0">
-      <div className="row align-items-center">
-        {displayComponents.map((Comp, index) => (
-          <div key={index} className="col-6 col-md-4 p-2">
-            <div>{Comp.compName}</div>
-          </div>
-        ))}
-      </div>
+    <div className="Dash-wrapper container-fluid">
+      <div className="dash-item"><TaskCompletionCard /></div>
+      <div className="dash-item"><MyTeamList /></div>
+      <div className="dash-item"><AdminNews/></div>
+      <div className="dash-item"><AttendanceCard/></div>
+      <div className="dash-item"><LeaveComponentHrDash/></div>
+      <div className="dash-item"><HolidayDash/></div>
+      <div className="dash-item"><UpcomingBirthdays/></div>
+      <div className="dash-item EmployeeStatus"><EmployeeStatus/></div>
     </div>
   );
 };

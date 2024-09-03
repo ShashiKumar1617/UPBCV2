@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useCallback } from "react";
 import "./StateTable.css";
 import axios from "axios";
-import { FaEdit, FaRegEdit } from "react-icons/fa";
-import { AiOutlineDelete, AiOutlinePlusCircle } from "react-icons/ai";
+import { FiEdit2 } from "react-icons/fi";
+import { AiOutlinePlusCircle, AiOutlineDelete } from "react-icons/ai";
 import { useTheme } from "../../Context/TheamContext/ThemeContext";
 import BASE_URL from "../config/config";
 import { RingLoader } from "react-spinners";
 import { css } from "@emotion/core";
 import OverLayToolTip from "../../Utils/OverLayToolTip";
-import { IoTrashBin } from "react-icons/io5";
 
 const override = css`
   display: block;
@@ -20,7 +19,8 @@ const override = css`
 const StateTable = (props) => {
   const [stateData, setStateData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [rowData, setRowData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1); // State for the current page
+  const [itemsPerPage] = useState(5); // State for the number of items per page
   const { darkMode } = useTheme();
 
   const loadStateData = useCallback(() => {
@@ -34,12 +34,6 @@ const StateTable = (props) => {
         const stateObj = response.data;
         setStateData(stateObj);
         setLoading(false);
-        const rowDataT = stateObj.map((data) => ({
-          data,
-          CountryName: data["country"][0]["CountryName"],
-          StateName: data["StateName"],
-        }));
-        setRowData(rowDataT);
       })
       .catch((error) => {
         console.log(error);
@@ -72,12 +66,22 @@ const StateTable = (props) => {
     }
   };
 
+  // Pagination logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = stateData.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(stateData.length / itemsPerPage);
+
+  const handlePageChange = (newPage) => {
+    if (newPage > 0 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
+
   const rowHeadStyle = {
     verticalAlign: "middle",
     whiteSpace: "pre",
-    background: darkMode
-      ? "var(--primaryDashMenuColor)"
-      : "var(--primaryDashColorDark)",
+    background: "#EAE9FF",
     color: darkMode
       ? "var(--primaryDashColorDark)"
       : "var(--secondaryDashMenuColor)",
@@ -96,7 +100,7 @@ const StateTable = (props) => {
     color: darkMode
       ? "var(--secondaryDashColorDark)"
       : "var(--primaryDashMenuColor)",
-    border: "none",
+        borderBottom:'1px solid rgba(0,0,0,.08)'
   };
 
   return (
@@ -138,7 +142,6 @@ const StateTable = (props) => {
 
       {!loading ? (
         <div
-          className="border border-1 border-dark"
           style={{
             color: darkMode
               ? "var(--secondaryDashColorDark)"
@@ -156,11 +159,10 @@ const StateTable = (props) => {
                 <th className="text-end" style={rowHeadStyle}>
                   Action
                 </th>
-
               </tr>
             </thead>
             <tbody>
-              {stateData.map((items, index) => (
+              {currentItems.map((items, index) => (
                 <tr key={index}>
                   <td style={rowBodyStyle} className="text-uppercase">
                     {items.country[0].CountryName}
@@ -169,25 +171,61 @@ const StateTable = (props) => {
                     {items.StateName}
                   </td>
                   <td className="text-end" style={rowBodyStyle}>
-                <OverLayToolTip
+                    <OverLayToolTip
                       style={{ color: darkMode ? "black" : "white" }}
-                      icon={<FaEdit />}
+                      icon={<FiEdit2 className="text-primary" />}
                       onClick={() => props.onEditState(items)}
                       tooltip={"Edit State"}
                     />
                     <OverLayToolTip
                       style={{ color: darkMode ? "black" : "white" }}
-                      icon={<IoTrashBin />}
+                      icon={<AiOutlineDelete className="fs-5 text-danger" />}
                       onClick={() => onStateDelete(items._id)}
                       tooltip={"Delete State"}
                     />
-                  
-                </td>
-            
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
+
+        {/* Pagination Controls */}
+        <div className="d-flex justify-content-between align-items-center mt-3">
+          <span>
+            Showing {indexOfFirstItem + 1} to{" "}
+            {Math.min(indexOfLastItem, stateData.length)} of {stateData.length}{" "}
+            results
+          </span>
+          <div className="pagination">
+            <button
+              className="btn bg-light rounded-5 border shadow-sm py-1 mx-1"
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
+              Previous
+            </button>
+            {[...Array(totalPages)].map((_, i) => (
+              <button
+                key={i + 1}
+                className={`btn mx-1 ${
+                  currentPage === i + 1
+                    ? "btn bg-dark text-white rounded-5 border shadow-sm py-0 mx-1"
+                    : "btn bg-light rounded-5 border shadow-sm py-0 mx-1"
+                }`}
+                onClick={() => handlePageChange(i + 1)}
+              >
+                {i + 1}
+              </button>
+            ))}
+            <button
+              className="btn bg-light rounded-5 border shadow-sm py-1 mx-1"
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            >
+              Next
+            </button>
+          </div>
+        </div>
         </div>
       ) : (
         <div id="loading-bar">

@@ -278,6 +278,7 @@ const getLeaveApplicationNo = async (req, res) => {
    // Find the list of employees reporting to the given email
    const listOfEmployees = await Employee.find({
      $or: [{ reportHr: email }, { reportManager: email }]
+    // Account: { $in: [2, 3, 4] }
    }).select("_id");
 
    // Calculate today's date in 'YYYY-MM-DD' format

@@ -11,12 +11,19 @@ const Pagination = ({
   filteredDataLength,
   itemsPerPage,
 }) => {
+  const indexOfFirstItem = (currentPage - 1) * itemsPerPage;
   const indexOfLastItem = currentPage * itemsPerPage;
 
   return (
-    <div className="container-fluid d-flex justify-content-between stickey-bottom">
+    <div className="d-flex w-100 justify-content-between">
+      <div className="my-auto">
+        Showing {indexOfFirstItem + 1} to{" "}
+        {Math.min(indexOfLastItem, filteredDataLength)} of {filteredDataLength} results
+      </div>
+      <div className="d-flex align-items-center gap-1">
+      
       <Button
-        className="d-flex gap-2"
+         className="btn text-black bg-light rounded-5 border shadow-sm py-1 mx-1"
         onClick={handlePaginationPrev}
         disabled={currentPage === 1}
       >
@@ -27,12 +34,13 @@ const Pagination = ({
           <Button
             key={number}
             style={{
-              backgroundColor: currentPage === number ? "active" : "white",
               border: "none",
               color: "gray",
+              borderRadius:'50%',
+              height:'25px', width:'25px', display:'flex', justifyContent:'center', alignItems:'center'
             }}
             onClick={() => setCurrentPage(number)}
-            className={currentPage === number ? "active" : ""}
+            className={currentPage === number ?  "bg-dark rounded-5 text-white" : "active "}
           >
             {number}
           </Button>
@@ -40,13 +48,15 @@ const Pagination = ({
       </div>
       <Button
         onClick={handlePaginationNext}
-        className="d-flex gap-3"
+        className="btn text-black bg-light rounded-5 border shadow-sm py-1 mx-1"
         disabled={indexOfLastItem >= filteredDataLength}
       >
         <span className="">Next</span>{" "}
         <GrFormPrevious className="my-auto" style={{ rotate: "180deg" }} />
       </Button>
     </div>
+    </div>
+
   );
 };
 

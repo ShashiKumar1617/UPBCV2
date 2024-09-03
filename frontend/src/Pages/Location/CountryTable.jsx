@@ -1,16 +1,13 @@
 import React, { useState, useEffect, useCallback } from "react";
 import "./CountryTable.css";
 import axios from "axios";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { RingLoader } from "react-spinners";
 import { css } from "@emotion/core";
-import { Button } from "react-bootstrap";
-import { FaEdit, FaRegEdit } from "react-icons/fa";
+import { AiOutlineDelete, AiOutlinePlusCircle } from "react-icons/ai";
 import { useTheme } from "../../Context/TheamContext/ThemeContext";
 import BASE_URL from "../config/config";
-import { AiOutlinePlusCircle } from "react-icons/ai";
 import OverLayToolTip from "../../Utils/OverLayToolTip";
-import { IoTrashBin } from "react-icons/io5";
+import { FiEdit2 } from "react-icons/fi";
 
 const override = css`
   display: block;
@@ -22,6 +19,8 @@ const override = css`
 const CountryTable = (props) => {
   const [countryData, setCountryData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10); // Number of items per page
   const { darkMode } = useTheme();
 
   const loadCountryData = useCallback(() => {
@@ -64,12 +63,22 @@ const CountryTable = (props) => {
     }
   };
 
+  // Pagination logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = countryData.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(countryData.length / itemsPerPage);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   const rowHeadStyle = {
     verticalAlign: "middle",
     whiteSpace: "pre",
     background: darkMode
-      ? "var(--primaryDashMenuColor)"
-      : "var(--primaryDashColorDark)",
+      ? "#EAE9FF"
+      : "#EAE9FF",
     color: darkMode
       ? "var(--primaryDashColorDark)"
       : "var(--secondaryDashMenuColor)",
@@ -88,7 +97,7 @@ const CountryTable = (props) => {
     color: darkMode
       ? "var(--secondaryDashColorDark)"
       : "var(--primaryDashMenuColor)",
-    border: "none",
+        borderBottom:'1px solid rgba(0,0,0,.08)'
   };
 
   return (
@@ -102,7 +111,7 @@ const CountryTable = (props) => {
                 : "var(--secondaryDashMenuColor)",
               fontWeight: "600",
             }}
-            className=" m-0"
+            className="m-0"
           >
             Country Details ({countryData.length})
           </h5>
@@ -112,13 +121,13 @@ const CountryTable = (props) => {
                 ? "var(--secondaryDashColorDark)"
                 : "var(--secondaryDashMenuColor)",
             }}
-            className=" m-0"
+            className="m-0"
           >
             You can see all country list here.
           </p>
         </div>
         <button
-          className="btn btn-primary gap-1 d-flex  my-auto align-items-center justify-content-center"
+          className="btn btn-primary gap-1 d-flex my-auto align-items-center justify-content-center"
           onClick={props.onAddCountry}
         >
           <AiOutlinePlusCircle className="fs-4" />
@@ -139,7 +148,6 @@ const CountryTable = (props) => {
         </div>
       )}
       <div
-        className="border border-1 border-dark"
         style={{
           color: darkMode
             ? "var(--secondaryDashColorDark)"
@@ -159,28 +167,65 @@ const CountryTable = (props) => {
             </tr>
           </thead>
           <tbody>
-            {countryData.map((item, index) => (
+            {currentItems.map((item, index) => (
               <tr key={index}>
                 <td style={rowBodyStyle}>{item.CountryName}</td>
                 <td className="text-end" style={rowBodyStyle}>
-                <OverLayToolTip
-                      style={{ color: darkMode ? "black" : "white" }}
-                      icon={<FaEdit />}
-                      onClick={() => props.onEditCountry(item)}
-                      tooltip={"Edit Country"}
-                    />
-                    <OverLayToolTip
-                      style={{ color: darkMode ? "black" : "white" }}
-                      icon={<IoTrashBin />}
-                      onClick={() => onCountryDelete(item._id)}
-                      tooltip={"Delete Country"}
-                    />
-                  
+                  <OverLayToolTip
+                    style={{ color: darkMode ? "black" : "white" }}
+                    icon={<FiEdit2 className="text-primary"/>}
+                    onClick={() => props.onEditCountry(item)}
+                    tooltip={"Edit Country"}
+                  />
+                  <OverLayToolTip
+                    style={{ color: darkMode ? "black" : "white" }}
+                    icon={<AiOutlineDelete className="fs-5 text-danger" />}
+                    onClick={() => onCountryDelete(item._id)}
+                    tooltip={"Delete Country"}
+                  />
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+
+        {/* Pagination Controls */}
+        <div className="d-flex justify-content-between align-items-center mt-3">
+          <span>
+            Showing {indexOfFirstItem + 1} to{" "}
+            {Math.min(indexOfLastItem, countryData.length)} of {countryData.length}{" "}
+            results
+          </span>
+          <div className="pagination">
+            <button
+              className="btn bg-light rounded-5 border shadow-sm py-1 mx-1"
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
+              Previous
+            </button>
+            {[...Array(totalPages)].map((_, i) => (
+              <button
+                key={i + 1}
+                className={`btn mx-1 ${
+                  currentPage === i + 1
+                    ? "btn bg-dark text-white rounded-5 border shadow-sm py-0 mx-1"
+                    : "btn bg-light rounded-5 border shadow-sm py-0 mx-1"
+                }`}
+                onClick={() => handlePageChange(i + 1)}
+              >
+                {i + 1}
+              </button>
+            ))}
+            <button
+              className="btn bg-light rounded-5 border shadow-sm py-1 mx-1"
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            >
+              Next
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

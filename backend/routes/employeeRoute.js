@@ -19,7 +19,9 @@ const {
   employeeLoginStatusUpdate,
   employeeLogoutStatusUpdate,
   deleteEmployee,
-  getEmployeeByStatus
+  getEmployeeByStatus,
+  EmployeeTeam,
+  employeeByDepartment
 } = require("../controllers/employeeController");
 const { fileUploadMiddleware, checkFileSize } = require("../middleware/multer");
 
@@ -55,6 +57,9 @@ employeeRoute.put(
   checkFileSize,
   updateEmployee
 );
+
+employeeRoute.post("/employeeTeam", EmployeeTeam)
+employeeRoute.get("/employeeByDepartment", employeeByDepartment)
 
 // DELETE: Delete a employee
 // employeeRoute.delete("/employee/:id", verifyAdminHR, deleteEmployee);

@@ -10,9 +10,7 @@
     display: flex;
     width: 100%;
     justify-content: space-between;
-    /* border-bottom: 1px solid #ddd; */
     font-weight: bold;
-    color: rgba(6, 31, 113, 0.898);
   }
   
   .calendar-day {
@@ -25,6 +23,10 @@
     /* border: 0px solid #ddd; */
     box-sizing: border-box;
     cursor: pointer;
+  }
+
+  .calendar-day:hover {
+    background: rgba(0, 0, 255, 0.251);
   }
   
   .calendar-day.empty {

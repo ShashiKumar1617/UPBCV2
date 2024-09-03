@@ -9,10 +9,8 @@ import {
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { RingLoader } from "react-spinners";
-import { css } from "@emotion/core";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { FaFilePdf, FaFilter, FaLocationArrow } from "react-icons/fa";
-import { TbUserEdit } from "react-icons/tb";
+import { FaFilePdf, FaFilter } from "react-icons/fa";
 import { FcNumericalSorting12, FcNumericalSorting21 } from "react-icons/fc";
 import BASE_URL from "../config/config";
 import jsPDF from "jspdf";
@@ -21,20 +19,12 @@ import { useTheme } from "../../Context/TheamContext/ThemeContext";
 import Pagination from "../../Utils/Pagination";
 import OverLayToolTip from "../../Utils/OverLayToolTip";
 import { RiUserAddLine } from "react-icons/ri";
-import TittleHeader from "../TittleHeader/TittleHeader";
 import { useLocation } from "react-router-dom/cjs/react-router-dom.min";
-
-const override = css`
-  display: block;
-  margin: 0 auto;
-  margin-top: 45px;
-  border-color: red;
-`;
+import { CgProfile } from "react-icons/cg";
 
 const AdminEmployeeTable = (props) => {
   const location = useLocation();
   const route = location.pathname.split("/")[1];
-  const [employeeData, setEmployeeData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [rowData, setRowData] = useState([]);
   const [searchInput, setSearchInput] = useState("");
@@ -58,7 +48,6 @@ const AdminEmployeeTable = (props) => {
       })
       .then((response) => {
         if (Array.isArray(response.data)) {
-          setEmployeeData(response.data);
           setLoading(false);
           setRowData([]);
 
@@ -211,21 +200,6 @@ const AdminEmployeeTable = (props) => {
     return null;
   };
 
-  const getBackgroundColor = (accountType) => {
-    switch (accountType) {
-      case "Admin":
-        return "#1D267D";
-      case "HR":
-        return "#1D267D";
-      case "Employee":
-        return "#1D267D";
-      case "Manager":
-        return "#1D267D";
-      default:
-        return "#1D267D";
-    }
-  };
-
   const handleSearchInputChange = (event) => {
     setSearchInput(event.target.value);
   };
@@ -312,22 +286,32 @@ const AdminEmployeeTable = (props) => {
   }
 
   const rowHeadStyle = {
-    cursor: "pointer",
+    verticalAlign: "middle",
     whiteSpace: "pre",
-    background: darkMode
-      ? "var(--primaryDashMenuColor)"
-      : "var(--primaryDashColorDark)",
+    background: "#EAE9FF",
     color: darkMode
       ? "var(--primaryDashColorDark)"
       : "var(--secondaryDashMenuColor)",
     border: "none",
     position: "sticky",
-    top: "-10px",
-    zIndex: "1",
+    top: "0rem",
   };
 
+  const rowBodyStyle = {
+    verticalAlign: "middle",
+    whiteSpace: "pre",
+    background: darkMode
+      ? "var(--secondaryDashMenuColor)"
+      : "var(--secondaryDashColorDark)",
+    color: darkMode
+      ? "var(--secondaryDashColorDark)"
+      : "var(--primaryDashMenuColor)",
+    borderBottom: '1px solid rgba(0,0,0,.08)',
+  };
+
+
   return (
-    <div className="py-0">
+    <div className="container-fluid">
       <div
         style={{
           position: "sticky",
@@ -339,16 +323,13 @@ const AdminEmployeeTable = (props) => {
           color: darkMode
             ? "var(--primaryDashColorDark)"
             : "var(--secondaryDashMenuColor)",
-          borderTop: "1px solid rgba(214, 210, 210, 0.849)",
         }}
-        className="my-auto py-2"
+        className="my-auto py-2 mx-0"
       >
         <div className="row m-auto row-gap-4 px-0">
           <div className="col-12 col-sm-12 col-md-3 d-flex px-1 px-md-2">
-            <TittleHeader
-              title={"Employees List"}
-              numbers={filteredData.length}
-            />
+            <h5 style={{fontSize:'1.1rem'}} className="d-flex  my-auto align-items-center gap-3">Employees List <span>({filteredData.length})</span></h5>
+
           </div>
           <div className="col-6 col-md-5 d-flex p-0 px-1 position-relative">
             <input
@@ -374,7 +355,7 @@ const AdminEmployeeTable = (props) => {
               }}
             />
           </div>
-          <div className="col-6 col-md-4 d-flex align-items-center justify-content-end gap-1">
+          <div className="col-6 col-md-4 d-flex align-items-center justify-content-end gap-2">
             <button
               onClick={exportToPDF}
               className="btn  bg-white shadow-sm fw-bold rounded-0"
@@ -473,7 +454,6 @@ const AdminEmployeeTable = (props) => {
         <div>
           <div
             style={{
-              minHeight: "68vh",
               maxHeight: "68vh",
               overflow: "auto",
               position: "relative",
@@ -501,7 +481,7 @@ const AdminEmployeeTable = (props) => {
                   <th style={rowHeadStyle}>Email</th>
                   <th style={rowHeadStyle}>Contact No</th>
                   <th style={rowHeadStyle}>Login Status</th>
-                  <th style={rowHeadStyle}>Actions</th>
+                  <th style={rowHeadStyle} className="text-end">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -509,33 +489,12 @@ const AdminEmployeeTable = (props) => {
                   <tr key={index}>
                     <td
                       className="border-0"
-                      style={{
-                        verticalAlign: "middle",
-                        background:
-                          items.status === "Inactive"
-                            ? "rgba(194, 11, 11, 0.363)"
-                            : darkMode
-                            ? "var(--secondaryDashMenuColor)"
-                            : "var(--secondaryDashColorDark)",
-                        color: darkMode
-                          ? "var(--primaryDashColorDark)"
-                          : "var(--primaryDashMenuColor)",
-                        position: "sticky",
-                        left: "0",
-                      }}
+                      style={rowBodyStyle}
                     >
                       <div
                         className="mx-auto d-flex align-items-center justify-content-center"
-                        style={{
-                          height: "35px",
-                          width: "35px",
-                          borderRadius: "50%",
-                          backgroundColor: "#ccc",
-                          color: "white",
-                          fontWeight: "bold",
-                          overflow: "hidden",
-                          objectFit: "cover",
-                        }}
+                        style={{height: "30px",
+                          width: "30px",}}
                       >
                         {items?.data?.profile?.image_url ? (
                           <img
@@ -559,94 +518,31 @@ const AdminEmployeeTable = (props) => {
                       </div>
                     </td>
                     <td
-                      style={{
-                        verticalAlign: "middle",
-                        textTransform: "capitalize",
-                        background:
-                          items.status === "Inactive"
-                            ? "rgba(194, 11, 11, 0.363)"
-                            : darkMode
-                            ? "var(--secondaryDashMenuColor)"
-                            : "var(--secondaryDashColorDark)",
-                        color: darkMode
-                          ? "var(--primaryDashColorDark)"
-                          : "var(--primaryDashMenuColor)",
-                        whiteSpace: "pre",
-                        position: "sticky",
-                        left: "-10px",
-                      }}
+                      style={rowBodyStyle}
                       className="border-0"
                     >
                       {items.FirstName} {items.LastName}
                     </td>
                     <td
                       className="border-0"
-                      style={{
-                        verticalAlign: "middle",
-                        background:
-                          items.status === "Inactive"
-                            ? "rgba(194, 11, 11, 0.363)"
-                            : darkMode
-                            ? "var(--secondaryDashMenuColor)"
-                            : "var(--secondaryDashColorDark)",
-                        color: darkMode
-                          ? "var(--primaryDashColorDark)"
-                          : "var(--primaryDashMenuColor)",
-                        whiteSpace: "pre",
-                      }}
+                      style={rowBodyStyle}
                     >
                       {items.empID}
                     </td>
                     <td
                       className="border-0"
-                      style={{
-                        verticalAlign: "middle",
-                        background:
-                          items.status === "Inactive"
-                            ? "rgba(194, 11, 11, 0.363)"
-                            : darkMode
-                            ? "var(--secondaryDashMenuColor)"
-                            : "var(--secondaryDashColorDark)",
-                        color: darkMode
-                          ? "var(--primaryDashColorDark)"
-                          : "var(--primaryDashMenuColor)",
-                        whiteSpace: "pre",
-                      }}
+                      style={rowBodyStyle}
                     >
                       {items.PositionName}
                     </td>
                     <td
                       className="border-0"
-                      style={{
-                        verticalAlign: "middle",
-                        background:
-                          items.status === "Inactive"
-                            ? "rgba(194, 11, 11, 0.363)"
-                            : darkMode
-                            ? "var(--secondaryDashMenuColor)"
-                            : "var(--secondaryDashColorDark)",
-                        color: darkMode
-                          ? "var(--primaryDashColorDark)"
-                          : "var(--primaryDashMenuColor)",
-                        whiteSpace: "pre",
-                      }}
+                      style={rowBodyStyle}
                     >
                       {items.Account}
                     </td>
                     <td
-                      style={{
-                        verticalAlign: "middle",
-                        background:
-                          items.status === "Inactive"
-                            ? "rgba(194, 11, 11, 0.363)"
-                            : darkMode
-                            ? "var(--secondaryDashMenuColor)"
-                            : "var(--secondaryDashColorDark)",
-                        color: darkMode
-                          ? "var(--primaryDashColorDark)"
-                          : "var(--primaryDashMenuColor)",
-                        whiteSpace: "pre",
-                      }}
+                       style={rowBodyStyle}
                       className={
                         items.status === "active"
                           ? "text-success border-0 text-capitalize"
@@ -657,77 +553,29 @@ const AdminEmployeeTable = (props) => {
                     </td>
                     <td
                       className="border-0"
-                      style={{
-                        verticalAlign: "middle",
-                        background:
-                          items.status === "Inactive"
-                            ? "rgba(194, 11, 11, 0.363)"
-                            : darkMode
-                            ? "var(--secondaryDashMenuColor)"
-                            : "var(--secondaryDashColorDark)",
-                        color: darkMode
-                          ? "var(--primaryDashColorDark)"
-                          : "var(--primaryDashMenuColor)",
-                        whiteSpace: "pre",
-                      }}
+                      style={rowBodyStyle}
                     >
                       {items.Email}
                     </td>
                     <td
                       className="border-0"
-                      style={{
-                        verticalAlign: "middle",
-                        background:
-                          items.status === "Inactive"
-                            ? "rgba(194, 11, 11, 0.363)"
-                            : darkMode
-                            ? "var(--secondaryDashMenuColor)"
-                            : "var(--secondaryDashColorDark)",
-                        color: darkMode
-                          ? "var(--primaryDashColorDark)"
-                          : "var(--primaryDashMenuColor)",
-                        whiteSpace: "pre",
-                      }}
+                      style={rowBodyStyle}
                     >
                       {items.ContactNo}
                     </td>
                     <td
                       className="border-0"
-                      style={{
-                        verticalAlign: "middle",
-                        background:
-                          items.status === "Inactive"
-                            ? "rgba(194, 11, 11, 0.363)"
-                            : darkMode
-                            ? "var(--secondaryDashMenuColor)"
-                            : "var(--secondaryDashColorDark)",
-                        color: darkMode
-                          ? "var(--primaryDashColorDark)"
-                          : "var(--primaryDashMenuColor)",
-                        whiteSpace: "pre",
-                      }}
+                      style={rowBodyStyle}
                     >
-                      {items.loginStatus}
+                      {items.status === "Inactive" ? "Inactive" : items.loginStatus}
                     </td>
                     <td
                       className="border-0"
-                      style={{
-                        verticalAlign: "middle",
-                        background:
-                          items.status === "Inactive"
-                            ? "rgba(194, 11, 11, 0.363)"
-                            : darkMode
-                            ? "var(--secondaryDashMenuColor)"
-                            : "var(--secondaryDashColorDark)",
-                        color: darkMode
-                          ? "var(--primaryDashColorDark)"
-                          : "var(--primaryDashMenuColor)",
-                        whiteSpace: "pre",
-                      }}
+                      style={rowBodyStyle}
                     >
-                      <OverLayToolTip
+                      <div style={{width:'fit-content', }} className="d-flex w-100 justify-content-end  gap-2 align-items-center"><OverLayToolTip
                         style={{ color: darkMode ? "black" : "white" }}
-                        icon={<FaLocationArrow />}
+                        icon={<CgProfile className="fs-5" />}
                         onClick={() => props.onEmpInfo(items.data)}
                         tooltip={"Info Profile"}
                       />
@@ -736,7 +584,7 @@ const AdminEmployeeTable = (props) => {
                         icon={<RiUserAddLine className="fs-5" />}
                         onClick={() => props.onEditEmployee(items.data)}
                         tooltip={"Edit Profile"}
-                      />
+                      /></div>
                     </td>
                   </tr>
                 ))}

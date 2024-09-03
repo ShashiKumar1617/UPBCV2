@@ -12,6 +12,8 @@ import { CgArrowLongRightC } from "react-icons/cg";
 const LeaveComponentHrDash = () => {
   const { darkMode } = useTheme();
   const [data, SetLeaveData] = useState([]);
+  const [empLeave, setEmpLeave] = useState(null);
+  const email = localStorage.getItem("Email")
 
   const loadLeaveApplicationHRData = () => {
     axios
@@ -30,6 +32,25 @@ const LeaveComponentHrDash = () => {
 
   useEffect(() => {
     loadLeaveApplicationHRData();
+  }, []);
+
+  const loadEmpLeaaveData = () => {
+    axios
+      .post(`${BASE_URL}/api/leave-application-data`, {email}, {
+        headers: {
+          authorization: localStorage.getItem("token") || "",
+        },
+      })
+      .then((response) => {
+        setEmpLeave(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    loadEmpLeaaveData();
   }, []);
 
   const Status = (key) => {
@@ -121,12 +142,14 @@ const LeaveComponentHrDash = () => {
           />
         </svg>
         <div className="leave-count d-flex flex-column gap-0">
-          <h6>16</h6>
-          <span>OUT OF 34</span>
+          <h6>{empLeave?.onLeave ? empLeave?.onLeave : "0"}</h6>
+          <span>OUT OF {empLeave?.totalEmployee ? empLeave?.totalEmployee : ""}</span>
         </div>
       </div>
       <hr className="m-1" style={{ opacity: "10%" }} />
-{data.length >= 0 ? (      <div className="leave-list">
+{data
+          .slice(-2)
+          .reverse().filter((leave) => new Date(leave.ToDate) > new Date()).length > 0 ? (      <div className="leave-list">
         {data
           .slice(-2)
           .reverse().filter((leave) => new Date(leave.ToDate) > new Date())  
@@ -141,7 +164,7 @@ const LeaveComponentHrDash = () => {
               <span className="ms-auto">{Status(leave.status)}</span>
             </div>
           ))}
-      </div>) : (<div className="d-flex align-items-center">No New Leave Request <sup className="text-danger fs-6">*</sup></div>) }
+      </div>) : (<div className="d-flex align-items-center justify-content-center text-muted py-3 text-center">No New Leave Request <sup className="text-danger fs-6">*</sup></div>) }
     </div>
   );
 };
