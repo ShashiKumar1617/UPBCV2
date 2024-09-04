@@ -166,7 +166,7 @@ function TakeBreakLogs(props) {
   return (
     <div className="App row gap-2">
       <div style={{ alignItems: "center" }} className="d-flex gap-2">
-        {user && user.attendance.status === "break" ? (
+        {user && user.attendance && user.attendance.status === "break" ? (
           <button
             className="btn btn-primary d-flex align-items-center justify-content-center gap-2"
             onClick={() => handleAction("resume")}

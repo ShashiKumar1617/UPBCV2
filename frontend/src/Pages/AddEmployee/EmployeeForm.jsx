@@ -352,6 +352,8 @@ const EmployeeForm = (props) => {
                 className="form-control rounded-0"
                 type="text"
                 placeholder="Contact No "
+                maxLength={10}
+                min={0}
               />
             </div>
           </div>

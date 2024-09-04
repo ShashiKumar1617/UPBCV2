@@ -1,7 +1,6 @@
 import React, { useState, useEffect, memo } from "react";
 import axios from "axios";
 import { TfiReload } from "react-icons/tfi";
-import { FaCircleInfo } from "react-icons/fa6";
 import { useTheme } from "../../../Context/TheamContext/ThemeContext";
 import BASE_URL from "../../../Pages/config/config";
 import TittleHeader from "../../../Pages/TittleHeader/TittleHeader";
@@ -236,15 +235,16 @@ const SelfAttendance = () => {
     verticalAlign: "middle",
     whiteSpace: "pre",
     background: darkMode
-      ? "var(--primaryDashMenuColor)"
-      : "var(--primaryDashColorDark)",
+      ? "#EAE9FF"
+      : "#EAE9FF",
     color: darkMode
       ? "var(--primaryDashColorDark)"
       : "var(--secondaryDashMenuColor)",
     border: "none",
     position: "sticky",
     top: "0rem",
-    zIndex: "100",
+    zIndex: "100", 
+
   };
 
   const rowBodyStyle = {
@@ -256,7 +256,7 @@ const SelfAttendance = () => {
     color: darkMode
       ? "var(--secondaryDashColorDark)"
       : "var(--primaryDashMenuColor)",
-    border: "none",
+        borderBottom:'1px solid rgba(0,0,0,.08)'
   };
 
   return (
@@ -305,7 +305,6 @@ const SelfAttendance = () => {
 
       {attendanceData && (
         <div
-          className="border"
           style={{ overflow: "auto", minHeight: "70vh", maxHeight: "70vh" }}
         >
           <table
@@ -361,7 +360,6 @@ const SelfAttendance = () => {
                       .map((date) => {
                         return (
                           <tr
-                            className="shadow-sm"
                             key={date.date}
                             id={`attendance-row-${date.date}`}
                             onMouseEnter={() => handleMouseEnter(date.date)}
@@ -437,7 +435,7 @@ const SelfAttendance = () => {
                                 {date.breakTime.length}
                               </div>
 
-                              {/* {!isInfoHovering && hoveredDate === date.date && (
+                              {!isInfoHovering && hoveredDate === date.date && (
                                 <div
                                   style={{
                                     zIndex: "5",
@@ -495,7 +493,7 @@ const SelfAttendance = () => {
                                     </tbody>
                                   </table>
                                 </div>
-                              )} */}
+                              )}
                             </td>
                             <td style={rowBodyStyle}>
                               {convertMinutesToHMS(date.totalBrake)}
